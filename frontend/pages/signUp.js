@@ -5,12 +5,16 @@ export default function SignUp() {
     const [groupName, setGroupName] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-
+    const testFunc = () => {
+        fetch("http://localhost:3001/api/v0/groups")
+        .then(res => res.json())
+        .then(data => console.log(data));
+    }
 
     return (
         <Layout>
             <section>
-                <h1>グループがある方</h1>
+                <h1 onClick={()=>{testFunc()}}>グループがある方</h1>
             </section>
             <section>
                 <h1>グループがない方</h1>
