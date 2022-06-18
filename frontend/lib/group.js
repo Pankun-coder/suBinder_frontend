@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const createGroup = (groupName, password, passwordConfirmation) => {
+export const createGroup = (groupName, password, passwordConfirmation) => {
     axios.post("http://localhost:3001/api/v0/groups", {
         group: {
             "name": groupName,
@@ -15,4 +15,3 @@ const createGroup = (groupName, password, passwordConfirmation) => {
         console.log(error);
     })
 }
-export default createGroup;
