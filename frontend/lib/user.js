@@ -12,7 +12,7 @@ export const createUser = (groupName, groupPassword, userName, email, userPasswo
             "name": userName,
             "email": email,
             "password": userPassword,
-            "password_confirmaton": userPasswordConfirmation
+            "password_confirmation": userPasswordConfirmation
         }
     }
     axios.post(url, data)
