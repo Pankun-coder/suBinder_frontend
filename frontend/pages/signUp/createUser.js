@@ -24,13 +24,13 @@ export default function createUser() {
                 "name": userName,
                 "email": userEmail,
                 "password": userPassword,
-                "password_confirmaton": userPasswordConfirmation
+                "password_confirmation": userPasswordConfirmation
             }
         }
         axios.post(url, data)
         .then(response => {
             console.log(response);
-            if (response.data.message === "user saved") router.push("/");
+            if (response.data.message === "user saved") router.push("/groupDashboard");
         })
         .catch(error => {
             console.log(error);
