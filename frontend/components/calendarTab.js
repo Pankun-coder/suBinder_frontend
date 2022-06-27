@@ -33,7 +33,6 @@ export default function CalendarTab() {
             setDay(day);
             setIsModalShown(true);
         }
-
     }
 
     const calendarBody = (
@@ -58,7 +57,6 @@ export default function CalendarTab() {
                         );
                     }
                 }
-
                 return tableRows;
             })()}
             </tbody>
@@ -73,5 +71,4 @@ export default function CalendarTab() {
             {isModalShown&&<CalenderDetailModal year={year} month={month} day={day} availabilities={availabilitiesForDay} hideModal={() =>{setIsModalShown(false)}} />}
         </>
     )
-
 }
