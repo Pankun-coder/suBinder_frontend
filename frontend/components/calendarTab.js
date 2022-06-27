@@ -2,6 +2,7 @@ import { useState } from "react";
 import CalenderDetailModal from "./calendarDetailModal";
 import useSWR from "swr";
 import fetcher from "../lib/fetcher";
+import DayInCalendar from "./dayInCalendar";
 
 export default function CalendarTab() {
     const [isModalShown, setIsModalShown] = useState(false);
@@ -22,10 +23,10 @@ export default function CalendarTab() {
     const { data, error } = useSWR(`http://localhost:3001/api/v0/class_availabilities/search?month=${month + 1}&year=${year}`, fetcher)
     const showDetailModal = (day) => {
         if (data) {
-            const availabilities = []
+            const availabilities = [];
             for (const datum in data){
                 if (data[datum].from.day === day){
-                    availabilities.push(data[datum])
+                    availabilities.push(data[datum]);
                 }
             }
             setAvailabilityForDay(availabilities);
@@ -36,14 +37,21 @@ export default function CalendarTab() {
     }
 
     const calendarBody = (
-        <table>
-            <caption>{year}年{month + 1}月</caption>
+        <table className="m-auto">
+            <caption className="text-2xl">{year}年{month + 1}月</caption>
             <tbody>
             {(() => {
                 const tableData = []
-                const tableRows = []
+                const tableRows = [
+                    <tr>
+                        <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+                    </tr>
+                ]
                 for (let i = 0; i < blocksInCalendar.length; i++) {
-                    tableData.push(<td onClick={() => {showDetailModal(blocksInCalendar[i])}} key={i}>{blocksInCalendar[i]}</td>)
+                    tableData.push(
+                        <td onClick={() => {showDetailModal(blocksInCalendar[i])}} key={i}>
+                            <DayInCalendar day={blocksInCalendar[i]}/>
+                        </td>)
                     if(i % 7 === 6){
                         tableRows.push(
                             <tr key={"tr"+tableRows.length}>{tableData.slice(i-6, i+1)}</tr>
@@ -59,8 +67,8 @@ export default function CalendarTab() {
 
     return(
         <>
-        <p onClick={() => {setMonth(month + 1%12)}}>来月</p>
-        <p onClick={() => {setMonth(month - 1%12)}}>先月</p>        
+        <p onClick={() => {setMonth(month - 1%12)}} className="inline m-2">先月</p>      
+        <p onClick={() => {setMonth(month + 1%12)}} className="inline m-2">来月</p>
             {calendarBody}
             {isModalShown&&<CalenderDetailModal year={year} month={month} day={day} av={availabilitiesForDay}/>}
         </>

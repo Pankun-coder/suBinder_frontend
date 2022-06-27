@@ -5,7 +5,7 @@ import axios from "axios";
 
 
 
-export default function createUser() {
+export default function login() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const router = useRouter();
@@ -32,13 +32,25 @@ export default function createUser() {
     }
     return (
         <Layout>
-            <section>
+            <section className="mt-20 w-fit mx-auto border-2 border-black p-16 pt-3 text-center">
                 <form>
-                    <label for="email">email</label>
-                    <input id="email" onChange={(e) => setUserEmail(e.target.value)}></input>
-                    <label for="userPassword">ユーザーのパスワード</label>
-                    <input id="userPassword" type="password" onChange={(e) => {setUserPassword(e.target.value)}}></input>
-                    <input type="button" value="submit" onClick={() => {handleLogin()}}></input>
+                        <table className=" h-20 border-separate border-spacing-y-0 border-spacing-x-2 text-l">
+                            <caption className="text-3xl mb-6">Login</caption>
+                            <tbody>
+                                <tr>
+                                    <td><label for="email">email</label></td>
+                                    <td><input id="email" onChange={(e) => setUserEmail(e.target.value)}></input></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="userPassword">password</label></td>
+                                    <td><input id="userPassword" type="password" onChange={(e) => {setUserPassword(e.target.value)}}></input></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    <div className="text-center">
+                        <input type="button" value="submit" onClick={() => {handleLogin()}} className="border-b-2 border-black p-1 hover:drop-shadow-lg"></input>
+                    </div>
+
                 </form>
             </section>
         </Layout>

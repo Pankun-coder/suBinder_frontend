@@ -7,7 +7,7 @@ import Carte from "../components/carte";
 
 export default function GroupDashboard() {
     const { data, error } = useSWR("http://localhost:3001/api/v0/groups/", fetcher)
-    const [studentId, setStudentId] = useState();
+    const [studentInfo, setStudentInfo] = useState({});
 
     let message = "";
     let groupName = "";
@@ -23,11 +23,13 @@ export default function GroupDashboard() {
 
     return (
         <Layout>
-            <h2>{message}</h2>
-            <h2>{groupName}</h2>
-            <SearchStudent setStudentId={(studentId) => {setStudentId(studentId)}} />
-            <h2>{studentId}</h2>
-            <Carte studentId={studentId}/>
+            <div className="h-18">
+                <h2 className="inline-block text-5xl align-middle">{groupName}</h2>
+
+            </div>
+            <SearchStudent setStudentInfo={(studentInfo) => {setStudentInfo(studentInfo)}} />
+
+            <Carte studentInfo={studentInfo}/>
         </Layout>
     )
 }
