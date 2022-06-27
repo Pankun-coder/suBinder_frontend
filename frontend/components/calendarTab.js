@@ -67,10 +67,10 @@ export default function CalendarTab() {
 
     return(
         <>
-        <p onClick={() => {setMonth(month - 1%12)}} className="inline m-2">先月</p>      
+        <p onClick={() => {setMonth(month - 1%12)}} className="inline m-2">先月</p>
         <p onClick={() => {setMonth(month + 1%12)}} className="inline m-2">来月</p>
             {calendarBody}
-            {isModalShown&&<CalenderDetailModal year={year} month={month} day={day} av={availabilitiesForDay}/>}
+            {isModalShown&&<CalenderDetailModal year={year} month={month} day={day} availabilities={availabilitiesForDay} hideModal={() =>{setIsModalShown(false)}} />}
         </>
     )
 
