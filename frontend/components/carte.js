@@ -10,7 +10,7 @@ export default function Carte(props) {
     let tabBody = <div></div>
     switch (currentTab){
         case 0:
-            tabBody = <CalendarTab />
+            tabBody = <CalendarTab studentInfo={props.studentInfo}/>
             break;
         default:
             tabBody = <div></div>

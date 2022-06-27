@@ -4,7 +4,7 @@ import useSWR from "swr";
 import fetcher from "../lib/fetcher";
 import DayInCalendar from "./dayInCalendar";
 
-export default function CalendarTab() {
+export default function CalendarTab(props) {
     const [isModalShown, setIsModalShown] = useState(false);
     const [day, setDay] = useState(0);
     const [month, setMonth] = useState(new Date().getMonth());
@@ -20,20 +20,10 @@ export default function CalendarTab() {
         blocksInCalendar.push(...Array(7 - (blocksInCalendar.length % 7)).fill(0));
     }
 
-    const { data, error } = useSWR(`http://localhost:3001/api/v0/class_availabilities/search?month=${month + 1}&year=${year}`, fetcher)
-    const showDetailModal = (day) => {
-        if (data) {
-            const availabilities = [];
-            for (const datum in data){
-                if (data[datum].from.day === day){
-                    availabilities.push(data[datum]);
-                }
-            }
-            setAvailabilityForDay(availabilities);
-            setDay(day);
-            setIsModalShown(true);
-        }
-    }
+    const { data, error } = useSWR(`http://localhost:3001/api/v0/class_availabilities/search?month=${month + 1}&year=${year}`, fetcher);
+    if (!data) return <h1>loading...</h1>
+    if (error) return <h1>An error has occured.</h1>
+    console.log(data)
 
     const calendarBody = (
         <table className="m-auto">
@@ -48,8 +38,8 @@ export default function CalendarTab() {
                 ]
                 for (let i = 0; i < blocksInCalendar.length; i++) {
                     tableData.push(
-                        <td onClick={() => {showDetailModal(blocksInCalendar[i])}} key={i}>
-                            <DayInCalendar day={blocksInCalendar[i]}/>
+                        <td key={i}>
+                            <DayInCalendar day={blocksInCalendar[i]} month={month} year={year} data={data[blocksInCalendar[i]]} studentInfo={props.studentInfo}/>
                         </td>)
                     if(i % 7 === 6){
                         tableRows.push(
@@ -68,7 +58,6 @@ export default function CalendarTab() {
         <p onClick={() => {setMonth(month - 1%12)}} className="inline m-2">先月</p>
         <p onClick={() => {setMonth(month + 1%12)}} className="inline m-2">来月</p>
             {calendarBody}
-            {isModalShown&&<CalenderDetailModal year={year} month={month} day={day} availabilities={availabilitiesForDay} hideModal={() =>{setIsModalShown(false)}} />}
         </>
     )
 }
