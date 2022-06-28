@@ -5,14 +5,9 @@ import fetcher from "../lib/fetcher";
 import DayInCalendar from "./dayInCalendar";
 
 export default function CalendarTab(props) {
-    const [isModalShown, setIsModalShown] = useState(false);
-    const [day, setDay] = useState(0);
-    const [month, setMonth] = useState(new Date().getMonth());
-    const [year, setYear] = useState(new Date().getFullYear());
-    const [availabilitiesForDay, setAvailabilityForDay] = useState([]);
-
-    const firstOfMonth = new Date(year, month, 1);
-    const lastOfMonth = new Date(year, month + 1, 0);
+    const [dateObj, setDateObj] = useState(new Date());
+    const firstOfMonth = new Date(dateObj.getFullYear(), dateObj.getMonth(), 1);
+    const lastOfMonth = new Date(dateObj.getFullYear(), dateObj.getMonth() + 1, 0);
     const validDays = Array(lastOfMonth.getDate()).fill(0).map((value, index) => index + 1);
     const preBlanks = Array(firstOfMonth.getDay()).fill(0); //0 = sun, 1 = mon...　represents how many blanks are needed
     const blocksInCalendar = preBlanks.concat(validDays);
@@ -20,14 +15,13 @@ export default function CalendarTab(props) {
         blocksInCalendar.push(...Array(7 - (blocksInCalendar.length % 7)).fill(0));
     }
 
-    const { data, error } = useSWR(`http://localhost:3001/api/v0/class_availabilities/search?month=${month + 1}&year=${year}`, fetcher);
+    const { data, error } = useSWR(`http://localhost:3001/api/v0/class_availabilities/search?month=${dateObj.getMonth() + 1}&year=${dateObj.getFullYear()}`, fetcher);
     if (!data) return <h1>loading...</h1>
     if (error) return <h1>An error has occured.</h1>
-    console.log(data)
 
     const calendarBody = (
         <table className="m-auto">
-            <caption className="text-2xl">{year}年{month + 1}月</caption>
+            <caption className="text-2xl">{dateObj.getFullYear()}年{dateObj.getMonth() + 1}月</caption>
             <tbody>
             {(() => {
                 const tableData = []
@@ -37,10 +31,18 @@ export default function CalendarTab(props) {
                     </tr>
                 ]
                 for (let i = 0; i < blocksInCalendar.length; i++) {
-                    tableData.push(
-                        <td key={i}>
-                            <DayInCalendar day={blocksInCalendar[i]} month={month} year={year} data={data[blocksInCalendar[i]]} studentInfo={props.studentInfo}/>
-                        </td>)
+                    if (blocksInCalendar[i] === 0){
+                        tableData.push(
+                            <td key={i}>
+                                <DayInCalendar data={data[blocksInCalendar[i]]} studentInfo={props.studentInfo}/>
+                            </td>)
+                    } else {
+                        const date = new Date(dateObj.getFullYear(), dateObj.getMonth(), blocksInCalendar[i]);
+                        tableData.push(
+                            <td key={i}>
+                                <DayInCalendar date={date} data={data[blocksInCalendar[i]]} studentInfo={props.studentInfo}/>
+                            </td>)
+                    }
                     if(i % 7 === 6){
                         tableRows.push(
                             <tr key={"tr"+tableRows.length}>{tableData.slice(i-6, i+1)}</tr>
@@ -52,12 +54,17 @@ export default function CalendarTab(props) {
             </tbody>
         </table>
     )
+    const changeMonth = (diff) => {
+        let copy = new Date(dateObj.getFullYear(), dateObj.getMonth() + diff, 1);
+
+        setDateObj(copy);
+    }
 
     return(
         <>
-        <p onClick={() => {setMonth(month - 1%12)}} className="inline m-2">先月</p>
-        <p onClick={() => {setMonth(month + 1%12)}} className="inline m-2">来月</p>
-            {calendarBody}
+        <p onClick={() => {changeMonth(-1)}} className="inline m-2">先月</p>
+        <p onClick={() => {changeMonth(1)}} className="inline m-2">来月</p>
+        {calendarBody}
         </>
     )
 }
