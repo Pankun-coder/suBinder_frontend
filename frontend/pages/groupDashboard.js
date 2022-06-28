@@ -6,26 +6,16 @@ import { useState } from "react";
 import Carte from "../components/carte";
 
 export default function GroupDashboard() {
-    const { data, error } = useSWR("http://localhost:3001/api/v0/groups/", fetcher)
+    const { data, error } = useSWR(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/groups/`, fetcher)
     const [studentInfo, setStudentInfo] = useState({});
-
-    let message = "";
-    let groupName = "";
-    if (data) {
-        message = data.message;
-        groupName = data.group;
-        console.log(data);
-    } else {
-        message = "loading...";
-        groupName = "loading...";
-    };
+    if (!data) return <h1>Loading....</h1>
     if(error) console.log(error);
+    const groupName = data.group;
 
     return (
         <Layout>
             <div className="h-18">
                 <h2 className="inline-block text-5xl align-middle">{groupName}</h2>
-
             </div>
             <SearchStudent setStudentInfo={(studentInfo) => {setStudentInfo(studentInfo)}} />
 

@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export const createUser = (groupName, groupPassword, userName, email, userPassword, userPasswordConfirmation) => {
-    const url = "http://localhost:3001/api/v0/users/"
+    const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/users/`
     const data = {
         group: {
             "name": groupName,

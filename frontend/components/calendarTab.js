@@ -1,5 +1,4 @@
 import { useState } from "react";
-import CalenderDetailModal from "./calendarDetailModal";
 import useSWR from "swr";
 import fetcher from "../lib/fetcher";
 import DayInCalendar from "./dayInCalendar";
@@ -15,7 +14,7 @@ export default function CalendarTab(props) {
         blocksInCalendar.push(...Array(7 - (blocksInCalendar.length % 7)).fill(0));
     }
 
-    const { data, error } = useSWR(`http://localhost:3001/api/v0/class_availabilities/search?month=${dateObj.getMonth() + 1}&year=${dateObj.getFullYear()}`, fetcher);
+    const { data, error } = useSWR(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/search?month=${dateObj.getMonth() + 1}&year=${dateObj.getFullYear()}`, fetcher);
     if (!data) return <h1>loading...</h1>
     if (error) return <h1>An error has occured.</h1>
 
@@ -26,7 +25,7 @@ export default function CalendarTab(props) {
             {(() => {
                 const tableData = []
                 const tableRows = [
-                    <tr>
+                    <tr key={0}>
                         <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
                     </tr>
                 ]
@@ -45,7 +44,7 @@ export default function CalendarTab(props) {
                     }
                     if(i % 7 === 6){
                         tableRows.push(
-                            <tr key={"tr"+tableRows.length}>{tableData.slice(i-6, i+1)}</tr>
+                            <tr key={tableRows.length}>{tableData.slice(i-6, i+1)}</tr>
                         );
                     }
                 }

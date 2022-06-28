@@ -11,7 +11,7 @@ export default function login() {
     const router = useRouter();
     
     const handleLogin = () => {
-        const url = "http://localhost:3001/api/v0/sessions/"
+        const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/sessions/`
         const data = {
             user: {
                 "email": userEmail,
@@ -21,9 +21,7 @@ export default function login() {
         axios.post(url, data,
             {withCredentials: true})
         .then(response => {
-            console.log(response);
             axios.defaults.headers.post['X-CSRF-Token'] = response.data._csrf;
-            console.log(response.data._csrf)
             if (response.data.message === "authenticated") router.push("/groupDashboard");
         })
         .catch(error => {
@@ -48,6 +46,7 @@ export default function login() {
                             </tbody>
                         </table>
                     <div className="text-center">
+                        <button onClick={() => {handleLogin()}}>aaa</button>
                         <input type="button" value="submit" onClick={() => {handleLogin()}} className="border-b-2 border-black p-1 hover:drop-shadow-lg"></input>
                     </div>
 
