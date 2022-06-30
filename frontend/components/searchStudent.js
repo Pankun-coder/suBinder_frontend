@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import fetcher from "../lib/fetcher";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function SearchStudent(props) {
     const { data } = useSWR(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/`, fetcher);

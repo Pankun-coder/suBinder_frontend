@@ -1,11 +1,13 @@
 import {useState} from "react";
 import AvailabilityForTime from "./availabilityForTime";
-
+import { hasReservationFor } from "../lib/calendarHelper";
 export default function AvailabilityForDay(props) {
     const [isDetailShown, setIsDetailShown] = useState(false);
     const [detailIsFor, setDetailIsFor] = useState(null);
 
     const timeList = () => {
+        const redStyle = "h-24 w-24 inline-block bg-red-300 border-2 border-black align-top m-1";
+        const normalStyle = "h-24 w-24 inline-block border-2 border-black align-top m-1";
         const availableTimes = new Set();
         for (const i in props.availabilities) {
             availableTimes.add(JSON.stringify({from: props.availabilities[i].from, to: props.availabilities[i].to}))
@@ -13,7 +15,10 @@ export default function AvailabilityForDay(props) {
         const availableTimeObjects = Array.from(availableTimes).map(value => JSON.parse(value));
         const result = availableTimeObjects.map((time,index) => {
             return (
-                <div key={index} onClick={() =>{showDetailFor(time)}} className={"h-24 w-24 inline-block border-2 border-black align-top m-1"}>
+                <div key={index} 
+                    onClick={() =>{showDetailFor(time)}}
+                    className={hasReservationFor(props.studentInfo.id, time, props.availabilities) ? redStyle : normalStyle}
+                    >
                     <p>{time.from.hour}:{time.from.min}~{time.to.hour}:{time.to.min}</p>
                 </div>
             )
@@ -26,6 +31,7 @@ export default function AvailabilityForDay(props) {
         setIsDetailShown(true);
 
     }
+
     const hideDetail = () => {
         setIsDetailShown(false);
         setDetailIsFor(null);

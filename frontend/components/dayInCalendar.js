@@ -15,6 +15,7 @@ export default function DayInCalendar(props) {
                 )
             }
         }
+        
         return (
             <div onClick={() => {setIsModalShown(true)}} className="border-2 border-black w-16 h-16">
                 <div>{props.date.getDate()}</div>

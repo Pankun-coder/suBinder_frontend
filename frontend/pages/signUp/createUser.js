@@ -3,7 +3,7 @@ import {useState} from "react"
 import {useRouter} from "next/router";
 import axios from "axios";
 
-export default function createUser() {
+export default function CreateUser() {
     const [groupId, setGroupId] = useState("");
     const [groupPassword, setGroupPassword] = useState("");
     const [userName, setUserName] = useState("");
@@ -42,18 +42,24 @@ export default function createUser() {
             <section>
                 <h1>グループがある方</h1>
                 <form>
-                <label for="groupId">グループID</label>
+                    <label htmlFor="groupId">グループID</label>
                     <input id="groupId" onChange={(e) => setGroupId(e.target.value)}></input>
-                    <label for="groupPassword">グループのパスワード</label>
+
+                    <label htmlFor="groupPassword">グループのパスワード</label>
                     <input id="groupPassword" type="password" onChange={(e) => setGroupPassword(e.target.value)}></input>
-                    <label for="userName" >ユーザー名</label>
+
+                    <label htmlFor="userName" >ユーザー名</label>
                     <input id="userName" onChange={(e) => setUserName(e.target.value)}></input>
-                    <label for="email">email</label>
+
+                    <label htmlFor="email">email</label>
                     <input id="email" onChange={(e) => setUserEmail(e.target.value)}></input>
-                    <label for="userPassword">ユーザーのパスワード</label>
+
+                    <label htmlFor="userPassword">ユーザーのパスワード</label>
                     <input id="userPassword" type="password" onChange={(e) => {setUserPassword(e.target.value)}}></input>
-                    <label for="userPasswordConfirmation">確認</label>
+
+                    <label htmlFor="userPasswordConfirmation">確認</label>
                     <input id="userPasswordConfirmation" type="password" onChange={(e) => {setuserPasswordConfirmation(e.target.value)}}></input>
+                    
                     <input type="button" value="submit" onClick={() => {handleLogin()}}></input>
                 </form>
             </section>

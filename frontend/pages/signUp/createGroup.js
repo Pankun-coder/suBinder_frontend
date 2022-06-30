@@ -4,7 +4,7 @@ import {useRouter} from "next/router";
 import axios from "axios";
 import Link from "next/link";
 
-export default function createGroup() {
+export default function CreateGroup() {
     const [groupName, setGroupName] = useState("");
     const [groupPassword, setGroupPassword] = useState("");
     const [groupPasswordConfirmation, setGroupPasswordConfirmation] = useState("");
@@ -43,11 +43,11 @@ export default function createGroup() {
             <section>
                 <h1>グループがない方</h1>
                 <form>
-                    <label for="groupName">グループ名</label>
+                    <label htmlFor="groupName">グループ名</label>
                     <input id="groupName" onChange={(e) => setGroupName(e.target.value)}></input>
-                    <label for="groupPassword">パスワード</label>
+                    <label htmlFor="groupPassword">パスワード</label>
                     <input id="groupPassword" type="password" onChange={(e) => setGroupPassword(e.target.value)}></input>
-                    <label for="groupPasswordConfirmation">確認</label>
+                    <label htmlFor="groupPasswordConfirmation">確認</label>
                     <input id="groupPasswordConfirmation" type="password" onChange={(e) => setGroupPasswordConfirmation(e.target.value)}></input>
                     <input type="button" value="submit" onClick={() => {handleCreateGroup(groupName, groupPassword, groupPasswordConfirmation)} }></input>
                 </form>

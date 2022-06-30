@@ -5,7 +5,7 @@ import axios from "axios";
 
 
 
-export default function login() {
+export default function Login() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const router = useRouter();
@@ -29,6 +29,7 @@ export default function login() {
             console.log(error);
         })
     }
+
     return (
         <Layout>
             <section className="mt-20 w-fit mx-auto border-2 border-black p-16 pt-3 text-center">
@@ -37,11 +38,11 @@ export default function login() {
                             <caption className="text-3xl mb-6">Login</caption>
                             <tbody>
                                 <tr>
-                                    <td><label for="email">email</label></td>
+                                    <td><label htmlFor="email">email</label></td>
                                     <td><input id="email" onChange={(e) => setUserEmail(e.target.value)}></input></td>
                                 </tr>
                                 <tr>
-                                    <td><label for="userPassword">password</label></td>
+                                    <td><label htmlFor="userPassword">password</label></td>
                                     <td><input id="userPassword" type="password" onChange={(e) => {setUserPassword(e.target.value)}}></input></td>
                                 </tr>
                             </tbody>

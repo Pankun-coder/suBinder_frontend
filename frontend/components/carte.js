@@ -8,7 +8,8 @@ export default function Carte(props) {
     const [currentTab, setCurrentTab] = useState(0);
     const [studentInfo, setStudentInfo] = useState({name: null, id: null});
     const router = useRouter();
-    //tab, studentIdのqueryの処理
+    
+    //set studentInfo and currentTab if given in query
     useEffect(() => {  
         if (props.query.studentId) {
             axios.get(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/${props.query.studentId}`, {withCredentials: true})
@@ -23,9 +24,7 @@ export default function Carte(props) {
             setCurrentTab(parseInt(props.query.tab))
         }
     },[props.query])
-    useEffect(() => {
-        console.log("更新されたよ")
-    }, [studentInfo])
+
     const changeTabTo= (tab) => {
         if (tab === currentTab) return null;
         router.push(`/groupDashboard?studentId=${studentInfo.id}&tab=${tab}`)
