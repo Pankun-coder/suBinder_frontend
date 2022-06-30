@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useContext } from "react";
-import { ChangeContext } from "../layouts";
+import { useRouter } from "next/router";
 import React from "react";
 import { errorMessageContext } from "../lib/errorMessageContext";
 export default function AvailabilityForTime(props) {
     const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
-
+    const router = useRouter();
     const addReservation = (reservationId) => {
-        const someData = {user_id: props.studentInfo.id}
-        axios.patch(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/${reservationId}`, someData, { withCredentials: true })
-        .then(data => {
-            if(data.data.message){
-                setErrorMessage(data.data.message)
-            }
+        const data = {student_id: props.studentInfo.id}
+        axios.patch(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/${reservationId}`, data, { withCredentials: true })
+        .then(res => {
+            router.reload();
+        })
+        .catch(error => {
+            setErrorMessage(error.response.data.message);
         })
     }
 

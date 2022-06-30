@@ -23,6 +23,7 @@ export default function login() {
         .then(response => {
             axios.defaults.headers.post['X-CSRF-Token'] = response.data._csrf;
             if (response.data.message === "authenticated") router.push("/groupDashboard");
+            console.log(response);
         })
         .catch(error => {
             console.log(error);
