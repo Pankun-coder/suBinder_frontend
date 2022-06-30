@@ -1,30 +1,43 @@
 import axios from "axios";
-import { getModuleBuildInfo } from "next/dist/build/webpack/loaders/get-module-build-info";
 import { useState, useEffect } from "react";
 import CalendarTab from "../components/calendarTab"
 import SearchStudent from "../components/searchStudent"
 
+import { useRouter } from "next/router";
 export default function Carte(props) {
     const [currentTab, setCurrentTab] = useState(0);
     const [studentInfo, setStudentInfo] = useState({name: null, id: null});
-    useEffect(() => {
-        if (props.query.student){
-            axios.get(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/${props.query.student}`, {withCredentials: true})
+    const router = useRouter();
+    //tab, studentIdのqueryの処理
+    useEffect(() => {  
+        if (props.query.studentId) {
+            axios.get(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/${props.query.studentId}`, {withCredentials: true})
             .then(res => {
-                setStudentInfo(res.data.student)
+                if (JSON.stringify(studentInfo) !== JSON.stringify(res.data.student)) setStudentInfo(res.data.student);
+            })
+            .catch(error => {
+                console.log("値が不正です");
             })
         }
-    },[props.query.student])
-    let tabBody = <div></div>
-    if (!studentInfo.id) {
-        tabBody = null
-    } else {
-        switch (currentTab){
+        if (props.query.tab) {
+            setCurrentTab(parseInt(props.query.tab))
+        }
+    },[props.query])
+    useEffect(() => {
+        console.log("更新されたよ")
+    }, [studentInfo])
+    const changeTabTo= (tab) => {
+        if (tab === currentTab) return null;
+        router.push(`/groupDashboard?studentId=${studentInfo.id}&tab=${tab}`)
+    }
+
+    const tab = ()=> {
+        if(!studentInfo.id) return null
+        switch (currentTab) {
             case 0:
-                tabBody = <CalendarTab studentInfo={studentInfo}/>
-                break;
+                return <CalendarTab studentInfo={studentInfo} />
             default:
-                tabBody = <div></div>
+                return <div></div>
         }
     }
 
@@ -36,13 +49,12 @@ export default function Carte(props) {
             <div className="h-20 flex justify-center items-center">
                 {studentInfo.name ? (<h1 className="text-3xl">{studentInfo.name}さん</h1>) : (<h2> </h2>)}
             </div>
-
             <ul>
-                <li onClick={() => {setCurrentTab(0)}} className={currentTab == 0 ? selected : notSelected}>カレンダー</li>
-                <li onClick={() => {setCurrentTab(1)}} className={currentTab == 1 ? selected : notSelected}>受講状況</li>
+                <li onClick={() => {changeTabTo(0)}} className={currentTab == 0 ? selected : notSelected}>カレンダー</li>
+                <li onClick={() => {changeTabTo(1)}} className={currentTab == 1 ? selected : notSelected}>受講状況</li>
             </ul>
             <section className="w-5/6 border-2 border-purple-500 mx-auto">
-                {tabBody}
+                {tab()}
             </section>
 
         </section>

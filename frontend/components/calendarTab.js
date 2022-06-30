@@ -53,16 +53,16 @@ export default function CalendarTab(props) {
             </tbody>
         </table>
     )
-    const changeMonth = (diff) => {
+    
+    const changeMonthBy = (diff) => {
         let copy = new Date(dateObj.getFullYear(), dateObj.getMonth() + diff, 1);
-
         setDateObj(copy);
     }
 
     return(
         <>
-        <p onClick={() => {changeMonth(-1)}} className="inline m-2">先月</p>
-        <p onClick={() => {changeMonth(1)}} className="inline m-2">来月</p>
+        <p onClick={() => {changeMonthBy(-1)}} className="inline m-2">先月</p>
+        <p onClick={() => {changeMonthBy(1)}} className="inline m-2">来月</p>
         {calendarBody}
         </>
     )

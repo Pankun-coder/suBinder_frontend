@@ -9,7 +9,7 @@ export default function SearchStudent(props) {
     const [userInput, setUserInput] = useState("");
 
     const searchStudent = () => {
-        router.push(`http://${process.env.NEXT_PUBLIC_THIS_HOST}:3000/groupDashboard?student=${parseInt(userInput)}`)
+        router.push(`/groupDashboard?studentId=${parseInt(userInput)}`)
     }
 
     return (
