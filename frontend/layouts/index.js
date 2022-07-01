@@ -1,11 +1,6 @@
 import Link from "next/link"
-import React, {useState} from "react";
-import ShowError from "../components/showError";
-import { errorMessageContext } from "../lib/errorMessageContext";
 
 export default function Layout({children}) {
-    const [errorMessage, setErrorMessage] = useState(null)
-
     return (
         <>
         <header>
@@ -27,12 +22,7 @@ export default function Layout({children}) {
                 </ul>
             </nav>
         </header>
-            <errorMessageContext.Provider value={{errorMessage: errorMessage, setErrorMessage: setErrorMessage}}>
-                {children}
-                {errorMessage ? <ShowError errorMessage={errorMessage} hideError={() => {setErrorMessage(null)}} /> : null}
-            </errorMessageContext.Provider>        
-
-        
+            {children}
         </>
     )
 }

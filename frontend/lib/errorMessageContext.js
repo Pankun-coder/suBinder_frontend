@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const errorMessageContext = createContext({ name: "default value"})
+export const errorMessageContext = createContext({errorMessage: null, setErrorMessage: null})

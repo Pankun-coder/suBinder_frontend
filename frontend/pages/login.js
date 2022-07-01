@@ -1,15 +1,16 @@
-import Layout from "../layouts"
-import {useState} from "react"
-import {useRouter} from "next/router";
 import axios from "axios";
-
-
+import Layout from "../layouts";
+import { useContext } from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { errorMessageContext } from "../lib/errorMessageContext";
 
 export default function Login() {
+    const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const router = useRouter();
-    
+
     const handleLogin = () => {
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/sessions/`
         const data = {
@@ -18,15 +19,14 @@ export default function Login() {
                 "password": userPassword
             }
         }
-        axios.post(url, data,
-            {withCredentials: true})
+        axios.post(url, data, {withCredentials: true})
         .then(response => {
             axios.defaults.headers.post['X-CSRF-Token'] = response.data._csrf;
-            if (response.data.message === "authenticated") router.push("/groupDashboard");
+            router.push("/groupDashboard");
             console.log(response);
         })
         .catch(error => {
-            console.log(error);
+            setErrorMessage(error.response.data.message)
         })
     }
 
@@ -48,12 +48,11 @@ export default function Login() {
                             </tbody>
                         </table>
                     <div className="text-center">
-                        <button onClick={() => {handleLogin()}}>aaa</button>
                         <input type="button" value="submit" onClick={() => {handleLogin()}} className="border-b-2 border-black p-1 hover:drop-shadow-lg"></input>
                     </div>
-
                 </form>
             </section>
         </Layout>
+
     )
 }

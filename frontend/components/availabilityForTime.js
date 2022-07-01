@@ -2,14 +2,16 @@ import axios from "axios";
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import React from "react";
-import { errorMessageContext } from "../lib/errorMessageContext";
+import { errorMessageContext } from "../lib/errorMessageContext"
+
 export default function AvailabilityForTime(props) {
     const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
     const router = useRouter();
+
     const addReservation = (reservationId) => {
         const data = {student_id: props.studentInfo.id}
         axios.patch(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/${reservationId}`, data, { withCredentials: true })
-        .then(res => {
+        .then(response => {
             router.reload();
         })
         .catch(error => {
@@ -35,7 +37,6 @@ export default function AvailabilityForTime(props) {
             <div onClick={(e) => {e.stopPropagation(e)}} className="left-0 right-0 top-0 bottom-0 w-1/3 h-1/3 absolute m-auto align-middle bg-gray-200 border-2 border-black shadow-2xl">
                 {detailedData}
             </div>
-
         </div>
     )
     return result;
