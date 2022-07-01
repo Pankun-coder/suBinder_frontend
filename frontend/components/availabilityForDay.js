@@ -1,24 +1,27 @@
 import {useState} from "react";
 import AvailabilityForTime from "./availabilityForTime";
-import { hasReservationFor } from "../lib/calendarHelper";
+import { isTimeAvailable, isTimeReservedBy } from "../lib/calendarHelper";
 export default function AvailabilityForDay(props) {
     const [isDetailShown, setIsDetailShown] = useState(false);
     const [detailIsFor, setDetailIsFor] = useState(null);
 
     const timeList = () => {
-        const redStyle = "h-24 w-24 inline-block bg-red-300 border-2 border-black align-top m-1";
-        const normalStyle = "h-24 w-24 inline-block border-2 border-black align-top m-1";
         const availableTimes = new Set();
         for (const i in props.availabilities) {
             availableTimes.add(JSON.stringify({from: props.availabilities[i].from, to: props.availabilities[i].to}))
         }
         const availableTimeObjects = Array.from(availableTimes).map(value => JSON.parse(value));
         const result = availableTimeObjects.map((time,index) => {
+
+            let style = "h-24 w-24 inline-block border-2 border-black align-top m-1"; 
+            if (isTimeReservedBy(props.studentInfo.id, time, props.availabilities)) {
+                style += " bg-red-300"
+            } else if (isTimeAvailable(time, props.availabilities)) {
+                style += " bg-blue-300"
+            }
+
             return (
-                <div key={index} 
-                    onClick={() =>{showDetailFor(time)}}
-                    className={hasReservationFor(props.studentInfo.id, time, props.availabilities) ? redStyle : normalStyle}
-                    >
+                <div key={index} onClick={() =>{showDetailFor(time)}}className={style}>
                     <p>{time.from.hour}:{time.from.min}~{time.to.hour}:{time.to.min}</p>
                 </div>
             )

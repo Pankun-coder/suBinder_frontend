@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 import React from "react";
 import { errorMessageContext } from "../lib/errorMessageContext"
+import { isReservedBy, isAvailable } from "../lib/calendarHelper";
 
 export default function AvailabilityForTime(props) {
     const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
@@ -25,8 +26,14 @@ export default function AvailabilityForTime(props) {
     const detailedData = []
     for (const i in props.availabilities) {
         if (JSON.stringify(props.availabilities[i].from) == JSON.stringify(props.detailIsFor.from) && JSON.stringify(props.availabilities[i].to) == JSON.stringify(props.detailIsFor.to)) {
+            let style = "w-11/12 border-2 border-black mx-auto my-1 h-7"
+            if (isReservedBy(props.studentInfo.id, props.availabilities[i])) {
+                style += " bg-red-300"
+            } else if (isAvailable(props.availabilities[i])) {
+                style += " bg-blue-300"
+            }
             detailedData.push(
-                <div key={i} onClick={() => {addReservation(props.availabilities[i].id)}} className={props.availabilities[i].reservedBy.id == props.studentInfo.id ? redStyle : normalStyle}>
+                <div key={i} onClick={() => {addReservation(props.availabilities[i].id)}} className={style}>
                     <p>{props.availabilities[i].reservedBy.name}</p>
                 </div>
             )
