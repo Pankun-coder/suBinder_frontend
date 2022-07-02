@@ -8,8 +8,10 @@ import { isReservedBy, isAvailable } from "../lib/calendarHelper";
 export default function AvailabilityForTime(props) {
     const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
     const router = useRouter();
+    console.log(props.availabilities)
 
     const addReservation = (reservationId) => {
+        console.log(reservationId)
         const data = {student_id: props.studentInfo.id}
         axios.patch(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/${reservationId}`, data, { withCredentials: true })
         .then(response => {
@@ -19,9 +21,6 @@ export default function AvailabilityForTime(props) {
             setErrorMessage(error.response.data.message);
         })
     }
-
-    const normalStyle = "w-11/12 border-2 border-black mx-auto my-1 h-7"
-    const redStyle = "w-11/12 border-2 border-black mx-auto my-1 h-7 bg-red-300"
 
     const detailedData = []
     for (const i in props.availabilities) {
