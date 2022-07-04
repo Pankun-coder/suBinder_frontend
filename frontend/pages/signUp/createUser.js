@@ -14,7 +14,7 @@ export default function CreateUser() {
     const router = useRouter();
     
     const handleLogin = () => {
-        const url = "http://localhost:3001/api/v0/users/"
+        const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/users`
         const data = {
             group: {
                 "id": groupId,

@@ -12,7 +12,7 @@ export default function CreateGroup() {
     const router = useRouter();
 
     const handleCreateGroup = () => {
-        const url = "http://localhost:3001/api/v0/groups";
+        const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/groups`;
         const data = {
             group: {
                 "name": groupName,
