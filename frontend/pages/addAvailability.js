@@ -66,50 +66,60 @@ export default function AddAvailability() {
         <Layout>
             <section>
                 <form>
+                    <div className="m-2">
+                        <input className="border-2 border-black" id="from-year" onChange={(e) => setFromYear(e.target.value)} value={fromYear}></input>
+                        <label htmlFor="from-year">年</label>
+                        <input className="border-2 border-black" id="from-month" onChange={(e) => setFromMonth(e.target.value)} value={fromMonth}></input>
+                        <label htmlFor="from-month">月</label>
+                        <input className="border-2 border-black" id="from-day" onChange={(e) => setFromDay(e.target.value)} value={fromDay}></input>
+                        <label htmlFor="from-day">日から</label>
+                    </div>
 
-                <input className="border-2 border-black" id="from-year" onChange={(e) => setFromYear(e.target.value)} value={fromYear}></input>
-                <label htmlFor="from-year">年</label>
-                <input className="border-2 border-black" id="from-month" onChange={(e) => setFromMonth(e.target.value)} value={fromMonth}></input>
-                <label htmlFor="from-month">月</label>
-                <input className="border-2 border-black" id="from-day" onChange={(e) => setFromDay(e.target.value)} value={fromDay}></input>
-                <label htmlFor="from-day">日から</label>
+                    <div className="m-2">
+                        <input className="border-2 border-black" id="to-year" onChange={(e) => setToYear(e.target.value)} value={toYear}></input>
+                        <label htmlFor="to-year">年</label>
+                        <input className="border-2 border-black" id="to-month" onChange={(e) => setToMonth(e.target.value)} value={toMonth}></input>
+                        <label htmlFor="to-month">月</label>
+                        <input className="border-2 border-black" id="to-day" onChange={(e) => setToDay(e.target.value)} value={toDay}></input>
+                        <label htmlFor="to-day">日まで</label>
+                    </div>
 
-                <input className="border-2 border-black" id="to-year" onChange={(e) => setToYear(e.target.value)} value={toYear}></input>
-                <label htmlFor="to-year">年</label>
-                <input className="border-2 border-black" id="to-month" onChange={(e) => setToMonth(e.target.value)} value={toMonth}></input>
-                <label htmlFor="to-month">月</label>
-                <input className="border-2 border-black" id="to-day" onChange={(e) => setToDay(e.target.value)} value={toDay}></input>
-                <label htmlFor="to-day">日まで</label>
+                    <div className="m-2">
+                        <label htmlFor="sun">日</label>
+                        <input id="sun" type="checkbox" onChange={(e) => setSun(e.target.checked)}/>
+                        <label htmlFor="mon">月</label>
+                        <input id="mon" type="checkbox" onChange={(e) => setMon(e.target.checked)}/>
+                        <label htmlFor="tue">火</label>
+                        <input id="tue" type="checkbox" onChange={(e) => setTue(e.target.checked)}/>
+                        <label htmlFor="wed">水</label>
+                        <input id="wed" type="checkbox" onChange={(e) => setWed(e.target.checked)}/>
+                        <label htmlFor="thu">木</label>
+                        <input id="thu" type="checkbox" onChange={(e) => setThu(e.target.checked)}/>
+                        <label htmlFor="fri">金</label>
+                        <input id="fri" type="checkbox" onChange={(e) => setFri(e.target.checked)}/>
+                        <label htmlFor="sat">土</label>
+                        <input id="sat" type="checkbox" onChange={(e) => setSat(e.target.checked)}/>
+                    </div>
+                    <div className="m-2">
+                        <input className="border-2 border-black" id="from-hour" onChange={(e) => setFromHour(e.target.value)} value={fromHour}></input>
+                        <label htmlFor="from-hour">時</label>
+                        <input className="border-2 border-black" id="from-min" onChange={(e) => setFromMin(e.target.value)} value={fromMin}></input>
+                        <label htmlFor="from-min">分から</label>
 
-                <label htmlFor="sun">日</label>
-                <input id="sun" type="checkbox" onChange={(e) => setSun(e.target.checked)}/>
-                <label htmlFor="mon">月</label>
-                <input id="mon" type="checkbox" onChange={(e) => setMon(e.target.checked)}/>
-                <label htmlFor="tue">火</label>
-                <input id="tue" type="checkbox" onChange={(e) => setTue(e.target.checked)}/>
-                <label htmlFor="wed">水</label>
-                <input id="wed" type="checkbox" onChange={(e) => setWed(e.target.checked)}/>
-                <label htmlFor="thu">木</label>
-                <input id="thu" type="checkbox" onChange={(e) => setThu(e.target.checked)}/>
-                <label htmlFor="fri">金</label>
-                <input id="fri" type="checkbox" onChange={(e) => setFri(e.target.checked)}/>
-                <label htmlFor="sat">土</label>
-                <input id="sat" type="checkbox" onChange={(e) => setSat(e.target.checked)}/>
+                        <input className="border-2 border-black" id="to-hour" onChange={(e) => setToHour(e.target.value)} value={toHour}></input>
+                        <label htmlFor="to-hour">時</label>
+                        <input className="border-2 border-black" id="to-min" onChange={(e) => setToMin(e.target.value)} value={toMin}></input>
+                        <label htmlFor="to-min">分まで</label>
+                    </div>
 
-                <input className="border-2 border-black" id="from-hour" onChange={(e) => setFromHour(e.target.value)} value={fromHour}></input>
-                <label htmlFor="from-hour">時</label>
-                <input className="border-2 border-black" id="from-min" onChange={(e) => setFromMin(e.target.value)} value={fromMin}></input>
-                <label htmlFor="from-min">分から</label>
+                    <div className="m-2">
+                        <input className="border-2 border-black" id="number-of-availability" onChange={(e) => setNumberOfAvailability(e.target.value)} value={NumberOfAvailability}></input>
+                        <label htmlFor="number-of-availability">人分</label>
+                    </div>
 
-                <input className="border-2 border-black" id="to-hour" onChange={(e) => setToHour(e.target.value)} value={toHour}></input>
-                <label htmlFor="to-hour">時</label>
-                <input className="border-2 border-black" id="to-min" onChange={(e) => setToMin(e.target.value)} value={toMin}></input>
-                <label htmlFor="to-min">分まで</label>
-
-                <input className="border-2 border-black" id="number-of-availability" onChange={(e) => setNumberOfAvailability(e.target.value)} value={NumberOfAvailability}></input>
-                <label htmlFor="number-of-availability">人分</label>
-
-                <input type="button" value="aa" onClick={() => {send()}}/>
+                    <div className="text-center m-2">
+                        <input type="button" value="予約枠を作る" onClick={() => {send()}} className="border-2 border-black"/>
+                    </div>
                 </form>
             </section>
         </Layout>
