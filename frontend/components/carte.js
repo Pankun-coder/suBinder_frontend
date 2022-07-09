@@ -9,7 +9,6 @@ export default function Carte(props) {
     const [studentInfo, setStudentInfo] = useState({name: null, id: null});
     const router = useRouter();
     
-    //set studentInfo and currentTab if given in query
     useEffect(() => {  
         if (props.query.studentId) {
             axios.get(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/${props.query.studentId}`, {withCredentials: true})

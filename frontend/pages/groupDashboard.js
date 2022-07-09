@@ -7,8 +7,11 @@ import Carte from "../components/carte";
 export default function GroupDashboard() {
     const { data, error } = useSWR(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/groups/`, fetcher)
     const router = useRouter();
-    if (!data) return <h1>Loading....</h1>
-    if(error) console.log(error);
+    if (!data) return (
+        <Layout>
+            <h1>loading</h1>
+        </Layout>
+    )
 
     return (
         <Layout>
