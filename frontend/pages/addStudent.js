@@ -1,9 +1,20 @@
 import axios from "axios";
 import Layout from "../layouts";
 import { useState } from "react";
+import { useContext } from "react";
+import { isLoggedInContext } from "../lib/isLoggedInContext";
+import LoginRequiredModal from "../components/loginRequiredModal";
 
 export default function AddUser() {
+    const {isLoggedIn} = useContext(isLoggedInContext);
     const [studentName, setStudentName] = useState("");
+    if (!isLoggedIn){
+        return (
+            <Layout>
+                <LoginRequiredModal />
+            </Layout>
+        )
+    }
     const createUserHandle = () => {
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students`
         const data = {name: studentName}

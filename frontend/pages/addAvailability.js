@@ -1,14 +1,27 @@
 import Layout from "../layouts";
 import { useState } from "react";
 import axios from "axios";
+import LoginRequiredModal from "../components/loginRequiredModal";
+import { useContext } from "react";
+import { isLoggedInContext } from "../lib/isLoggedInContext";
+
 export default function AddAvailability() {
-    const [sun, setSun] = useState(false)
-    const [mon, setMon] = useState(false)
-    const [tue, setTue] = useState(false)
-    const [wed, setWed] = useState(false)
-    const [thu, setThu] = useState(false)
-    const [fri, setFri] = useState(false)
-    const [sat, setSat] = useState(false)
+    const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
+    if (!isLoggedIn) {
+        return (
+            <Layout>
+                <LoginRequiredModal />
+            </Layout>
+        )
+    }
+    
+    const [sun, setSun] = useState(false);
+    const [mon, setMon] = useState(false);
+    const [tue, setTue] = useState(false);
+    const [wed, setWed] = useState(false);
+    const [thu, setThu] = useState(false);
+    const [fri, setFri] = useState(false);
+    const [sat, setSat] = useState(false);
 
     const [fromYear, setFromYear] = useState(null);
     const [fromMonth, setFromMonth] = useState(null);
