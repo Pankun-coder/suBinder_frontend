@@ -57,3 +57,11 @@ export const isAvailable = (availability) => {
     if (!availability.reservedBy.id) return true
     return false
 }
+
+export const areObjectsIdentical = (obj1, obj2) => {
+    if (JSON.stringify(obj1) === JSON.stringify(obj2)) {
+        return true;
+    } else {
+        return false;
+    }
+}

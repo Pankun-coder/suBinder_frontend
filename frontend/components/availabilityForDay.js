@@ -45,7 +45,7 @@ export default function AvailabilityForDay(props) {
             <div onClick={(e) => {e.stopPropagation()}} className="left-0 right-0 top-0 bottom-0 w-1/2 h-1/2 absolute m-auto align-middle bg-gray-100 opacity-100 border-2 border-black shadow-2xl">
                 {timeList()}
                 <div>
-                {isDetailShown ? <AvailabilityForTime studentInfo={props.studentInfo}date={props.date} detailIsFor={detailIsFor} availabilities={props.availabilities} hideDetail={() =>{hideDetail()}}/> : null}
+                {isDetailShown ? <AvailabilityForTime studentInfo={props.studentInfo}date={props.date} targetTime={detailIsFor} availabilities={props.availabilities} hideDetail={() =>{hideDetail()}}/> : null}
                 </div>
             </div>
 

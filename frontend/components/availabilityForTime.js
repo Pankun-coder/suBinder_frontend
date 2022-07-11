@@ -1,19 +1,20 @@
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import React from "react";
 import { errorMessageContext } from "../lib/errorMessageContext"
-import { isReservedBy, isAvailable } from "../lib/calendarHelper";
+import { isReservedBy, isAvailable, areObjectsIdentical } from "../lib/calendarHelper";
+import Availability from "./availability";
+
 
 export default function AvailabilityForTime(props) {
     const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
     const router = useRouter();
-    console.log(props.availabilities)
 
-    const addReservation = (reservationId) => {
+    const updateReservation = ({reservationId = null, isCancelling = false}) => {
         console.log(reservationId)
         const data = {student_id: props.studentInfo.id}
-        axios.patch(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/${reservationId}`, data, { withCredentials: true })
+        axios.patch(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/${reservationId}?cancel=${isCancelling}`, data, { withCredentials: true })
         .then(response => {
             router.reload();
         })
@@ -22,28 +23,32 @@ export default function AvailabilityForTime(props) {
         })
     }
 
-    const detailedData = []
-    for (const i in props.availabilities) {
-        if (JSON.stringify(props.availabilities[i].from) == JSON.stringify(props.detailIsFor.from) && JSON.stringify(props.availabilities[i].to) == JSON.stringify(props.detailIsFor.to)) {
-            let style = "w-11/12 border-2 border-black mx-auto my-1 h-7"
-            if (isReservedBy(props.studentInfo.id, props.availabilities[i])) {
-                style += " bg-red-300"
-            } else if (isAvailable(props.availabilities[i])) {
-                style += " bg-blue-300"
-            }
-            detailedData.push(
-                <div key={i} onClick={() => {addReservation(props.availabilities[i].id)}} className={style}>
-                    <p>{props.availabilities[i].reservedBy.name}</p>
-                </div>
-            )
+    const onClickHandle = (availability) => {
+        if (availability.reservedBy.id !== props.studentInfo.id) {
+            updateReservation({reservationId: availability.id, isCancelling: false});
+        } if (availability.reservedBy.id === props.studentInfo.id) {
+            updateReservation({reservationId: availability.id, isCancelling: true})
         }
     }
-    const result = (
+
+    return (
         <div className="fixed top-0 left-0 w-full h-full" onClick={() => {props.hideDetail()}}>
             <div onClick={(e) => {e.stopPropagation(e)}} className="left-0 right-0 top-0 bottom-0 w-1/3 h-1/3 absolute m-auto align-middle bg-gray-200 border-2 border-black shadow-2xl">
-                {detailedData}
+                    {props.availabilities.map((value, index) => {
+                        if (JSON.stringify(value.from) == JSON.stringify(props.targetTime.from) && JSON.stringify(value.to) == JSON.stringify(props.targetTime.to)){
+                            (areObjectsIdentical(value.from, props.targetTime.from) && areObjectsIdentical(value.to, props.targetTime.to))
+                            if (isReservedBy(props.studentInfo.id, value)){
+                                return <Availability key={index} status="reservedByTheUser" onClick={() => {onClickHandle(value)}} reservedBy={value.reservedBy.name}/>
+                            } else if (isAvailable(value)) {
+                                return <Availability key={index} status="available" onClick={() => {onClickHandle(value)}}/>
+                            } else {
+                                return <Availability key={index} status="reserved" onClick={() => {onClickHandle(value)}} reservedBy={value.reservedBy.name}/>
+                            }
+                        }
+                    })}
             </div>
         </div>
     )
-    return result;
 }
+
+

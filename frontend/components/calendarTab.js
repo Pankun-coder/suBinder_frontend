@@ -11,7 +11,7 @@ export default function CalendarTab(props) {
 
     const { data, error } = useSWR(`http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/search?month=${dateObj.getMonth() + 1}&year=${dateObj.getFullYear()}`, fetcher);
     if (!data) return <h1>loading...</h1>
-    if (error) return <h1>An error has occured.</h1>
+    if (error) return <h1>エラーが発生しました</h1>
 
     const calendarBody = (
         <table className="m-auto">
