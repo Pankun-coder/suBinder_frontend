@@ -66,7 +66,7 @@ export default function Layout({children}) {
     
                 <nav className="block bg-black text-white">
                     <ul className="text-center">
-                        <li className="group inline-block w-32 hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-500 hover:text-black ">
+                        <li className="group inline-block w-32 hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-500">
                             <a className="w-32">生徒管理</a>
                             <ul className="absolute z-10 hidden group-hover:block w-32">
                                 <li className="px-4 relative text-black bg-gradient-to-r from-purple-400 to-purple-500"><Link href="/addStudent"><a>生徒追加</a></Link></li>
