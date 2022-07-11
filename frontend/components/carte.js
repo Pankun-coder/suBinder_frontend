@@ -22,7 +22,7 @@ export default function Carte(props) {
         if (props.query.tab) {
             setCurrentTab(parseInt(props.query.tab))
         }
-    },[props.query])
+    },[props.query, studentInfo])
 
     const changeTabTo= (tab) => {
         if (tab === currentTab) return null;
@@ -41,6 +41,7 @@ export default function Carte(props) {
 
     const selected = "inline-block w-24 border-2 border-purple-500 bg-purple-500 border-b-0 text-white"
     const notSelected = "inline-block w-24 border-2 border-purple-500 border-b-0"
+    
     return(
         <section className="w-full text-center mx-auto">
             <SearchStudent query={props.query} setStudentInfo={(studentInfo) => {setStudentInfo(studentInfo)}} />
