@@ -1,6 +1,9 @@
 import { useState } from "react";
-import AvailabilityForDay from "./availabilityForDay";
 import { isDayReservedBy, isDayAvailable } from "../lib/calendarHelper";
+import Modal from "./modal";
+import { isTimeAvailable, isTimeReservedBy } from "../lib/calendarHelper";
+import Time from "./time";
+import { areObjectsIdentical } from "../lib/calendarHelper";
 
 export default function DayInCalendar(props) {
     const [isModalShown, setIsModalShown] = useState(false);
@@ -18,13 +21,44 @@ export default function DayInCalendar(props) {
             </div>
         )
     }
+    const timeList = () => {
+        const availableTimes = new Set();
+        for (const i in props.data) {
+            availableTimes.add(JSON.stringify({from: props.data[i].from, to: props.data[i].to}))
+        }
+        const availableTimeObjects = Array.from(availableTimes).map(value => JSON.parse(value));
+        return availableTimeObjects
+    }
+    const funct = (arg1, time) => {
+        if (areObjectsIdentical(arg1.from, time.from) && areObjectsIdentical(arg1.to, time.to)) {
+            return true
+        }
+        return false
+    }
+
+    const availableTimeModal = (
+        <Modal onClickOutside={() => {setIsModalShown(false)}}>
+                {timeList().map((time,index) => {
+                    if (isTimeReservedBy(props.studentInfo.id, time, props.availabilities)) {
+                        return (
+                            <Time key={index} status="reservedByTheUser" time={time} studentInfo={props.studentInfo} availabilities={props.data.filter(el => funct(el, time))} />
+                        )
+                    } else if (isTimeAvailable(time, props.availabilities)) {
+                        return (
+                            <Time key={index} status="available" time={time} studentInfo={props.studentInfo} availabilities={props.data.filter(el => funct(el, time))} />
+                        )
+                    }
+                    return (
+                        <Time key={index} status="full" time={time} studentInfo={props.studentInfo} availabilities={props.data.filter(el => funct(el, time))} />
+                    )
+                    })}
+        </Modal>
+    )
+
     return (
         <div>
         {day()}
-        {isModalShown&&<AvailabilityForDay date={props.date} availabilities={props.data} studentInfo={props.studentInfo} hideModal={() =>{setIsModalShown(false)}} />}
+        {isModalShown&&availableTimeModal}
         </div>
-
     )
-
-
 }
