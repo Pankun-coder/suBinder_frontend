@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { isDayReservedBy, isDayAvailable } from "../lib/calendarHelper";
-import Modal from "./modal";
+import ModalM from "./modalM";
 import { isTimeAvailable, isTimeReservedBy } from "../lib/calendarHelper";
 import Time from "./time";
 import { areObjectsIdentical } from "../lib/calendarHelper";
@@ -37,13 +37,13 @@ export default function DayInCalendar(props) {
     }
 
     const availableTimeModal = (
-        <Modal onClickOutside={() => {setIsModalShown(false)}}>
+        <ModalM onClickClose={() => {setIsModalShown(false)}}>
                 {timeList().map((time,index) => {
-                    if (isTimeReservedBy(props.studentInfo.id, time, props.availabilities)) {
+                    if (isTimeReservedBy(props.studentInfo.id, time, props.data)) {
                         return (
                             <Time key={index} status="reservedByTheUser" time={time} studentInfo={props.studentInfo} availabilities={props.data.filter(el => funct(el, time))} />
                         )
-                    } else if (isTimeAvailable(time, props.availabilities)) {
+                    } else if (isTimeAvailable(time, props.data)) {
                         return (
                             <Time key={index} status="available" time={time} studentInfo={props.studentInfo} availabilities={props.data.filter(el => funct(el, time))} />
                         )
@@ -52,7 +52,7 @@ export default function DayInCalendar(props) {
                         <Time key={index} status="full" time={time} studentInfo={props.studentInfo} availabilities={props.data.filter(el => funct(el, time))} />
                     )
                     })}
-        </Modal>
+        </ModalM>
     )
 
     return (

@@ -4,7 +4,8 @@ import axios from "axios";
 import LoginRequiredModal from "../components/loginRequiredModal";
 import { useContext } from "react";
 import { isLoggedInContext } from "../lib/isLoggedInContext";
-
+import BorderM from "../components/borderM";
+import InputS from "../components/inputS";
 export default function AddAvailability() {
     const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
 
@@ -16,19 +17,19 @@ export default function AddAvailability() {
     const [fri, setFri] = useState(false);
     const [sat, setSat] = useState(false);
 
-    const [fromYear, setFromYear] = useState(null);
-    const [fromMonth, setFromMonth] = useState(null);
-    const [fromDay, setFromDay] = useState(null);
-    const [toYear, setToYear] = useState(null);
-    const [toMonth, setToMonth] = useState(null);
-    const [toDay, setToDay] = useState(null);
+    const [fromYear, setFromYear] = useState("");
+    const [fromMonth, setFromMonth] = useState("");
+    const [fromDay, setFromDay] = useState("");
+    const [toYear, setToYear] = useState("");
+    const [toMonth, setToMonth] = useState("");
+    const [toDay, setToDay] = useState("");
 
-    const [fromHour, setFromHour] = useState(null);
-    const [fromMin, setFromMin] = useState(null);
-    const [toHour, setToHour] = useState(null);
-    const [toMin, setToMin] = useState(null);
+    const [fromHour, setFromHour] = useState("");
+    const [fromMin, setFromMin] = useState("");
+    const [toHour, setToHour] = useState("");
+    const [toMin, setToMin] = useState("");
 
-    const [NumberOfAvailability, setNumberOfAvailability] = useState(null);
+    const [NumberOfAvailability, setNumberOfAvailability] = useState("");
     
     const send = () => {
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/`
@@ -78,22 +79,22 @@ export default function AddAvailability() {
 
     return (
         <Layout>
-            <section className="border-4 border-purple-400 w-3/4 mx-auto my-8 p-4">
-                <form className="mx-auto w-1/2">
+            <BorderM>
+            <form className="mx-auto w-1/2">
                     <div className="border-2 border-black text-center my-2">
                         <h2>予約時間</h2>
                         <div className="mx-auto my-4 w-fit">
 
-                            <input className="border-2 border-black w-20" id="from-hour" onChange={(e) => setFromHour(e.target.value)} value={fromHour}></input>
+                            <InputS  id="from-hour" onChange={(e) => {setFromHour(e.target.value)}} value={fromHour} />
                             <label htmlFor="from-hour">時</label>
-                            <input className="border-2 border-black w-20" id="from-min" onChange={(e) => setFromMin(e.target.value)} value={fromMin}></input>
+                            <InputS id="from-min" onChange={(e) => setFromMin(e.target.value)} value={fromMin} />
                             <label htmlFor="from-min">分から</label>
                         </div>
 
                         <div className="mx-auto my-4 w-fit">
-                            <input className="border-2 border-black w-20" id="to-hour" onChange={(e) => setToHour(e.target.value)} value={toHour}></input>
+                            <InputS id="to-hour" onChange={(e) => setToHour(e.target.value)} value={toHour} />
                             <label htmlFor="to-hour">時</label>
-                            <input className="border-2 border-black w-20" id="to-min" onChange={(e) => setToMin(e.target.value)} value={toMin}></input>
+                            <InputS id="to-min" onChange={(e) => setToMin(e.target.value)} value={toMin} />
                             <label htmlFor="to-min">分まで</label>
                         </div>
                     </div>
@@ -101,49 +102,43 @@ export default function AddAvailability() {
                     <div className="border-2 border-black text-center my-2">
                         <h2>繰り返し情報</h2>
                         <div className="mx-auto my-4 w-fit">
-                            <input className="border-2 border-black w-20" id="from-year" onChange={(e) => setFromYear(e.target.value)} value={fromYear}></input>
+                            <InputS id="from-year" onChange={(e) => setFromYear(e.target.value)} value={fromYear} />
                             <label htmlFor="from-year">年</label>
-                            <input className="border-2 border-black w-20" id="from-month" onChange={(e) => setFromMonth(e.target.value)} value={fromMonth}></input>
+                            <InputS id="from-month" onChange={(e) => setFromMonth(e.target.value)} value={fromMonth} />
                             <label htmlFor="from-month">月</label>
-                            <input className="border-2 border-black w-20" id="from-day" onChange={(e) => setFromDay(e.target.value)} value={fromDay}></input>
+                            <InputS id="from-day" onChange={(e) => setFromDay(e.target.value)} value={fromDay} />
                             <label htmlFor="from-day">日から</label>
                         </div>
 
                         <div className="mx-auto my-4 w-fit">
-                            <input className="border-2 border-black w-20" id="to-year" onChange={(e) => setToYear(e.target.value)} value={toYear}></input>
+                            <InputS id="to-year" onChange={(e) => setToYear(e.target.value)} value={toYear} />
                             <label htmlFor="to-year">年</label>
-                            <input className="border-2 border-black w-20" id="to-month" onChange={(e) => setToMonth(e.target.value)} value={toMonth}></input>
+                            <InputS id="to-month" onChange={(e) => setToMonth(e.target.value)} value={toMonth} />
                             <label htmlFor="to-month">月</label>
-                            <input className="border-2 border-black w-20" id="to-day" onChange={(e) => setToDay(e.target.value)} value={toDay}></input>
+                            <InputS id="to-day" onChange={(e) => setToDay(e.target.value)} value={toDay} />
                             <label htmlFor="to-day">日まで</label>
                         </div>
 
                         <div className="mx-auto my-4 w-fit">
                             <label htmlFor="sun">日</label>
-                            <input id="sun" type="checkbox" onChange={(e) => setSun(e.target.checked)}/>
+                            <input id="sun" type="checkbox" onChange={(e) => setSun(e.target.checked)} value={sun}/>
                             <label htmlFor="mon">月</label>
-                            <input id="mon" type="checkbox" onChange={(e) => setMon(e.target.checked)}/>
+                            <input id="mon" type="checkbox" onChange={(e) => setMon(e.target.checked)} value={mon}/>
                             <label htmlFor="tue">火</label>
-                            <input id="tue" type="checkbox" onChange={(e) => setTue(e.target.checked)}/>
+                            <input id="tue" type="checkbox" onChange={(e) => setTue(e.target.checked)} value={tue}/>
                             <label htmlFor="wed">水</label>
-                            <input id="wed" type="checkbox" onChange={(e) => setWed(e.target.checked)}/>
+                            <input id="wed" type="checkbox" onChange={(e) => setWed(e.target.checked)} value={wed}/>
                             <label htmlFor="thu">木</label>
-                            <input id="thu" type="checkbox" onChange={(e) => setThu(e.target.checked)}/>
+                            <input id="thu" type="checkbox" onChange={(e) => setThu(e.target.checked)} value={thu}/>
                             <label htmlFor="fri">金</label>
-                            <input id="fri" type="checkbox" onChange={(e) => setFri(e.target.checked)}/>
+                            <input id="fri" type="checkbox" onChange={(e) => setFri(e.target.checked)} value={fri}/>
                             <label htmlFor="sat">土</label>
-                            <input id="sat" type="checkbox" onChange={(e) => setSat(e.target.checked)}/>
+                            <input id="sat" type="checkbox" onChange={(e) => setSat(e.target.checked)} value={sat}/>
                         </div>
                     </div>
 
-
-
-
-
-
-
                     <div className="mx-auto my-4 w-fit">
-                        <input className="border-2 border-black w-20" id="number-of-availability" onChange={(e) => setNumberOfAvailability(e.target.value)} value={NumberOfAvailability}></input>
+                        <InputS id="number-of-availability" onChange={(e) => setNumberOfAvailability(e.target.value)} value={NumberOfAvailability} />
                         <label htmlFor="number-of-availability">人分</label>
                     </div>
 
@@ -151,7 +146,8 @@ export default function AddAvailability() {
                         <input type="button" value="予約枠を作る" onClick={() => {send()}} className="border-2 border-black"/>
                     </div>
                 </form>
-            </section>
+            </BorderM>
+
         </Layout>
     )
 }

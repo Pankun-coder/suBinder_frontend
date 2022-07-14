@@ -5,7 +5,7 @@ import React from "react";
 import { errorMessageContext } from "../lib/errorMessageContext"
 import { isReservedBy, isAvailable } from "../lib/calendarHelper";
 import Availability from "./availability";
-import Modal from "./modal";
+import ModalS from "./modalS";
 
 export default function AvailabilitiesForTime(props) {
     const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
@@ -31,7 +31,7 @@ export default function AvailabilitiesForTime(props) {
     }
 
     const modal = (
-        <Modal onClickOutside={() => {setIsModalShown(false)}}>
+        <ModalS onClickClose={() => {setIsModalShown(false)}}>
             {props.availabilities.map((value, index) => {
                     if (isReservedBy(props.studentInfo.id, value)){
                         return <Availability key={index} status="reservedByTheUser" onClick={() => {updateReservation({reservationId: value.id, isCancelling: true})}} reservedBy={value.reservedBy.name}/>
@@ -42,7 +42,7 @@ export default function AvailabilitiesForTime(props) {
                     }
                 }
             )}
-        </Modal>
+        </ModalS>
     )
     
     return (

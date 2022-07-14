@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { isLoggedInContext } from "../lib/isLoggedInContext";
 import LoginRequiredModal from "../components/loginRequiredModal";
+import BorderM from "../components/borderM";
 
 export default function AddUser() {
     const {isLoggedIn} = useContext(isLoggedInContext);
@@ -31,7 +32,7 @@ export default function AddUser() {
 
     return (
         <Layout>
-            <section className="border-4 border-purple-400 w-3/4 mx-auto my-8 p-4 text-center">
+            <BorderM>
                 <form>
                     <div className="w-fit mx-auto my-4">
                         <label htmlFor="student-name">生徒名:</label>
@@ -39,8 +40,7 @@ export default function AddUser() {
                     </div>
                     <button className="border-2 border-black hover:bg-purple-400 hover:text-white hover:border-purple-400" onClick={() => {createUserHandle()}}>生徒登録</button>
                 </form>
-
-            </section>
+            </BorderM>
         </Layout>
 
 
