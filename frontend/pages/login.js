@@ -1,12 +1,11 @@
 import axios from "axios";
 import Layout from "../layouts";
-import { useContext } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { errorMessageContext } from "../lib/errorMessageContext";
+import MessageModal from "../components/messageModal";
 
 export default function Login() {
-    const {errorMessage, setErrorMessage} = useContext(errorMessageContext);
+    const [message, setMessage] = useState({body: "", isError: false});
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const router = useRouter();
@@ -26,7 +25,7 @@ export default function Login() {
             console.log(response);
         })
         .catch(error => {
-            setErrorMessage(error.response.data.message)
+            setMessage({body: error.response.data.message, isError: true})
         })
     }
 
@@ -52,6 +51,7 @@ export default function Login() {
                     </div>
                 </form>
             </section>
+            {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={()=> {setMessage({body: "", isError: false})}}></MessageModal>}
         </Layout>
 
     )

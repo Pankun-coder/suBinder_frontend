@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { isLoggedInContext } from "../lib/isLoggedInContext";
 import BorderM from "../components/borderM";
 import InputS from "../components/inputS";
+import MessageModal from "../components/messageModal";
 export default function AddAvailability() {
     const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
 
@@ -30,6 +31,7 @@ export default function AddAvailability() {
     const [toMin, setToMin] = useState("");
 
     const [NumberOfAvailability, setNumberOfAvailability] = useState("");
+    const [message, setMessage] = useState({body: "", isError: false})
     
     const send = () => {
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/`
@@ -63,9 +65,11 @@ export default function AddAvailability() {
         axios.post(url, data, {withCredentials: true})
         .then(response => {
             console.log(response)
+            setMessage({body: response.data.message, isError: false})
         })
         .catch(error => {
             console.log(error)
+            setMessage({body: error.response.data.message, isError: true})
         })
     }
 
@@ -147,7 +151,7 @@ export default function AddAvailability() {
                     </div>
                 </form>
             </BorderM>
-
+            {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={()=> {setMessage({body: "", isError: false})}}></MessageModal>}
         </Layout>
     )
 }

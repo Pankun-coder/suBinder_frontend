@@ -6,7 +6,6 @@ export default function LoginRequiredModal() {
                 <h1>ログインが必要なページです</h1>
                 <Link href="/login"><a>ログインページへ</a></Link>
             </div>
-
         </section>
     )
 }
