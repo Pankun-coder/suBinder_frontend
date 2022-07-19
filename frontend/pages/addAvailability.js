@@ -73,16 +73,10 @@ export default function AddAvailability() {
         })
     }
 
-    if (!isLoggedIn) {
-        return (
-            <Layout>
-                <LoginRequiredModal />
-            </Layout>
-        )
-    }
+    if (!isLoggedIn) return <LoginRequiredModal />
 
     return (
-        <Layout>
+        <section>
             <BorderM>
             <form className="mx-auto w-1/2">
                     <div className="border-2 border-black text-center my-2">
@@ -152,6 +146,6 @@ export default function AddAvailability() {
                 </form>
             </BorderM>
             {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={()=> {setMessage({body: "", isError: false})}}></MessageModal>}
-        </Layout>
+        </section>
     )
 }

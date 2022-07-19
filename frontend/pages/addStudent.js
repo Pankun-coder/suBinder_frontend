@@ -24,16 +24,10 @@ export default function AddUser() {
         })
     }
 
-    if (!isLoggedIn){
-        return (
-            <Layout>
-                <LoginRequiredModal />
-            </Layout>
-        )
-    }
+    if (!isLoggedIn) return <LoginRequiredModal />
 
     return (
-        <Layout>
+        <section>
             <BorderM>
                 <form>
                     <div className="w-fit mx-auto my-4">
@@ -43,7 +37,8 @@ export default function AddUser() {
                     <button type="button" className="border-2 border-black hover:bg-purple-400 hover:text-white hover:border-purple-400" onClick={() => {createUser()}}>生徒登録</button>
                 </form>
             </BorderM>
-            {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={() => {setMessage({body: "", isError: false})}}></MessageModal>}            
-        </Layout>
+            {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={() => {setMessage({body: "", isError: false})}}></MessageModal>}  
+        </section>
+          
     )
 }

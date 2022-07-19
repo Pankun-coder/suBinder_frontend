@@ -14,10 +14,10 @@ export default function Layout({children}) {
     
     useEffect(() => {
         if (!data || data.isLoggedIn === false) {
-            setIsLoggedIn(false)
+            setIsLoggedIn(false);
         }
         if (data && data.isLoggedIn == true){
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
         }
     }, [data])
 

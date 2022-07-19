@@ -1,6 +1,6 @@
 import ModalS from "./modalS";
 export default function MessageModal(props) {
-    const style = "";
+    let style = "";
     if (props.isError) {
         style += "text-red-500 text-4xl";
     } else {
@@ -9,7 +9,7 @@ export default function MessageModal(props) {
     return (
         <ModalS onClickClose={props.onClickClose}>
             <div className="h-full w-full flex justify-center items-center">
-                <h1 className={style}>{props.message}</h1>
+                <h1 data-testid="message" className={style}>{props.message}</h1>
             </div>
         </ModalS>
     )
