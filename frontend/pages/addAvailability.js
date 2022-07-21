@@ -7,6 +7,7 @@ import { isLoggedInContext } from "../lib/isLoggedInContext";
 import BorderM from "../components/borderM";
 import InputS from "../components/inputS";
 import MessageModal from "../components/messageModal";
+import { areAllValidNumbers, isDateValid, isTimeValid } from "../lib/addAvailabilityHelper";
 export default function AddAvailability() {
     const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
 
@@ -35,31 +36,66 @@ export default function AddAvailability() {
     
     const send = () => {
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/`
+        if (!areAllValidNumbers([fromYear, fromMonth, fromDay, toYear, toMonth, toDay])) {
+            setMessage({ body: "日付はローマ数字で入力してください", isError: true});
+            return
+        }
+        if (!areAllValidNumbers([fromHour, fromMin, toHour, toMin])) {
+            setMessage({ body: "時刻はローマ数字で入力してください", isError: true});
+            return
+        }
+        if (!parseInt(NumberOfAvailability)) {
+            setMessage({ body: "繰り返し回数が不正です", isError: true});
+            return
+        }
+        const intFromYear = parseInt(fromYear);
+        const intFromMonth = parseInt(fromMonth);
+        const intFromDay = parseInt(fromDay);
+        const intToYear = parseInt(toYear);
+        const intToMonth = parseInt(toMonth);
+        const intToDay = parseInt(toDay);
+        const intFromHour = parseInt(fromHour);
+        const intFromMin = parseInt(fromMin);
+        const intToHour = parseInt(toHour);
+        const intToMin = parseInt(toMin);
+        if (!isDateValid(intFromYear, intFromMonth, intFromDay) || !isDateValid(intToYear, intToMonth, intToDay)) {
+            setMessage({ body: "日付が不正です", isError: true});
+            return
+        }
+        if (!isTimeValid(intFromHour, intFromMin) || !isTimeValid(intToHour, intToMin)) {
+            setMessage({ body: "時刻が不正です", isError: true});
+            return
+        }
+        if (intFromHour > intToHour || (intFromHour === intToHour && intFromMin >= intToMin)) {
+            setMessage({ body: "時刻が不正です", isError: true});
+            return
+        }
+        
         const data = {from:
                     {
-                    year: fromYear,
-                    month: fromMonth,
-                    day: fromDay
+                    year: intFromYear,
+                    month: intFromMonth,
+                    day: intFromDay
                     },
                 to: {
-                    year: toYear,
-                    month: toMonth,
-                    day: toDay
+                    year: intToYear,
+                    month: intToMonth,
+                    day: intToDay
                 },
                 days: [
                     sun, mon, tue, wed, thu, fri, sat
                 ],
                 time: {
                     from: {
-                        hour: fromHour,
-                        min: fromMin
+                        hour: intFromHour,
+                        min: intFromMin
                     },
                     to: {
-                        hour: toHour,
-                        min: toMin
+                        hour: intToHour,
+                        min: intToMin
                     }
                 },
-                how_many: NumberOfAvailability
+                how_many: parseInt(NumberOfAvailability)
             }
 
         axios.post(url, data, {withCredentials: true})
