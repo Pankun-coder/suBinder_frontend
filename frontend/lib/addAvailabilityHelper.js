@@ -16,7 +16,7 @@ export const isTimeValid = (hour, min) => {
 }
 
 export const areAllValidNumbers = (array) => {
-    for (index in array){
+    for (let index in array){
         if (!parseInt(array[index])) return false
     }
     return true
