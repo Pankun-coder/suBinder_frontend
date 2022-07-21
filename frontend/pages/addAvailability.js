@@ -71,7 +71,10 @@ export default function AddAvailability() {
             setMessage({ body: "時刻が不正です", isError: true});
             return
         }
-        
+        if (intNumberOfAvailability > 100) {
+            setMessage({ body: "100人分以上の枠は一度に作れません", isError: true })
+            return
+        }
         const data = {from:
                     {
                     year: intFromYear,
