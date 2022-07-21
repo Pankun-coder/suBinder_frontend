@@ -2,6 +2,10 @@ import Layout from "../../layouts"
 import {useState} from "react"
 import {useRouter} from "next/router";
 import axios from "axios";
+import GuestPageInput from "../../components/guestPage/guestPageInput";
+import GuestPageBorder from "../../components/guestPage/guestPageBorder";
+import GuestPageButton from "../../components/guestPage/guestPageButton";
+import GuestPageTitle from "../../components/guestPage/guestPageTitle";
 
 export default function CreateUser() {
     const [groupId, setGroupId] = useState("");
@@ -13,7 +17,7 @@ export default function CreateUser() {
 
     const router = useRouter();
     
-    const handleLogin = () => {
+    const handleSignUp = () => {
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/users`
         const data = {
             group: {
@@ -38,31 +42,17 @@ export default function CreateUser() {
     }
 
     return (
-        <Layout>
-            <section>
-                <h1>グループがある方</h1>
-                <form>
-                    <label htmlFor="groupId">グループID</label>
-                    <input id="groupId" onChange={(e) => setGroupId(e.target.value)}></input>
-
-                    <label htmlFor="groupPassword">グループのパスワード</label>
-                    <input id="groupPassword" type="password" onChange={(e) => setGroupPassword(e.target.value)}></input>
-
-                    <label htmlFor="userName" >ユーザー名</label>
-                    <input id="userName" onChange={(e) => setUserName(e.target.value)}></input>
-
-                    <label htmlFor="email">email</label>
-                    <input id="email" onChange={(e) => setUserEmail(e.target.value)}></input>
-
-                    <label htmlFor="userPassword">ユーザーのパスワード</label>
-                    <input id="userPassword" type="password" onChange={(e) => {setUserPassword(e.target.value)}}></input>
-
-                    <label htmlFor="userPasswordConfirmation">確認</label>
-                    <input id="userPasswordConfirmation" type="password" onChange={(e) => {setuserPasswordConfirmation(e.target.value)}}></input>
-                    
-                    <input type="button" value="submit" onClick={() => {handleLogin()}}></input>
-                </form>
-            </section>
-        </Layout>
+        <GuestPageBorder>
+            <GuestPageTitle value="ユーザー登録" />
+            <form>
+                <GuestPageInput placeHolder="グループID" onChange={(e) => setGroupId(e.target.value)} />
+                <GuestPageInput placeHolder="グループのパスワード" type="password" onChange={(e) => setGroupPassword(e.target.value)} />
+                <GuestPageInput placeHolder="ユーザー名" onChange={(e) => setUserName(e.target.value)} />
+                <GuestPageInput placeHolder="メールアドレス" onChange={(e) => setUserEmail(e.target.value)} />
+                <GuestPageInput placeHolder="ユーザーのパスワード" type="password" onChange={(e) => {setUserPassword(e.target.value)}} />
+                <GuestPageInput placeHolder="パスワードの確認" type="password" onChange={(e) => {setuserPasswordConfirmation(e.target.value)}} />
+                <GuestPageButton type="button" value="ユーザーを作成する" onClick={() => {handleSignUp()}} />
+            </form>
+        </GuestPageBorder>
     )
 }
