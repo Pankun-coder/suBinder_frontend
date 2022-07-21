@@ -58,6 +58,7 @@ export default function AddAvailability() {
         const intFromMin = parseInt(fromMin);
         const intToHour = parseInt(toHour);
         const intToMin = parseInt(toMin);
+        const intNumberOfAvailability = parseInt(NumberOfAvailability);
         if (!isDateValid(intFromYear, intFromMonth, intFromDay) || !isDateValid(intToYear, intToMonth, intToDay)) {
             setMessage({ body: "日付が不正です", isError: true});
             return
@@ -95,16 +96,14 @@ export default function AddAvailability() {
                         min: intToMin
                     }
                 },
-                how_many: parseInt(NumberOfAvailability)
+                how_many: intNumberOfAvailability
             }
 
         axios.post(url, data, {withCredentials: true})
         .then(response => {
-            console.log(response)
             setMessage({body: response.data.message, isError: false})
         })
         .catch(error => {
-            console.log(error)
             setMessage({body: error.response.data.message, isError: true})
         })
     }
@@ -118,7 +117,6 @@ export default function AddAvailability() {
                     <div className="border-2 border-black text-center my-2">
                         <h2>予約時間</h2>
                         <div className="mx-auto my-4 w-fit">
-
                             <InputS  id="from-hour" onChange={(e) => {setFromHour(e.target.value)}} value={fromHour} />
                             <label htmlFor="from-hour">時</label>
                             <InputS id="from-min" onChange={(e) => setFromMin(e.target.value)} value={fromMin} />
