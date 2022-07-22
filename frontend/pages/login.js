@@ -1,9 +1,12 @@
 import axios from "axios";
-import Layout from "../layouts";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import MessageModal from "../components/messageModal";
 import { isEmailValid, isPasswordValid } from "../lib/loginHelper";
+import GuestPageTitle from "../components/guestPage/guestPageTitle";
+import GuestPageBorder from "../components/guestPage/guestPageBorder";
+import GuestPageInput from "../components/guestPage/guestPageInput";
+import GuestPageButton from "../components/guestPage/guestPageButton";
 export default function Login() {
     const [message, setMessage] = useState({body: "", isError: false});
     const [userEmail, setUserEmail] = useState("");
@@ -37,28 +40,15 @@ export default function Login() {
     }
 
     return (
-            <section className="mt-20 w-fit mx-auto border-2 border-black p-16 pt-3 text-center">
+            <GuestPageBorder>
+                <GuestPageTitle value="Login" />
                 <form>
-                        <table className=" h-20 border-separate border-spacing-y-0 border-spacing-x-2 text-l">
-                            <caption className="text-3xl mb-6">Login</caption>
-                            <tbody>
-                                <tr>
-                                    <td><label htmlFor="email">email</label></td>
-                                    <td><input id="email" data-testid="email" onChange={(e) => setUserEmail(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><label htmlFor="userPassword">password</label></td>
-                                    <td><input id="userPassword" data-testid="password" type="password" onChange={(e) => {setUserPassword(e.target.value)}}></input></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    <div className="text-center">
-                        <input type="button" value="submit" data-testid="submit-button" onClick={() => {handleLogin()}} className="border-b-2 border-black p-1 hover:drop-shadow-lg"></input>
-                    </div>
+                    <GuestPageInput data-testid="email" placeHolder="メールアドレス" type="email" onChange={(e) => {setUserEmail(e.target.value)}} />
+                    <GuestPageInput data-testid="password" placeHolder="パスワード" type="password" onChange={(e) => {setUserPassword(e.target.value)}} />
+                    <GuestPageButton type="button" value="ログイン" data-testid="submit-button" onClick={() => {handleLogin()}} />
                 </form>
-                
-                {message.body&&<MessageModal data-testid="messageModal" message={message.body} isError={message.isError} onClickClose={()=> {setMessage({body: "", isError: false})}}></MessageModal>}
-            </section>
+                {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={()=> {setMessage({body: "", isError: false})}}></MessageModal>}
+            </GuestPageBorder>
 
 
     )

@@ -7,9 +7,9 @@ import axios from "axios";
 describe("Login", () => {
     it("should not allow email with two dots in row", () => {
         render(<Login />);
-        const password = screen.getByTestId("password");
-        const email = screen.getByTestId("email");
-        const submitButton = screen.getByTestId("submit-button");
+        const password = screen.getByPlaceholderText("パスワード");
+        const email = screen.getByPlaceholderText("メールアドレス");
+        const submitButton = screen.getByRole("button", { name: "ログイン" });
 
         act(() => {
             fireEvent.change(password, { target: { value: "aaa111aaa" } });
@@ -22,9 +22,9 @@ describe("Login", () => {
     })
     it("should not allow password without a number", () => {
         render(<Login />);
-        const password = screen.getByTestId("password");
-        const email = screen.getByTestId("email");
-        const submitButton = screen.getByTestId("submit-button");
+        const password = screen.getByPlaceholderText("パスワード");
+        const email = screen.getByPlaceholderText("メールアドレス");
+        const submitButton = screen.getByRole("button", { name: "ログイン" });
 
         act(() => {
             fireEvent.change(password, { target: { value: "aaaaaa" } });
@@ -37,9 +37,9 @@ describe("Login", () => {
     })
     it("should not allow password without a alphabet", () => {
         render(<Login />);
-        const password = screen.getByTestId("password");
-        const email = screen.getByTestId("email");
-        const submitButton = screen.getByTestId("submit-button");
+        const password = screen.getByPlaceholderText("パスワード");
+        const email = screen.getByPlaceholderText("メールアドレス");
+        const submitButton = screen.getByRole("button", { name: "ログイン" });
 
         act(() => {
             fireEvent.change(password, { target: { value: "111111" } });
@@ -52,9 +52,9 @@ describe("Login", () => {
     })
     it("should not allow short password", () => {
         render(<Login />);
-        const password = screen.getByTestId("password");
-        const email = screen.getByTestId("email");
-        const submitButton = screen.getByTestId("submit-button");
+        const password = screen.getByPlaceholderText("パスワード");
+        const email = screen.getByPlaceholderText("メールアドレス");
+        const submitButton = screen.getByRole("button", { name: "ログイン" });
 
         act(() => {
             fireEvent.change(password, { target: { value: "11aa" } });
@@ -67,9 +67,9 @@ describe("Login", () => {
     })
     it("should handle error from backend ", async () => {
         render(<Login />);
-        const password = screen.getByTestId("password");
-        const email = screen.getByTestId("email");
-        const submitButton = screen.getByTestId("submit-button");
+        const password = screen.getByPlaceholderText("パスワード");
+        const email = screen.getByPlaceholderText("メールアドレス");
+        const submitButton = screen.getByRole("button", { name: "ログイン" });
         jest.mock("axios");
         const postMock = jest.spyOn(axios, "post").mockName("axios-post");
         postMock.mockRejectedValue({ response: { data: { message: "パスワードまたはメールアドレスが正しくありません" } } })
