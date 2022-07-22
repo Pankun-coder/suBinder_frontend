@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import MessageModal from "../components/messageModal";
-import { isEmailValid, isPasswordValid } from "../lib/loginHelper";
+import { isEmailValid, isPasswordValid } from "../lib/userHelper";
 import GuestPageTitle from "../components/guestPage/guestPageTitle";
 import GuestPageBorder from "../components/guestPage/guestPageBorder";
 import GuestPageInput from "../components/guestPage/guestPageInput";

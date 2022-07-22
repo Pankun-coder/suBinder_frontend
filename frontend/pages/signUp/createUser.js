@@ -1,11 +1,12 @@
-import Layout from "../../layouts"
-import {useState} from "react"
-import {useRouter} from "next/router";
-import axios from "axios";
+import { useState } from "react"
+import { useRouter } from "next/router";
+import MessageModal from "../../components/messageModal";
 import GuestPageInput from "../../components/guestPage/guestPageInput";
 import GuestPageBorder from "../../components/guestPage/guestPageBorder";
 import GuestPageButton from "../../components/guestPage/guestPageButton";
 import GuestPageTitle from "../../components/guestPage/guestPageTitle";
+import axios from "axios";
+import { isEmailValid, isPasswordValid } from "../../lib/userHelper";
 
 export default function CreateUser() {
     const [groupId, setGroupId] = useState("");
@@ -14,10 +15,30 @@ export default function CreateUser() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [userPasswordConfirmation, setuserPasswordConfirmation] = useState("");
-
+    const [message, setMessage] = useState({ body: "", isError: false});
     const router = useRouter();
     
     const handleSignUp = () => {
+        if (!(groupId && groupPassword && userName && userEmail && userPassword && userPasswordConfirmation)) {
+            setMessage({ body: "未入力の項目があります", isError: true });
+            return
+        }
+        if (!isPasswordValid(groupPassword)) {
+            setMessage({ body: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません", isError: true });
+            return
+        }
+        if (!isEmailValid(userEmail)) {
+            setMessage({ body: "メールアドレスが不正です", isError: true });
+            return
+        }
+        if (userPassword !== userPasswordConfirmation) {
+            setMessage({ body: "パスワードと確認が一致しません", isError: true });
+            return
+        }
+        if (!isPasswordValid(userPassword) || !isPasswordValid(userPasswordConfirmation)) {
+            setMessage({ body: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません", isError: true });
+            return
+        }
         const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/users`
         const data = {
             group: {
@@ -33,11 +54,10 @@ export default function CreateUser() {
         }
         axios.post(url, data)
         .then(response => {
-            console.log(response);
             if (response.data.message === "user saved") router.push("/groupDashboard");
         })
         .catch(error => {
-            console.log(error);
+            setMessage({ body: error.response.data.message, isError: true })
         })
     }
 
@@ -53,6 +73,7 @@ export default function CreateUser() {
                 <GuestPageInput placeHolder="パスワードの確認" type="password" onChange={(e) => {setuserPasswordConfirmation(e.target.value)}} />
                 <GuestPageButton type="button" value="ユーザーを作成する" onClick={() => {handleSignUp()}} />
             </form>
+            {message.body&&<MessageModal message={message.body} isError={message.isError} onClickClose={()=> {setMessage({body: "", isError: false})}} />}
         </GuestPageBorder>
     )
 }
