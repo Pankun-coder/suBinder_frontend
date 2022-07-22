@@ -68,7 +68,7 @@ export default function CreateUser() {
                 <GuestPageInput placeHolder="グループID" onChange={(e) => setGroupId(e.target.value)} />
                 <GuestPageInput placeHolder="グループのパスワード" type="password" onChange={(e) => setGroupPassword(e.target.value)} />
                 <GuestPageInput placeHolder="ユーザー名" onChange={(e) => setUserName(e.target.value)} />
-                <GuestPageInput placeHolder="メールアドレス" onChange={(e) => setUserEmail(e.target.value)} />
+                <GuestPageInput placeHolder="メールアドレス" type="email" onChange={(e) => setUserEmail(e.target.value)} />
                 <GuestPageInput placeHolder="ユーザーのパスワード" type="password" onChange={(e) => {setUserPassword(e.target.value)}} />
                 <GuestPageInput placeHolder="パスワードの確認" type="password" onChange={(e) => {setuserPasswordConfirmation(e.target.value)}} />
                 <GuestPageButton type="button" value="ユーザーを作成する" onClick={() => {handleSignUp()}} />
