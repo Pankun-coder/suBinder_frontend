@@ -15,7 +15,7 @@ export default function SignUp() {
       </h2>
       <h2 className="text-xl my-4">
         グループがすでにある方は
-        <Link href="/signUp/createGroup">
+        <Link href="/signUp/createUser">
           <a className="border-b-2 border-blue-700 text-blue-700">こちら</a>
         </Link>
         から
