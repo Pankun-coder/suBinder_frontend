@@ -34,7 +34,7 @@ export default function DayInCalendar(props) {
     const availableTimeObjects = Array.from(availableTimes).map((value) => JSON.parse(value));
     return availableTimeObjects;
   };
-  const funct = (arg1, time) => {
+  const isAvailavilityForATime = (arg1, time) => {
     if (areObjectsIdentical(arg1.from, time.from) && areObjectsIdentical(arg1.to, time.to)) {
       return true;
     }
@@ -55,7 +55,7 @@ export default function DayInCalendar(props) {
               status="reservedByTheUser"
               time={time}
               studentInfo={props.studentInfo}
-              availabilities={props.data.filter((el) => funct(el, time))}
+              availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
             />
           );
         } else if (isTimeAvailable(time, props.data)) {
@@ -65,7 +65,7 @@ export default function DayInCalendar(props) {
               status="available"
               time={time}
               studentInfo={props.studentInfo}
-              availabilities={props.data.filter((el) => funct(el, time))}
+              availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
             />
           );
         }
@@ -75,7 +75,7 @@ export default function DayInCalendar(props) {
             status="full"
             time={time}
             studentInfo={props.studentInfo}
-            availabilities={props.data.filter((el) => funct(el, time))}
+            availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
           />
         );
       })}
