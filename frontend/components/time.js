@@ -98,7 +98,7 @@ export default function AvailabilitiesForTime(props) {
           onClickClose={() => {
             setMessage({ body: "", isError: false });
           }}
-        ></MessageModal>
+        />
       )}
     </>
   );

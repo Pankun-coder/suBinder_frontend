@@ -60,7 +60,7 @@ export default function AddUser() {
           onClickClose={() => {
             setMessage({ body: "", isError: false });
           }}
-        ></MessageModal>
+        />
       )}
     </section>
   );

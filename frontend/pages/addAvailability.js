@@ -251,7 +251,7 @@ export default function AddAvailability() {
           onClickClose={() => {
             setMessage({ body: "", isError: false });
           }}
-        ></MessageModal>
+        />
       )}
     </section>
   );

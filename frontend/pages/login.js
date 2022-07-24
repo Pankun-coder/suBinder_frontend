@@ -79,7 +79,7 @@ export default function Login() {
           onClickClose={() => {
             setMessage({ body: "", isError: false });
           }}
-        ></MessageModal>
+        />
       )}
     </GuestPageBorder>
   );
