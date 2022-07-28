@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import CalendarTab from "../components/calendarTab";
 import SearchStudent from "../components/searchStudent";
-
+import ProgressTab from "../components/progressTab";
 import { useRouter } from "next/router";
 export default function Carte(props) {
   const [currentTab, setCurrentTab] = useState(0);
@@ -39,6 +39,8 @@ export default function Carte(props) {
     switch (currentTab) {
       case 0:
         return <CalendarTab studentInfo={studentInfo} />;
+      case 1:
+        return <ProgressTab studentInfo={studentInfo} />;
       default:
         return <div></div>;
     }
