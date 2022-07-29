@@ -28,21 +28,26 @@ export default function CourseModal(props) {
   };
   return (
     <ModalM onClickClose={props.onClickClose}>
-      {stepInfo.map((step, index) => {
-        return (
-          <Step
-            key={index}
-            name={step.name}
-            isCompleted={step.isCompleted}
-            id={step.id}
-            checked={stepInfo[index].isCompleted}
-            onChange={() => {
-              setIsComleted(index);
-            }}
-          />
-        );
-      })}
+      <ol>
+        {stepInfo.map((step, index) => {
+          return (
+            <li>
+              <Step
+                key={index}
+                name={step.name}
+                isCompleted={step.isCompleted}
+                id={step.id}
+                checked={stepInfo[index].isCompleted}
+                onChange={() => {
+                  setIsComleted(index);
+                }}
+              />
+            </li>
+          );
+        })}
+      </ol>
       <button
+        className="absolute bottom-8 w-fit inset-x-0 m-auto border-2 border-black bg-purple-400 "
         type="button"
         onClick={() => {
           update();
