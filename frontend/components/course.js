@@ -2,7 +2,6 @@ import { useState } from "react";
 import CourseModal from "./courseModal";
 export default function Course(props) {
   const [isModalShown, setIsModalShown] = useState(false);
-  console.log(props.steps);
   return (
     <>
       <div
