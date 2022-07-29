@@ -12,46 +12,48 @@ export default function PageNavagation(props) {
   }
   return (
     <div className="absolute bottom-0 right-0 left-0">
-      <div
-        className={
-          props.currentPage === 1
-            ? "inline-block mx-1 h-fit w-4"
-            : "inline-block mx-1 h-fit w-4 cursor-pointer"
-        }
-        onClick={() => {
-          props.setPage(1);
-        }}
-      >
-        {"<<"}
-      </div>
-      {array.map((value) => {
-        return (
+      <ul>
+        <li className="inline-block">
           <div
-            className={
-              value === props.currentPage
-                ? "inline-block mx-1 h-fit w-4 font-bold"
-                : "inline-block mx-1 h-fit w-4 cursor-pointer"
-            }
+            className={props.currentPage === 1 ? "mx-1 h-fit w-4" : "mx-1 h-fit w-4 cursor-pointer"}
             onClick={() => {
-              props.setPage(value);
+              props.setPage(1);
             }}
           >
-            {value}
+            {"<<"}
           </div>
-        );
-      })}
-      <div
-        className={
-          props.currentPage === props.pages
-            ? "inline-block mx-1 h-fit w-4"
-            : "inline-block mx-1 h-fit w-4 cursor-pointer"
-        }
-        onClick={() => {
-          props.setPage(props.pages);
-        }}
-      >
-        {">>"}
-      </div>
+        </li>
+        {array.map((value) => {
+          return (
+            <li key={value} className="inline-block">
+              <div
+                className={
+                  value === props.currentPage
+                    ? "mx-1 h-fit w-4 font-bold"
+                    : "mx-1 h-fit w-4 cursor-pointer"
+                }
+                onClick={() => {
+                  props.setPage(value);
+                }}
+              >
+                {value}
+              </div>
+            </li>
+          );
+        })}
+        <li className="inline-block">
+          <div
+            className={
+              props.currentPage === props.pages ? "mx-1 h-fit w-4" : "mx-1 h-fit w-4 cursor-pointer"
+            }
+            onClick={() => {
+              props.setPage(props.pages);
+            }}
+          >
+            {">>"}
+          </div>
+        </li>
+      </ul>
     </div>
   );
 }

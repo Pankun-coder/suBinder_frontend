@@ -55,22 +55,27 @@ export default function AddCourse() {
       </InnerBorder>
       <InnerBorder>
         <h2>チェックポイント情報</h2>
-        {steps.map((step, index) => {
-          return (
-            <div key={index} className="my-2">
-              <button
-                className="border-2 border-black mx-2"
-                type="button"
-                onClick={() => {
-                  deleteStep(index);
-                }}
-              >
-                削除
-              </button>
-              {step.name}
-            </div>
-          );
-        })}
+        <ol>
+          {steps.map((step, index) => {
+            return (
+              <li key={index}>
+                <div className="my-2">
+                  <button
+                    className="border-2 border-black mx-2"
+                    type="button"
+                    onClick={() => {
+                      deleteStep(index);
+                    }}
+                  >
+                    削除
+                  </button>
+                  {step.name}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+
         <form
           action=""
           onSubmit={(e) => {

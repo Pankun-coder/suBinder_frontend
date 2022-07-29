@@ -47,38 +47,43 @@ export default function DayInCalendar(props) {
         setIsModalShown(false);
       }}
     >
-      {timeList().map((time, index) => {
-        if (isTimeReservedBy(props.studentInfo.id, time, props.data)) {
+      <ul>
+        {timeList().map((time, index) => {
+          if (isTimeReservedBy(props.studentInfo.id, time, props.data)) {
+            return (
+              <li className="inline" key={index}>
+                <Time
+                  status="reservedByTheUser"
+                  time={time}
+                  studentInfo={props.studentInfo}
+                  availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
+                />
+              </li>
+            );
+          } else if (isTimeAvailable(time, props.data)) {
+            return (
+              <li className="inline" key={index}>
+                <Time
+                  status="available"
+                  time={time}
+                  studentInfo={props.studentInfo}
+                  availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
+                />
+              </li>
+            );
+          }
           return (
-            <Time
-              key={index}
-              status="reservedByTheUser"
-              time={time}
-              studentInfo={props.studentInfo}
-              availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
-            />
+            <li className="inline" key={index}>
+              <Time
+                status="full"
+                time={time}
+                studentInfo={props.studentInfo}
+                availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
+              />
+            </li>
           );
-        } else if (isTimeAvailable(time, props.data)) {
-          return (
-            <Time
-              key={index}
-              status="available"
-              time={time}
-              studentInfo={props.studentInfo}
-              availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
-            />
-          );
-        }
-        return (
-          <Time
-            key={index}
-            status="full"
-            time={time}
-            studentInfo={props.studentInfo}
-            availabilities={props.data.filter((av) => isAvailavilityForATime(av, time))}
-          />
-        );
-      })}
+        })}
+      </ul>
     </ModalM>
   );
 

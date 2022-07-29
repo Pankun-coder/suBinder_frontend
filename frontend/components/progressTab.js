@@ -10,19 +10,21 @@ export default function ProgressTab(props) {
   );
   if (!data) return <h1>loading...</h1>;
   if (error) return <h1>エラーが発生しました</h1>;
-  console.log(data.progresses);
+
   return (
     <div className="h-32">
-      {Object.keys(data.progresses).map((key) => {
-        return (
-          <Course
-            key={key}
-            courseName={data.progresses[key].name}
-            steps={data.progresses[key].steps}
-          />
-        );
-      })}
-      <NewCourse studentInfo={props.studentInfo} />
+      <ul>
+        {Object.keys(data.progresses).map((key) => {
+          return (
+            <li className="inline-block" key={key}>
+              <Course courseName={data.progresses[key].name} steps={data.progresses[key].steps} />
+            </li>
+          );
+        })}
+        <li className="inline-block">
+          <NewCourse studentInfo={props.studentInfo} />
+        </li>
+      </ul>
     </div>
   );
 }

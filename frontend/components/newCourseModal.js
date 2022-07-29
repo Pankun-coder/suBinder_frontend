@@ -32,15 +32,15 @@ export default function NewCourseModal(props) {
       <ul>
         {data.courses.map((course) => {
           return (
-            <div
-              className="text-2xl w-fit mx-auto cursor-pointer"
-              key={course.id}
-              onClick={() => {
-                addCourse(course.id);
-              }}
-            >
-              {course.name}
-            </div>
+            <li className="text-2xl w-fit mx-auto cursor-pointer" key={course.id}>
+              <div
+                onClick={() => {
+                  addCourse(course.id);
+                }}
+              >
+                {course.name}
+              </div>
+            </li>
           );
         })}
       </ul>

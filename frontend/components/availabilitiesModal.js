@@ -34,43 +34,49 @@ export default function AvailabilitiesModal(props) {
   return (
     <>
       <ModalS onClickClose={props.onClickClose}>
-        {props.availabilities
-          .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
-          .map((value, index) => {
-            if (isReservedBy(props.studentInfo.id, value)) {
-              return (
-                <Availability
-                  key={index}
-                  status="reservedByTheUser"
-                  onClick={() => {
-                    updateReservation({ reservationId: value.id, isCancelling: true });
-                  }}
-                  reservedBy={value.reservedBy.name}
-                />
-              );
-            } else if (isAvailable(value)) {
-              return (
-                <Availability
-                  key={index}
-                  status="available"
-                  onClick={() => {
-                    updateReservation({ reservationId: value.id, isCancelling: false });
-                  }}
-                />
-              );
-            } else {
-              return (
-                <Availability
-                  key={index}
-                  status="reserved"
-                  onClick={() => {
-                    updateReservation({ reservationId: value.id, isCancelling: false });
-                  }}
-                  reservedBy={value.reservedBy.name}
-                />
-              );
-            }
-          })}
+        <ul>
+          {props.availabilities
+            .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
+            .map((value, index) => {
+              if (isReservedBy(props.studentInfo.id, value)) {
+                return (
+                  <li key={index}>
+                    <Availability
+                      status="reservedByTheUser"
+                      onClick={() => {
+                        updateReservation({ reservationId: value.id, isCancelling: true });
+                      }}
+                      reservedBy={value.reservedBy.name}
+                    />
+                  </li>
+                );
+              } else if (isAvailable(value)) {
+                return (
+                  <li key={index}>
+                    <Availability
+                      status="available"
+                      onClick={() => {
+                        updateReservation({ reservationId: value.id, isCancelling: false });
+                      }}
+                    />
+                  </li>
+                );
+              } else {
+                return (
+                  <li key={index}>
+                    <Availability
+                      status="reserved"
+                      onClick={() => {
+                        updateReservation({ reservationId: value.id, isCancelling: false });
+                      }}
+                      reservedBy={value.reservedBy.name}
+                    />
+                  </li>
+                );
+              }
+            })}
+        </ul>
+
         <PageNavagation
           pages={pages}
           setPage={(value) => {
