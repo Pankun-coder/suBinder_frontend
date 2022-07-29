@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import fetcher from "../lib/fetcher";
-import { useState } from "react";
+import NewCourse from "./newCourse";
 import Course from "./course";
 
 export default function ProgressTab(props) {
@@ -22,6 +22,7 @@ export default function ProgressTab(props) {
           />
         );
       })}
+      <NewCourse studentInfo={props.studentInfo} />
     </div>
   );
 }

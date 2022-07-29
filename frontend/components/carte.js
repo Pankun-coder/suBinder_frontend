@@ -8,7 +8,6 @@ export default function Carte(props) {
   const [currentTab, setCurrentTab] = useState(0);
   const [studentInfo, setStudentInfo] = useState({ name: null, id: null });
   const router = useRouter();
-
   useEffect(() => {
     if (props.query.studentId) {
       axios
