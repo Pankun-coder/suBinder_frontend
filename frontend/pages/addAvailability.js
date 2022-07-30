@@ -37,17 +37,18 @@ export default function AddAvailability() {
   const send = () => {
     const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/`;
     if (!areAllValidNumbers([fromYear, fromMonth, fromDay, toYear, toMonth, toDay])) {
-      setMessage({ body: "日付はローマ数字で入力してください", isError: true });
+      setMessage({ body: "日付はアラビア数字で入力してください", isError: true });
       return;
     }
     if (!areAllValidNumbers([fromHour, fromMin, toHour, toMin])) {
-      setMessage({ body: "時刻はローマ数字で入力してください", isError: true });
+      setMessage({ body: "時刻はアラビア数字で入力してください", isError: true });
       return;
     }
-    if (!parseInt(NumberOfAvailability)) {
-      setMessage({ body: "繰り返し回数が不正です", isError: true });
+    if (Number.isNaN(parseInt(NumberOfAvailability))) {
+      setMessage({ body: "繰り返し回数はアラビア数字で入力してください", isError: true });
       return;
     }
+
     const intFromYear = parseInt(fromYear);
     const intFromMonth = parseInt(fromMonth);
     const intFromDay = parseInt(fromDay);
