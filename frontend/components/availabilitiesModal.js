@@ -17,13 +17,10 @@ export default function AvailabilitiesModal(props) {
 
   const updateReservation = ({ reservationId = null, isCancelling = false }) => {
     const data = { student_id: props.studentInfo.id };
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/${reservationId}?cancel=${isCancelling}`;
     axios
-      .patch(
-        `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/${reservationId}?cancel=${isCancelling}`,
-        data,
-        { withCredentials: true },
-      )
-      .then((response) => {
+      .patch(url, data, { withCredentials: true })
+      .then(() => {
         router.reload();
       })
       .catch((error) => {

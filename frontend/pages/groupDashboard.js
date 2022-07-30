@@ -9,7 +9,7 @@ import LoginRequiredModal from "../components/loginRequiredModal";
 
 export default function GroupDashboard() {
   const { data, error } = useSWR(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/groups/`,
+    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/groups/`,
     fetcher,
   );
   const router = useRouter();

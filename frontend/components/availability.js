@@ -3,7 +3,7 @@ export default function Availability(props) {
   if (props.status == "reservedByTheUser") {
     style += " bg-red-300";
   } else if (props.status === "available") {
-    style += " bg-blue-300";
+    style += " bg-blue-300 cursor-pointer";
   }
   return (
     <div onClick={props.onClick} className={style}>

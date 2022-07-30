@@ -32,7 +32,7 @@ export default function CreateGroup() {
       });
       return;
     }
-    const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/groups`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/groups`;
     const data = {
       group: {
         name: groupName,

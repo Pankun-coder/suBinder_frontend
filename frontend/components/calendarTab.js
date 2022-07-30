@@ -8,7 +8,7 @@ export default function CalendarTab(props) {
   const [dateObj, setDateObj] = useState(new Date());
 
   const { data, error } = useSWR(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/search?month=${
+    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/search?month=${
       dateObj.getMonth() + 1
     }&year=${dateObj.getFullYear()}`,
     fetcher,
@@ -76,18 +76,18 @@ export default function CalendarTab(props) {
   return (
     <>
       <p
+        className="inline m-2 cursor-pointer"
         onClick={() => {
           changeMonthBy(-1);
         }}
-        className="inline m-2"
       >
         先月
       </p>
       <p
+        className="inline m-2 cursor-pointer"
         onClick={() => {
           changeMonthBy(1);
         }}
-        className="inline m-2"
       >
         来月
       </p>

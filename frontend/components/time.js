@@ -4,7 +4,7 @@ import AvailabilitiesModal from "./availabilitiesModal";
 export default function AvailabilitiesForTime(props) {
   const [isModalShown, setIsModalShown] = useState(false);
 
-  let style = "h-24 w-24 inline-block border-2 border-black align-top m-1";
+  let style = "h-24 w-24 inline-block border-2 border-black align-top m-1 cursor-pointer";
   if (props.status === "reservedByTheUser") {
     style += " bg-red-300";
   } else if (props.status === "available") {

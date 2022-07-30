@@ -35,7 +35,7 @@ export default function AddAvailability() {
   const [message, setMessage] = useState({ body: "", isError: false });
 
   const send = () => {
-    const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/class_availabilities/`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/`;
     if (!areAllValidNumbers([fromYear, fromMonth, fromDay, toYear, toMonth, toDay])) {
       setMessage({ body: "日付はアラビア数字で入力してください", isError: true });
       return;
@@ -240,7 +240,7 @@ export default function AddAvailability() {
               onClick={() => {
                 send();
               }}
-              className="border-2 border-black"
+              className="border-2 border-black cursor-pointer"
             />
           </div>
         </form>

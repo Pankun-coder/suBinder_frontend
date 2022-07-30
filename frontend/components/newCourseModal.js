@@ -8,10 +8,9 @@ import PageNavagation from "./pageNavagation";
 
 export default function NewCourseModal(props) {
   const [message, setMessage] = useState({ body: "", isError: false });
-
   const [currentPage, setCurrentPage] = useState(1);
   const { data, error } = useSWR(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/courses`,
+    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/courses`,
     fetcher,
   );
   if (!data) return <ModalM onClickClose={props.onClickClose}>loading</ModalM>;

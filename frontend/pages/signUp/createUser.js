@@ -54,7 +54,7 @@ export default function CreateUser() {
       });
       return;
     }
-    const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/users`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/users`;
     const data = {
       group: {
         id: groupId,

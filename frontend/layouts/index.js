@@ -10,10 +10,7 @@ import { useEffect } from "react";
 export default function Layout({ children }) {
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
-  const { data } = useSWR(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/sessions/`,
-    fetcher,
-  );
+  const { data } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/sessions/`, fetcher);
 
   useEffect(() => {
     if (!data || data.isLoggedIn === false) {

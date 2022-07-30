@@ -1,5 +1,3 @@
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
-
 export default function InputS(props) {
   return (
     <input

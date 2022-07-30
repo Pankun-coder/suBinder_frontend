@@ -25,7 +25,7 @@ export default function Login() {
       });
       return;
     }
-    const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/sessions/`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/sessions/`;
     const data = {
       user: {
         email: userEmail,

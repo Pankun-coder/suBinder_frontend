@@ -4,10 +4,7 @@ import fetcher from "../lib/fetcher";
 import { useRouter } from "next/router";
 
 export default function SearchStudent(props) {
-  const { data } = useSWR(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/`,
-    fetcher,
-  );
+  const { data } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/students/`, fetcher);
   const router = useRouter();
   const [userInput, setUserInput] = useState("");
 
@@ -40,7 +37,7 @@ export default function SearchStudent(props) {
             searchStudent();
           }}
           value="検索"
-          className="border-2 border-black mx-2"
+          className="border-2 border-black mx-2 cursor-pointer"
         />
       </section>
     </div>

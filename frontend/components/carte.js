@@ -10,11 +10,11 @@ export default function Carte(props) {
   const router = useRouter();
   useEffect(() => {
     if (props.query.studentId) {
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/students/${props.query.studentId}`;
       axios
-        .get(
-          `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/students/${props.query.studentId}`,
-          { withCredentials: true },
-        )
+        .get(url, {
+          withCredentials: true,
+        })
         .then((res) => {
           if (JSON.stringify(studentInfo) !== JSON.stringify(res.data.student))
             setStudentInfo(res.data.student);
@@ -47,7 +47,7 @@ export default function Carte(props) {
 
   const selected =
     "inline-block w-24 border-2 border-purple-500 bg-purple-500 border-b-0 text-white";
-  const notSelected = "inline-block w-24 border-2 border-purple-500 border-b-0";
+  const notSelected = "inline-block w-24 border-2 border-purple-500 border-b-0 cursor-pointer";
 
   return (
     <section className="w-full text-center mx-auto">
