@@ -1,4 +1,3 @@
-import Layout from "../layouts";
 import { useState } from "react";
 import axios from "axios";
 import LoginRequiredModal from "../components/loginRequiredModal";
@@ -8,6 +7,7 @@ import BorderM from "../components/borderM";
 import InputS from "../components/inputS";
 import MessageModal from "../components/messageModal";
 import { areAllValidNumbers, isDateValid, isTimeValid } from "../lib/addAvailabilityHelper";
+import InnerBorder from "../components/innerBorder";
 export default function AddAvailability() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
 
@@ -120,7 +120,7 @@ export default function AddAvailability() {
     <section>
       <BorderM>
         <form className="mx-auto w-1/2">
-          <div className="border-2 border-black text-center my-2">
+          <InnerBorder>
             <h2>予約時間</h2>
             <div className="mx-auto my-4 w-fit">
               <InputS
@@ -141,9 +141,9 @@ export default function AddAvailability() {
               <InputS id="to-min" onChange={(e) => setToMin(e.target.value)} value={toMin} />
               <label htmlFor="to-min">分まで</label>
             </div>
-          </div>
+          </InnerBorder>
 
-          <div className="border-2 border-black text-center my-2">
+          <InnerBorder>
             <h2>繰り返し情報</h2>
             <div className="mx-auto my-4 w-fit">
               <InputS
@@ -222,7 +222,7 @@ export default function AddAvailability() {
                 value={sat}
               />
             </div>
-          </div>
+          </InnerBorder>
 
           <div className="mx-auto my-4 w-fit">
             <InputS

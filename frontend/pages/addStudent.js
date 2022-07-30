@@ -1,11 +1,11 @@
 import axios from "axios";
-import Layout from "../layouts";
 import { useState } from "react";
 import { useContext } from "react";
 import { isLoggedInContext } from "../lib/isLoggedInContext";
 import LoginRequiredModal from "../components/loginRequiredModal";
 import BorderM from "../components/borderM";
 import MessageModal from "../components/messageModal";
+import InputM from "../components/inputM";
 
 export default function AddUser() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
@@ -32,14 +32,12 @@ export default function AddUser() {
       <BorderM>
         <form>
           <div className="w-fit mx-auto my-4">
-            <label htmlFor="student-name">生徒名:</label>
-            <input
-              className="border-2 border-black w-42"
-              id="student-name"
+            <InputM
+              value={studentName}
+              placeholder="生徒名"
               onChange={(e) => {
                 setStudentName(e.target.value);
               }}
-              value={studentName}
             />
           </div>
           <button
