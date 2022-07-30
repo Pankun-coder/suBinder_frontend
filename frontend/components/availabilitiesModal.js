@@ -11,7 +11,7 @@ import PageNavagation from "./pageNavagation";
 export default function AvailabilitiesModal(props) {
   const [message, setMessage] = useState({ body: "", isError: false });
   const router = useRouter();
-  const limitForAPage = 10;
+  const limitForAPage = 9;
   const pages = Math.ceil(props.availabilities.length / limitForAPage);
   const [currentPage, setCurrentPage] = useState(1);
 

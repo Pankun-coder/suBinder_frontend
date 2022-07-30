@@ -4,9 +4,13 @@ import { useState } from "react";
 import axios from "axios";
 import { toSnakeCase } from "../lib/JSONHelpler";
 import MessageModal from "./messageModal";
+import PageNavagation from "./pageNavagation";
 export default function CourseModal(props) {
   const [stepInfo, setStepInfo] = useState(props.steps);
   const [message, setMessage] = useState({ body: "", isError: false });
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitForAPage = 5;
+  const pages = Math.ceil(stepInfo.length / limitForAPage);
 
   const setIsComleted = (index) => {
     let Obj = JSON.parse(JSON.stringify(stepInfo));
@@ -29,23 +33,32 @@ export default function CourseModal(props) {
   return (
     <ModalM onClickClose={props.onClickClose}>
       <ol>
-        {stepInfo.map((step, index) => {
-          return (
-            <li>
-              <Step
-                key={index}
-                name={step.name}
-                isCompleted={step.isCompleted}
-                id={step.id}
-                checked={stepInfo[index].isCompleted}
-                onChange={() => {
-                  setIsComleted(index);
-                }}
-              />
-            </li>
-          );
-        })}
+        {stepInfo
+          .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
+          .map((step, index) => {
+            return (
+              <li>
+                <Step
+                  key={index}
+                  name={step.name}
+                  isCompleted={step.isCompleted}
+                  id={step.id}
+                  checked={stepInfo[index].isCompleted}
+                  onChange={() => {
+                    setIsComleted(index);
+                  }}
+                />
+              </li>
+            );
+          })}
       </ol>
+      <PageNavagation
+        pages={pages}
+        setPage={(page) => {
+          setCurrentPage(page);
+        }}
+        currentPage={currentPage}
+      />
       <button
         className="absolute bottom-8 w-fit inset-x-0 m-auto border-2 border-black bg-purple-400 "
         type="button"
@@ -55,6 +68,7 @@ export default function CourseModal(props) {
       >
         進捗状況を確定する
       </button>
+
       {message.body && (
         <MessageModal
           message={message.body}

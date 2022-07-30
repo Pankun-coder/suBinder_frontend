@@ -11,7 +11,7 @@ export default function PageNavagation(props) {
     );
   }
   return (
-    <div className="absolute bottom-0 right-0 left-0">
+    <div>
       <ul>
         <li className="inline-block">
           <div
