@@ -40,14 +40,21 @@ export default function CalendarTab(props) {
             if (days[i] === 0) {
               tableData.push(
                 <td key={i}>
-                  <DayInCalendar data={data[days[i]]} studentInfo={props.studentInfo} />
+                  <DayInCalendar
+                    availabilitiesForDay={data[days[i]]}
+                    studentInfo={props.studentInfo}
+                  />
                 </td>,
               );
             } else {
               const date = new Date(dateObj.getFullYear(), dateObj.getMonth(), days[i]);
               tableData.push(
                 <td key={i}>
-                  <DayInCalendar date={date} data={data[days[i]]} studentInfo={props.studentInfo} />
+                  <DayInCalendar
+                    date={date}
+                    availabilitiesForDay={data[days[i]]}
+                    studentInfo={props.studentInfo}
+                  />
                 </td>,
               );
             }
@@ -61,8 +68,8 @@ export default function CalendarTab(props) {
     </table>
   );
 
-  const changeMonthBy = (diff) => {
-    let copy = new Date(dateObj.getFullYear(), dateObj.getMonth() + diff, 1);
+  const changeMonthBy = (difference) => {
+    let copy = new Date(dateObj.getFullYear(), dateObj.getMonth() + difference, 1);
     setDateObj(copy);
   };
 

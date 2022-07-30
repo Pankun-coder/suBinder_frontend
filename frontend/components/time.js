@@ -1,6 +1,5 @@
 import { useState } from "react";
 import React from "react";
-import MessageModal from "./messageModal";
 import AvailabilitiesModal from "./availabilitiesModal";
 export default function AvailabilitiesForTime(props) {
   const [isModalShown, setIsModalShown] = useState(false);
