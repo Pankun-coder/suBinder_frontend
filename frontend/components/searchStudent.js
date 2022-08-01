@@ -23,7 +23,7 @@ export default function SearchStudent(props) {
           }}
           value={userInput}
           placeholder="生徒番号"
-          className="border-2 border-black h-8 mt-1 w-96"
+          className="border-2 border-black md:h-8 mt-1 md:w-96"
         ></input>
         <datalist id="student-list">
           {data &&
