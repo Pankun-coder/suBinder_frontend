@@ -34,7 +34,7 @@ export default function Carte(props) {
   };
 
   const tab = () => {
-    if (!studentInfo.id) return null;
+    if (!studentInfo.id) return <div>生徒情報を入力してください</div>;
     switch (currentTab) {
       case 0:
         return <CalendarTab studentInfo={studentInfo} />;

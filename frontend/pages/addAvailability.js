@@ -8,6 +8,8 @@ import InputS from "../components/inputS";
 import MessageModal from "../components/messageModal";
 import { areAllValidNumbers, isDateValid, isTimeValid } from "../lib/addAvailabilityHelper";
 import InnerBorder from "../components/innerBorder";
+import ButtonM from "../components/buttonM";
+import PageTitle from "../components/pageTitle";
 export default function AddAvailability() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
 
@@ -119,7 +121,8 @@ export default function AddAvailability() {
   return (
     <section>
       <BorderM>
-        <form className="mx-auto w-1/2">
+        <PageTitle value="予約枠を追加する" />
+        <form className="mx-auto w-full lg:w-1/2">
           <InnerBorder>
             <h2>予約時間</h2>
             <div className="mx-auto my-4 w-fit">
@@ -152,6 +155,7 @@ export default function AddAvailability() {
                 value={fromYear}
               />
               <label htmlFor="from-year">年</label>
+
               <InputS
                 id="from-month"
                 onChange={(e) => setFromMonth(e.target.value)}
@@ -232,17 +236,12 @@ export default function AddAvailability() {
             />
             <label htmlFor="number-of-availability">人分</label>
           </div>
-
-          <div className="text-center m-2">
-            <input
-              type="button"
-              value="予約枠を作る"
-              onClick={() => {
-                send();
-              }}
-              className="border-2 border-black cursor-pointer"
-            />
-          </div>
+          <ButtonM
+            value="予約枠を作る"
+            onClick={() => {
+              send();
+            }}
+          />
         </form>
       </BorderM>
       {message.body && (

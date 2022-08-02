@@ -5,7 +5,7 @@ export default function ModalS({ children, onClickClose }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="left-0 right-0 top-0 bottom-0 w-1/3 h-1/3 absolute m-auto align-middle bg-gray-100 border-2 border-black shadow-2xl text-center"
+        className="left-0 right-0 top-0 bottom-0 w-3/4 h-fit py-8 xl:w-1/3 xl:h-1/3 absolute m-auto align-middle bg-gray-100 border-2 border-black shadow-2xl text-center"
       >
         {children}
         <button onClick={onClickClose} className="top-0 right-0 absolute">

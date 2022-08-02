@@ -36,7 +36,7 @@ export default function Layout({ children }) {
   if (isLoggedIn) {
     return (
       <>
-        <header className="sticky top-0 w-full h-12 md:h-24 xl:h-fit xl:relative bg-gradient-to-r from-purple-400 to-purple-500 overflow-hidden">
+        <header className="sticky top-0 w-full h-12 md:h-24 xl:h-fit xl:relative bg-gradient-to-r from-purple-400 to-purple-500">
           <div className="text-white justify-between relative">
             <h1 className="inline-block text-3xl text-4xl md:text-8xl xl:text-3xl align-bottom ml-0">
               e-C4rte
@@ -49,7 +49,7 @@ export default function Layout({ children }) {
                   </Link>
                 </li>
                 <li
-                  id="right-1/2 inline  "
+                  id="right-1/2 inline"
                   className="inline-block mx-4 cursor-pointer"
                   onClick={() => {
                     handleLogout();
@@ -70,9 +70,6 @@ export default function Layout({ children }) {
               }
               onClick={() => {
                 setIsMenuOpened(!isMenuOpened);
-              }}
-              onChange={() => {
-                setIsMenuOpened(false);
               }}
             >
               <div
@@ -120,7 +117,12 @@ export default function Layout({ children }) {
               >
                 ログアウト
               </li>
-              <li className="">
+              <li
+                className=""
+                onClick={() => {
+                  setIsMenuOpened(false);
+                }}
+              >
                 <Link href="/groupDashboard">
                   <a>ダッシュボード</a>
                 </Link>
@@ -128,7 +130,12 @@ export default function Layout({ children }) {
               <li className="md:mt-8">
                 <a className="text-4xl md:text-8xl font-bold">生徒管理</a>
                 <ul className="">
-                  <li className="">
+                  <li
+                    className=""
+                    onClick={() => {
+                      setIsMenuOpened(false);
+                    }}
+                  >
                     <Link href="/addStudent">
                       <a>生徒追加</a>
                     </Link>
@@ -139,7 +146,12 @@ export default function Layout({ children }) {
               <li className="md:mt-8">
                 <a className="text-4xl md:text-8xl font-bold">予約管理</a>
                 <ul className="">
-                  <li className="">
+                  <li
+                    className=""
+                    onClick={() => {
+                      setIsMenuOpened(false);
+                    }}
+                  >
                     <Link href="/addAvailability">
                       <a>予約枠追加</a>
                     </Link>
@@ -149,7 +161,12 @@ export default function Layout({ children }) {
               <li className="md:mt-8">
                 <a className="text-4xl md:text-8xl font-bold">教材管理</a>
                 <ul className="">
-                  <li className="">
+                  <li
+                    onClick={() => {
+                      setIsMenuOpened(false);
+                    }}
+                    className=""
+                  >
                     <Link href="/addCourse">
                       <a>教材追加</a>
                     </Link>

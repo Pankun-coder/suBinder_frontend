@@ -5,6 +5,7 @@ import MessageModal from "../components/messageModal";
 import { useState } from "react";
 import InnerBorder from "../components/innerBorder";
 import axios from "axios";
+import ButtonM from "../components/buttonM";
 
 export default function AddCourse() {
   const [courseName, setCourseName] = useState("");
@@ -92,14 +93,12 @@ export default function AddCourse() {
           <button type="submit">追加</button>
         </form>
       </InnerBorder>
-      <button
-        type="button"
+      <ButtonM
         onClick={() => {
           addCourse();
         }}
-      >
-        教材を追加する
-      </button>
+        value="教材を追加する"
+      />
       {message.body && (
         <MessageModal
           message={message.body}

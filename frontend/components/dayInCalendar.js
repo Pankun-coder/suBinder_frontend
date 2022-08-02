@@ -5,8 +5,9 @@ import AvailableTimeModal from "./availableTimeModal";
 export default function DayInCalendar(props) {
   const [isModalShown, setIsModalShown] = useState(false);
   const day = () => {
-    if (!props.date) return <div className="border-2 border-gray-400 bg-gray-200 w-16 h-16"></div>; //blanks
-    const style = "border-2 border-black w-16 h-16 cursor-pointer";
+    if (!props.date)
+      return <div className="border-2 border-gray-400 bg-gray-200 w-10 h-10 md:w-16 md:h-16"></div>; //blanks
+    const style = "border-2 border-black w-10 h-10 md:w-16 md:h-16 cursor-pointer";
     if (isDayReservedBy(props.studentInfo.id, props.availabilitiesForDay)) {
       style += " bg-red-200";
     } else if (isDayAvailable(props.availabilitiesForDay)) {

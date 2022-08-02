@@ -6,6 +6,8 @@ import LoginRequiredModal from "../components/loginRequiredModal";
 import BorderM from "../components/borderM";
 import MessageModal from "../components/messageModal";
 import InputM from "../components/inputM";
+import PageTitle from "../components/pageTitle";
+import ButtonM from "../components/buttonM";
 
 export default function AddUser() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
@@ -30,6 +32,7 @@ export default function AddUser() {
   return (
     <section>
       <BorderM>
+        <PageTitle value="生徒を登録する" />
         <form>
           <div className="w-fit mx-auto my-4">
             <InputM
@@ -40,15 +43,12 @@ export default function AddUser() {
               }}
             />
           </div>
-          <button
-            type="button"
-            className="border-2 border-black hover:bg-purple-400 hover:text-white hover:border-purple-400"
+          <ButtonM
             onClick={() => {
               createUser();
             }}
-          >
-            生徒登録
-          </button>
+            value="生徒登録"
+          />
         </form>
       </BorderM>
       {message.body && (

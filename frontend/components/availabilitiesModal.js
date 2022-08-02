@@ -7,6 +7,7 @@ import Availability from "./availability";
 import ModalS from "./modalS";
 import MessageModal from "./messageModal";
 import PageNavagation from "./pageNavagation";
+import { areAllValidNumbers } from "../lib/addAvailabilityHelper";
 
 export default function AvailabilitiesModal(props) {
   const [message, setMessage] = useState({ body: "", isError: false });
@@ -27,7 +28,7 @@ export default function AvailabilitiesModal(props) {
         setMessage({ body: error.response.data.message, isError: true });
       });
   };
-
+  const avs = () => {};
   return (
     <>
       <ModalS onClickClose={props.onClickClose}>
@@ -35,42 +36,34 @@ export default function AvailabilitiesModal(props) {
           {props.availabilities
             .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
             .map((value, index) => {
+              console.log(value);
+              let status = "";
+              let isCancelling = false;
+              let reservedBy = "";
               if (isReservedBy(props.studentInfo.id, value)) {
-                return (
-                  <li key={index}>
-                    <Availability
-                      status="reservedByTheUser"
-                      onClick={() => {
-                        updateReservation({ reservationId: value.id, isCancelling: true });
-                      }}
-                      reservedBy={value.reservedBy.name}
-                    />
-                  </li>
-                );
+                status = "reservedByTheUser";
+                isCancelling = true;
+                reservedBy = value.reservedBy.name;
               } else if (isAvailable(value)) {
-                return (
-                  <li key={index}>
-                    <Availability
-                      status="available"
-                      onClick={() => {
-                        updateReservation({ reservationId: value.id, isCancelling: false });
-                      }}
-                    />
-                  </li>
-                );
+                status = "available";
+                isCancelling = false;
+                reservedBy = null;
               } else {
-                return (
-                  <li key={index}>
-                    <Availability
-                      status="reserved"
-                      onClick={() => {
-                        updateReservation({ reservationId: value.id, isCancelling: false });
-                      }}
-                      reservedBy={value.reservedBy.name}
-                    />
-                  </li>
-                );
+                status = "full";
+                isCancelling = false;
+                reservedBy = value.reservedBy.name;
               }
+              return (
+                <li key={value.id}>
+                  <Availability
+                    status={status}
+                    onClick={() => {
+                      updateReservation({ reservationId: value.id, isCancelling: isCancelling });
+                    }}
+                    reservedBy={reservedBy}
+                  />
+                </li>
+              );
             })}
         </ul>
 
