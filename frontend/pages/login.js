@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import MessageModal from "../components/messageModal";
 import { isEmailValid, isPasswordValid } from "../lib/userHelper";
@@ -7,11 +7,14 @@ import GuestPageTitle from "../components/guestPage/guestPageTitle";
 import GuestPageBorder from "../components/guestPage/guestPageBorder";
 import GuestPageInput from "../components/guestPage/guestPageInput";
 import GuestPageButton from "../components/guestPage/guestPageButton";
+import { isLoggedInContext } from "../lib/isLoggedInContext";
 export default function Login() {
   const [message, setMessage] = useState({ body: "", isError: false });
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
   const router = useRouter();
+  if (isLoggedIn) router.push("/groupDashboard");
 
   const handleLogin = () => {
     if (!isEmailValid(userEmail)) {
@@ -35,8 +38,7 @@ export default function Login() {
     axios
       .post(url, data, { withCredentials: true })
       .then((response) => {
-        axios.defaults.headers.post["X-CSRF-Token"] = response.data._csrf;
-        router.push("/groupDashboard");
+        setIsLoggedIn(true);
       })
       .catch((error) => {
         setMessage({ body: error.response.data.message, isError: true });
