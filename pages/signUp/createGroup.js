@@ -15,6 +15,7 @@ export default function CreateGroup() {
   const [groupPasswordConfirmation, setGroupPasswordConfirmation] = useState("");
   const [isGroupCreatedModalShown, setIsGroupCreatedModalShown] = useState(false);
   const [message, setMessage] = useState({ body: "", isError: false });
+  const [groupId, setGroupId] = useState("");
 
   const handleCreateGroup = () => {
     if (!(groupName && groupPassword && groupPasswordConfirmation)) {
@@ -43,6 +44,7 @@ export default function CreateGroup() {
     axios
       .post(url, data)
       .then((response) => {
+        setGroupId(response.data.group_id);
         setIsGroupCreatedModalShown(true);
       })
       .catch((error) => {
@@ -57,9 +59,13 @@ export default function CreateGroup() {
     >
       <div className="w-full h-full p-4">
         <h1 className="text-2xl m-2">グループが作られました!</h1>
+        <dl className="text-2xl mb-4">
+          <dt className="inline mx-2">グループID:</dt>
+          <dd className="inline mx-2">{groupId}</dd>
+        </dl>
         <p className="text-xl mb-0 mt-0">
           続いて
-          <Link href="/signUp/createUser">
+          <Link href={`/signUp/createUser?groupId=${groupId}`}>
             <a className="text-blue-700 border-b-2 border-blue-700">ユーザーの作成</a>
           </Link>
           へ
@@ -73,12 +79,14 @@ export default function CreateGroup() {
       <GuestPageTitle value="グループの作成" />
       <form>
         <GuestPageInput
+          value={groupName}
           placeHolder="グループ名"
           onChange={(e) => {
             setGroupName(e.target.value);
           }}
         />
         <GuestPageInput
+          value={groupPassword}
           placeHolder="グループのパスワード"
           type="password"
           onChange={(e) => {
@@ -86,6 +94,7 @@ export default function CreateGroup() {
           }}
         />
         <GuestPageInput
+          value={groupPasswordConfirmation}
           placeHolder="パスワードの確認"
           type="password"
           onChange={(e) => {

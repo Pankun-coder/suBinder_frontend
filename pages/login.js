@@ -50,6 +50,7 @@ export default function Login() {
       <GuestPageTitle value="Login" />
       <form>
         <GuestPageInput
+          value={userEmail}
           data-testid="email"
           placeHolder="メールアドレス"
           type="email"
@@ -58,6 +59,7 @@ export default function Login() {
           }}
         />
         <GuestPageInput
+          value={userPassword}
           data-testid="password"
           placeHolder="パスワード"
           type="password"

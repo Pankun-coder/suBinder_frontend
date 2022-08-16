@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import MessageModal from "../../components/messageModal";
 import GuestPageInput from "../../components/guestPage/guestPageInput";
@@ -17,6 +17,9 @@ export default function CreateUser() {
   const [userPasswordConfirmation, setuserPasswordConfirmation] = useState("");
   const [message, setMessage] = useState({ body: "", isError: false });
   const router = useRouter();
+  useEffect(() => {
+    if (router.query.groupId) setGroupId(router.query.groupId);
+  }, [router.query]);
 
   const handleSignUp = () => {
     if (
@@ -81,19 +84,30 @@ export default function CreateUser() {
     <GuestPageBorder>
       <GuestPageTitle value="ユーザー登録" />
       <form>
-        <GuestPageInput placeHolder="グループID" onChange={(e) => setGroupId(e.target.value)} />
         <GuestPageInput
+          value={groupId}
+          placeHolder="グループID"
+          onChange={(e) => setGroupId(e.target.value)}
+        />
+        <GuestPageInput
+          value={groupPassword}
           placeHolder="グループのパスワード"
           type="password"
           onChange={(e) => setGroupPassword(e.target.value)}
         />
-        <GuestPageInput placeHolder="ユーザー名" onChange={(e) => setUserName(e.target.value)} />
         <GuestPageInput
+          value={userName}
+          placeHolder="ユーザー名"
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <GuestPageInput
+          value={userEmail}
           placeHolder="メールアドレス"
           type="email"
           onChange={(e) => setUserEmail(e.target.value)}
         />
         <GuestPageInput
+          value={userPassword}
           placeHolder="ユーザーのパスワード"
           type="password"
           onChange={(e) => {
@@ -101,6 +115,7 @@ export default function CreateUser() {
           }}
         />
         <GuestPageInput
+          value={userPasswordConfirmation}
           placeHolder="パスワードの確認"
           type="password"
           onChange={(e) => {

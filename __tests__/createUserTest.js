@@ -3,12 +3,17 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import axios from "axios";
 import CreateUser from "../pages/signUp/createUser";
+import { createMockRouter } from "../lib/createMockRouter";
+import { RouterContext } from "next/dist/shared/lib/router-context";
 
-beforeEach(() => {
-  render(<CreateUser />);
-});
+beforeEach(() => {});
 
 it("should not allow if groupId is left blank", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -29,6 +34,11 @@ it("should not allow if groupId is left blank", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow if groupPassword is left blank", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -49,6 +59,11 @@ it("should not allow if groupPassword is left blank", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow if userName is left blank", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -69,6 +84,11 @@ it("should not allow if userName is left blank", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow if email is left blank", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -89,6 +109,11 @@ it("should not allow if email is left blank", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow if userPassword is left blank", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -109,6 +134,11 @@ it("should not allow if userPassword is left blank", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow if userPasswordConfirmation is left blank", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -129,6 +159,11 @@ it("should not allow if userPasswordConfirmation is left blank", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow email with two dots in a row", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -149,6 +184,11 @@ it("should not allow email with two dots in a row", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow password without a number", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -171,6 +211,11 @@ it("should not allow password without a number", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow password without a alphabet", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -193,6 +238,11 @@ it("should not allow password without a alphabet", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow too short password", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -215,6 +265,11 @@ it("should not allow too short password", () => {
   expect(message).toBeInTheDocument();
 });
 it("should not allow if userPassword and confirmation are not identical", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -235,6 +290,11 @@ it("should not allow if userPassword and confirmation are not identical", () => 
   expect(message).toBeInTheDocument();
 });
 it("should handle error from server side", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
   const groupId = screen.getByPlaceholderText("グループID");
   const groupPassword = screen.getByPlaceholderText("グループのパスワード");
   const userName = screen.getByPlaceholderText("ユーザー名");
@@ -255,4 +315,13 @@ it("should handle error from server side", async () => {
   });
   const message = await screen.findByRole("heading", { name: "error from server" });
   expect(message).toBeInTheDocument();
+});
+it("should fill groupID if given in query", () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({ query: { groupId: 1 } })}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  expect(groupId.value).toBe("1");
 });

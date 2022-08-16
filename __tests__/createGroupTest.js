@@ -133,7 +133,7 @@ it("should show sucess modal", async () => {
   const passwordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "グループを作成する" });
   const postMock = jest.spyOn(axios, "post").mockName("axios-post");
-  postMock.mockResolvedValue({ response: { data: { message: "error from server" } } });
+  postMock.mockResolvedValue({ data: { message: "error from server", group_id: 1 } });
   await act(async () => {
     fireEvent.change(groupName, { target: { value: "教室" } });
     fireEvent.change(password, { target: { value: "abc123" } });
