@@ -38,7 +38,7 @@ export default function CourseModal(props) {
             .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
             .map((step, index) => {
               return (
-                <li>
+                <li key={step.id}>
                   <Step
                     key={index}
                     name={step.name}
