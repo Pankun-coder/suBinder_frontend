@@ -28,15 +28,13 @@ export default function AvailabilitiesModal(props) {
         setMessage({ body: error.response.data.message, isError: true });
       });
   };
-  const avs = () => {};
   return (
     <>
       <ModalS onClickClose={props.onClickClose}>
         <ul>
           {props.availabilities
             .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
-            .map((value, index) => {
-              console.log(value);
+            .map((value) => {
               let status = "";
               let isCancelling = false;
               let reservedBy = "";
