@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ModalS from "../../components/modalS";
 import MessageModal from "../../components/messageModal";
@@ -6,43 +6,33 @@ import GuestPageInput from "../../components/guestPage/guestPageInput";
 import GuestPageBorder from "../../components/guestPage/guestPageBorder";
 import GuestPageButton from "../../components/guestPage/guestPageButton";
 import GuestPageTitle from "../../components/guestPage/guestPageTitle";
-import { isPasswordValid } from "../../lib/userHelper";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 export default function CreateGroup() {
-  const [groupName, setGroupName] = useState("");
-  const [groupPassword, setGroupPassword] = useState("");
-  const [groupPasswordConfirmation, setGroupPasswordConfirmation] = useState("");
   const [isGroupCreatedModalShown, setIsGroupCreatedModalShown] = useState(false);
   const [message, setMessage] = useState({ body: "", isError: false });
   const [groupId, setGroupId] = useState("");
 
-  const handleCreateGroup = () => {
-    if (!(groupName && groupPassword && groupPasswordConfirmation)) {
-      setMessage({ body: "未入力の項目があります", isError: true });
-      return;
-    }
-    if (groupPassword !== groupPasswordConfirmation) {
-      setMessage({ body: "パスワードと確認が一致しません", isError: true });
-      return;
-    }
-    if (!isPasswordValid(groupPassword) || !isPasswordValid(groupPasswordConfirmation)) {
-      setMessage({
-        body: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-        isError: true,
-      });
-      return;
-    }
+  const passwordMinLength = 6;
+  const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*\d).{6,}/;
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const handleCreateGroup = (data) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/groups`;
-    const data = {
+    const groupData = {
       group: {
-        name: groupName,
-        password: groupPassword,
-        password_confirmation: groupPasswordConfirmation,
+        name: data.groupName,
+        password: data.groupPassword,
+        password_confirmation: data.groupPasswordConfirmation,
       },
     };
     axios
-      .post(url, data)
+      .post(url, groupData)
       .then((response) => {
         setGroupId(response.data.group_id);
         setIsGroupCreatedModalShown(true);
@@ -77,37 +67,48 @@ export default function CreateGroup() {
   return (
     <GuestPageBorder>
       <GuestPageTitle value="グループの作成" />
-      <form>
+      <form
+        onSubmit={handleSubmit((data) => {
+          handleCreateGroup(data);
+        })}
+      >
         <GuestPageInput
-          value={groupName}
           placeHolder="グループ名"
-          onChange={(e) => {
-            setGroupName(e.target.value);
-          }}
+          register={register("groupName", { required: "入力が必須の項目です" })}
         />
+        {errors.groupName && <p>{errors.groupName.message}</p>}
         <GuestPageInput
-          value={groupPassword}
           placeHolder="グループのパスワード"
           type="password"
-          onChange={(e) => {
-            setGroupPassword(e.target.value);
-          }}
+          register={register("groupPassword", {
+            required: "入力が必須の項目です",
+            pattern: {
+              value: passwordRegEx,
+              message: "パスワードにはアルファベットと数字を含めてください",
+            },
+            minLength: { value: passwordMinLength, message: "パスワードは6文字以上にしてください" },
+          })}
         />
+        {errors.groupPassword && <p>{errors.groupPassword.message}</p>}
         <GuestPageInput
-          value={groupPasswordConfirmation}
           placeHolder="パスワードの確認"
           type="password"
-          onChange={(e) => {
-            setGroupPasswordConfirmation(e.target.value);
-          }}
+          register={register("groupPasswordConfirmation", {
+            required: "入力が必須の項目です",
+            pattern: {
+              value: passwordRegEx,
+              message: "パスワードにはアルファベットと数字を含めてください",
+            },
+            minLength: { value: passwordMinLength, message: "パスワードは6文字以上にしてください" },
+            validate: (val) => {
+              if (watch("groupPassword") != val) {
+                return "パスワードと確認が一致しません";
+              }
+            },
+          })}
         />
-        <GuestPageButton
-          type="button"
-          value="グループを作成する"
-          onClick={() => {
-            handleCreateGroup();
-          }}
-        />
+        {errors.groupPasswordConfirmation && <p>{errors.groupPasswordConfirmation.message}</p>}
+        <GuestPageButton type="submit" value="グループを作成する" />
       </form>
       {isGroupCreatedModalShown && groupCreatedModal}
       {message.body && (

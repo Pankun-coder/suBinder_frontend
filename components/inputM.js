@@ -5,6 +5,8 @@ export default function InputM(props) {
       placeholder={props.placeholder}
       onChange={props.onChange}
       value={props.value}
+      form={props.form}
+      {...props.register}
     />
   );
 }

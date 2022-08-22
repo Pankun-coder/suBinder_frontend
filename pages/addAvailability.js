@@ -1,113 +1,82 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import LoginRequiredModal from "../components/loginRequiredModal";
-import { useContext } from "react";
 import { isLoggedInContext } from "../lib/isLoggedInContext";
 import BorderM from "../components/borderM";
 import InputS from "../components/inputS";
 import MessageModal from "../components/messageModal";
-import { areAllValidNumbers, isDateValid, isTimeValid } from "../lib/addAvailabilityHelper";
+import { isDateValid, isTimeValid } from "../lib/addAvailabilityHelper";
 import InnerBorder from "../components/innerBorder";
 import ButtonM from "../components/buttonM";
 import PageTitle from "../components/pageTitle";
+import { useForm } from "react-hook-form";
 export default function AddAvailability() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
-
-  const [sun, setSun] = useState(false);
-  const [mon, setMon] = useState(false);
-  const [tue, setTue] = useState(false);
-  const [wed, setWed] = useState(false);
-  const [thu, setThu] = useState(false);
-  const [fri, setFri] = useState(false);
-  const [sat, setSat] = useState(false);
-
-  const [fromYear, setFromYear] = useState("");
-  const [fromMonth, setFromMonth] = useState("");
-  const [fromDay, setFromDay] = useState("");
-  const [toYear, setToYear] = useState("");
-  const [toMonth, setToMonth] = useState("");
-  const [toDay, setToDay] = useState("");
-
-  const [fromHour, setFromHour] = useState("");
-  const [fromMin, setFromMin] = useState("");
-  const [toHour, setToHour] = useState("");
-  const [toMin, setToMin] = useState("");
-
-  const [NumberOfAvailability, setNumberOfAvailability] = useState("");
   const [message, setMessage] = useState({ body: "", isError: false });
 
-  const send = () => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/`;
-    if (!areAllValidNumbers([fromYear, fromMonth, fromDay, toYear, toMonth, toDay])) {
-      setMessage({ body: "日付はアラビア数字で入力してください", isError: true });
-      return;
-    }
-    if (!areAllValidNumbers([fromHour, fromMin, toHour, toMin])) {
-      setMessage({ body: "時刻はアラビア数字で入力してください", isError: true });
-      return;
-    }
-    if (Number.isNaN(parseInt(NumberOfAvailability))) {
-      setMessage({ body: "繰り返し回数はアラビア数字で入力してください", isError: true });
-      return;
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const intFromYear = parseInt(fromYear);
-    const intFromMonth = parseInt(fromMonth);
-    const intFromDay = parseInt(fromDay);
-    const intToYear = parseInt(toYear);
-    const intToMonth = parseInt(toMonth);
-    const intToDay = parseInt(toDay);
-    const intFromHour = parseInt(fromHour);
-    const intFromMin = parseInt(fromMin);
-    const intToHour = parseInt(toHour);
-    const intToMin = parseInt(toMin);
-    const intNumberOfAvailability = parseInt(NumberOfAvailability);
-    if (
-      !isDateValid(intFromYear, intFromMonth, intFromDay) ||
-      !isDateValid(intToYear, intToMonth, intToDay)
-    ) {
+  const send = (data) => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/`;
+
+    const fromYear = data.fromDate.getFullYear();
+    const fromMonth = data.fromDate.getMonth() + 1;
+    const fromDay = data.fromDate.getDate();
+    const toYear = data.toDate.getFullYear();
+    const toMonth = data.toDate.getMonth() + 1;
+    const toDay = data.toDate.getDate();
+    const fromHour = parseInt(data.fromTime.slice(0, 2));
+    const fromMin = parseInt(data.fromTime.slice(3, 5));
+    const toHour = parseInt(data.toTime.slice(0, 2));
+    const toMin = parseInt(data.toTime.slice(3, 5));
+    const numberOfAvailability = parseInt(data.numberOfAvailability);
+    if (!isDateValid(fromYear, fromMonth, fromDay) || !isDateValid(toYear, toMonth, toDay)) {
       setMessage({ body: "日付が不正です", isError: true });
       return;
     }
-    if (!isTimeValid(intFromHour, intFromMin) || !isTimeValid(intToHour, intToMin)) {
+    if (!isTimeValid(fromHour, fromMin) || !isTimeValid(toHour, toMin)) {
       setMessage({ body: "時刻が不正です", isError: true });
       return;
     }
-    if (intFromHour > intToHour || (intFromHour === intToHour && intFromMin >= intToMin)) {
+    if (fromHour > toHour || (fromHour === toHour && fromMin >= toMin)) {
       setMessage({ body: "時刻が不正です", isError: true });
       return;
     }
-    if (intNumberOfAvailability > 100) {
+    if (numberOfAvailability > 100) {
       setMessage({ body: "100人分以上の枠は一度に作れません", isError: true });
       return;
     }
-    const data = {
+    const availabilityData = {
       from: {
-        year: intFromYear,
-        month: intFromMonth,
-        day: intFromDay,
+        year: fromYear,
+        month: fromMonth,
+        day: fromDay,
       },
       to: {
-        year: intToYear,
-        month: intToMonth,
-        day: intToDay,
+        year: toYear,
+        month: toMonth,
+        day: toDay,
       },
-      days: [sun, mon, tue, wed, thu, fri, sat],
+      days: [data.sun, data.mon, data.tue, data.wed, data.thu, data.fri, data.sat],
       time: {
         from: {
-          hour: intFromHour,
-          min: intFromMin,
+          hour: fromHour,
+          min: fromMin,
         },
         to: {
-          hour: intToHour,
-          min: intToMin,
+          hour: toHour,
+          min: toMin,
         },
       },
-      how_many: intNumberOfAvailability,
+      how_many: numberOfAvailability,
     };
 
     axios
-      .post(url, data, { withCredentials: true })
+      .post(url, availabilityData, { withCredentials: true })
       .then((response) => {
         setMessage({ body: response.data.message, isError: false });
       })
@@ -115,135 +84,113 @@ export default function AddAvailability() {
         setMessage({ body: error.response.data.message, isError: true });
       });
   };
-
   if (!isLoggedIn) return <LoginRequiredModal />;
 
   return (
-    <section>
-      <BorderM>
-        <PageTitle value="予約枠を追加する" />
-        <form className="mx-auto w-full lg:w-1/2">
-          <InnerBorder>
-            <h2>予約時間</h2>
-            <div className="mx-auto my-4 w-fit">
-              <InputS
-                id="from-hour"
-                onChange={(e) => {
-                  setFromHour(e.target.value);
-                }}
-                value={fromHour}
-              />
-              <label htmlFor="from-hour">時</label>
-              <InputS id="from-min" onChange={(e) => setFromMin(e.target.value)} value={fromMin} />
-              <label htmlFor="from-min">分から</label>
-            </div>
+    <BorderM>
+      <PageTitle value="予約枠を追加する" />
+      <form
+        onSubmit={handleSubmit((data) => {
+          send(data);
+        })}
+        className="mx-auto w-full lg:w-1/2"
+      >
+        <InnerBorder>
+          <h2>予約時間</h2>
+          <div className="mx-auto my-4 w-fit">
+            <input
+              type="time"
+              className="border-2 border-black"
+              id="from-time"
+              {...register("fromTime", {
+                required: "入力が必須の項目です",
+              })}
+            />
 
-            <div className="mx-auto my-4 w-fit">
-              <InputS id="to-hour" onChange={(e) => setToHour(e.target.value)} value={toHour} />
-              <label htmlFor="to-hour">時</label>
-              <InputS id="to-min" onChange={(e) => setToMin(e.target.value)} value={toMin} />
-              <label htmlFor="to-min">分まで</label>
-            </div>
-          </InnerBorder>
-
-          <InnerBorder>
-            <h2>繰り返し情報</h2>
-            <div className="mx-auto my-4 w-fit">
-              <InputS
-                id="from-year"
-                onChange={(e) => setFromYear(e.target.value)}
-                value={fromYear}
-              />
-              <label htmlFor="from-year">年</label>
-
-              <InputS
-                id="from-month"
-                onChange={(e) => setFromMonth(e.target.value)}
-                value={fromMonth}
-              />
-              <label htmlFor="from-month">月</label>
-              <InputS id="from-day" onChange={(e) => setFromDay(e.target.value)} value={fromDay} />
-              <label htmlFor="from-day">日から</label>
-            </div>
-
-            <div className="mx-auto my-4 w-fit">
-              <InputS id="to-year" onChange={(e) => setToYear(e.target.value)} value={toYear} />
-              <label htmlFor="to-year">年</label>
-              <InputS id="to-month" onChange={(e) => setToMonth(e.target.value)} value={toMonth} />
-              <label htmlFor="to-month">月</label>
-              <InputS id="to-day" onChange={(e) => setToDay(e.target.value)} value={toDay} />
-              <label htmlFor="to-day">日まで</label>
-            </div>
-
-            <div className="mx-auto my-4 w-fit">
-              <label htmlFor="sun">日</label>
-              <input
-                id="sun"
-                type="checkbox"
-                onChange={(e) => setSun(e.target.checked)}
-                value={sun}
-              />
-              <label htmlFor="mon">月</label>
-              <input
-                id="mon"
-                type="checkbox"
-                onChange={(e) => setMon(e.target.checked)}
-                value={mon}
-              />
-              <label htmlFor="tue">火</label>
-              <input
-                id="tue"
-                type="checkbox"
-                onChange={(e) => setTue(e.target.checked)}
-                value={tue}
-              />
-              <label htmlFor="wed">水</label>
-              <input
-                id="wed"
-                type="checkbox"
-                onChange={(e) => setWed(e.target.checked)}
-                value={wed}
-              />
-              <label htmlFor="thu">木</label>
-              <input
-                id="thu"
-                type="checkbox"
-                onChange={(e) => setThu(e.target.checked)}
-                value={thu}
-              />
-              <label htmlFor="fri">金</label>
-              <input
-                id="fri"
-                type="checkbox"
-                onChange={(e) => setFri(e.target.checked)}
-                value={fri}
-              />
-              <label htmlFor="sat">土</label>
-              <input
-                id="sat"
-                type="checkbox"
-                onChange={(e) => setSat(e.target.checked)}
-                value={sat}
-              />
-            </div>
-          </InnerBorder>
+            <label htmlFor="from-time">から</label>
+            {errors.toTime && <p>{errors.toTime.message}</p>}
+          </div>
 
           <div className="mx-auto my-4 w-fit">
-            <InputS
-              id="number-of-availability"
-              onChange={(e) => setNumberOfAvailability(e.target.value)}
-              value={NumberOfAvailability}
+            <input
+              type="time"
+              className="border-2 border-black"
+              id="to-time"
+              {...register("toTime", {
+                required: "入力が必須の項目です",
+              })}
             />
-            <label htmlFor="number-of-availability">人分</label>
+            <label htmlFor="to-time">まで</label>
+            {errors.fromTime && <p>{errors.fromTime.message}</p>}
           </div>
-          <ButtonM
-            value="予約枠を作る"
-            onClick={() => {
-              send();
-            }}
+        </InnerBorder>
+
+        <InnerBorder>
+          <h2>繰り返し情報</h2>
+          <div className="mx-auto my-4 w-fit">
+            <input
+              type="date"
+              id="from-date"
+              className="border-2 border-black"
+              {...register("fromDate", {
+                required: "入力が必須の項目です",
+                valueAsDate: true,
+              })}
+            />
+            <label htmlFor="from-date">から</label>
+            {errors.fromDate && <p>{errors.fromDate.message}</p>}
+          </div>
+          <div className="mx-auto my-4 w-fit">
+            <input
+              type="date"
+              id="to-date"
+              className="border-2 border-black"
+              {...register("toDate", {
+                required: "入力が必須の項目です",
+                valueAsDate: true,
+              })}
+            />
+            <label htmlFor="to-date">まで</label>
+            {errors.toDate && <p>{errors.toDate.message}</p>}
+          </div>
+          <div className="mx-auto my-4 w-fit">
+            <label htmlFor="sun">日</label>
+            <input id="sun" type="checkbox" {...register("sun")} />
+            <label htmlFor="mon">月</label>
+            <input id="mon" type="checkbox" {...register("mon")} />
+            <label htmlFor="tue">火</label>
+            <input id="tue" type="checkbox" {...register("tue")} />
+            <label htmlFor="wed">水</label>
+            <input id="wed" type="checkbox" {...register("wed")} />
+            <label htmlFor="thu">木</label>
+            <input id="thu" type="checkbox" {...register("thu")} />
+            <label htmlFor="fri">金</label>
+            <input id="fri" type="checkbox" {...register("fri")} />
+            <label htmlFor="sat">土</label>
+            <input id="sat" type="checkbox" {...register("sat")} />
+          </div>
+        </InnerBorder>
+
+        <div className="mx-auto my-4 w-fit">
+          <InputS
+            id="number-of-availability"
+            register={register("numberOfAvailability", {
+              required: "入力が必須の項目です",
+              valueAsNumber: true,
+              validate: (val) => {
+                if (!parseInt(val)) {
+                  return "整数を入力してください";
+                } else if (parseInt(val) > 100) {
+                  return "一度に作れるのは100人分までです";
+                }
+              },
+            })}
           />
-        </form>
-      </BorderM>
+          <label htmlFor="number-of-availability">人分</label>
+          {errors.numberOfAvailability && <p>{errors.numberOfAvailability.message}</p>}
+        </div>
+        <ButtonM type="submit" value="予約枠を作る" />
+      </form>
       {message.body && (
         <MessageModal
           message={message.body}
@@ -253,6 +200,6 @@ export default function AddAvailability() {
           }}
         />
       )}
-    </section>
+    </BorderM>
   );
 }

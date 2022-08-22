@@ -43,62 +43,69 @@ export default function AddCourse() {
   };
   return (
     <BorderM>
-      <PageTitle value="教材を追加する" />
-      <InnerBorder>
-        <h2>教材情報</h2>
-        <InputM
-          value={courseName}
-          placeholder="教材名"
-          onChange={(e) => {
-            setCourseName(e.target.value);
-          }}
-        />
-      </InnerBorder>
-      <InnerBorder>
-        <h2>チェックポイント情報</h2>
-        <ol>
-          {steps.map((step, index) => {
-            return (
-              <li key={index}>
-                <div className="my-2">
-                  <button
-                    className="border-2 border-black mx-2"
-                    type="button"
-                    onClick={() => {
-                      deleteStep(index);
-                    }}
-                  >
-                    削除
-                  </button>
-                  {step.name}
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-
-        <form
-          action=""
-          onSubmit={(e) => {
-            addStepWithEnterKey(e);
-          }}
-        >
+      <div className="mx-auto w-full lg:w-1/2">
+        <PageTitle value="教材を追加する" />
+        <InnerBorder>
+          <h2>教材情報</h2>
           <InputM
-            value={stepName}
-            placeholder="チェックポイント名"
+            value={courseName}
+            placeholder="教材名"
             onChange={(e) => {
-              setStepName(e.target.value);
+              setCourseName(e.target.value);
             }}
+            form="add-course"
           />
-          <button type="submit">追加</button>
+        </InnerBorder>
+        <InnerBorder>
+          <h2>チェックポイント情報</h2>
+          <ol>
+            {steps.map((step, index) => {
+              return (
+                <li key={index}>
+                  <div className="my-2">
+                    <button
+                      className="border-2 border-black mx-2"
+                      type="button"
+                      onClick={() => {
+                        deleteStep(index);
+                      }}
+                    >
+                      削除
+                    </button>
+                    {step.name}
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+
+          <form
+            action=""
+            onSubmit={(e) => {
+              addStepWithEnterKey(e);
+            }}
+          >
+            <InputM
+              value={stepName}
+              placeholder="チェックポイント名"
+              onChange={(e) => {
+                setStepName(e.target.value);
+              }}
+            />
+            <button type="submit">追加</button>
+          </form>
+        </InnerBorder>
+        <form id="add-course">
+          <ButtonM
+            type="button"
+            onClick={() => {
+              addCourse();
+            }}
+            value="教材を追加する"
+          />
         </form>
-      </InnerBorder>
-      <ButtonM
-        onClick={() => {
-          addCourse();
-        }}
-        value="教材を追加する"
-      />
+      </div>
+
       {message.body && (
         <MessageModal
           message={message.body}

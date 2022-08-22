@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import MessageModal from "../../components/messageModal";
 import GuestPageInput from "../../components/guestPage/guestPageInput";
@@ -6,72 +6,37 @@ import GuestPageBorder from "../../components/guestPage/guestPageBorder";
 import GuestPageButton from "../../components/guestPage/guestPageButton";
 import GuestPageTitle from "../../components/guestPage/guestPageTitle";
 import axios from "axios";
-import { isEmailValid, isPasswordValid } from "../../lib/userHelper";
+import { useForm } from "react-hook-form";
 
 export default function CreateUser() {
-  const [groupId, setGroupId] = useState("");
-  const [groupPassword, setGroupPassword] = useState("");
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [userPasswordConfirmation, setuserPasswordConfirmation] = useState("");
   const [message, setMessage] = useState({ body: "", isError: false });
   const router = useRouter();
-  useEffect(() => {
-    if (router.query.groupId) setGroupId(router.query.groupId);
-  }, [router.query]);
+  const emailRegEx = /^[a-zA-Z\d](\.?[\w-])*@[\w-]+\.[\w]+$/;
+  const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*\d).{6,}/;
+  const passwordMinLength = 6;
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm({ defaultValues: { groupId: router.query.groupId } });
 
-  const handleSignUp = () => {
-    if (
-      !(
-        groupId &&
-        groupPassword &&
-        userName &&
-        userEmail &&
-        userPassword &&
-        userPasswordConfirmation
-      )
-    ) {
-      setMessage({ body: "未入力の項目があります", isError: true });
-      return;
-    }
-    if (!isPasswordValid(groupPassword)) {
-      setMessage({
-        body: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-        isError: true,
-      });
-      return;
-    }
-    if (!isEmailValid(userEmail)) {
-      setMessage({ body: "メールアドレスが不正です", isError: true });
-      return;
-    }
-    if (userPassword !== userPasswordConfirmation) {
-      setMessage({ body: "パスワードと確認が一致しません", isError: true });
-      return;
-    }
-    if (!isPasswordValid(userPassword) || !isPasswordValid(userPasswordConfirmation)) {
-      setMessage({
-        body: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-        isError: true,
-      });
-      return;
-    }
+  const handleSignUp = (data) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/users`;
-    const data = {
+    const userData = {
       group: {
-        id: groupId,
-        password: groupPassword,
+        id: data.groupId,
+        password: data.groupPassword,
       },
       user: {
-        name: userName,
-        email: userEmail,
-        password: userPassword,
-        password_confirmation: userPasswordConfirmation,
+        name: data.userName,
+        email: data.userEmail,
+        password: data.userPassword,
+        password_confirmation: data.userPasswordConfirmation,
       },
     };
     axios
-      .post(url, data)
+      .post(url, userData)
       .then((response) => {
         if (response.data.message === "user saved") router.push("/groupDashboard");
       })
@@ -83,52 +48,78 @@ export default function CreateUser() {
   return (
     <GuestPageBorder>
       <GuestPageTitle value="ユーザー登録" />
-      <form>
+      <form
+        onSubmit={handleSubmit((data) => {
+          handleSignUp(data);
+        })}
+      >
         <GuestPageInput
-          value={groupId}
           placeHolder="グループID"
-          onChange={(e) => setGroupId(e.target.value)}
+          register={register("groupId", { required: "入力が必須の項目です" })}
         />
+        {errors.groupId && <p>{errors.groupId.message}</p>}
         <GuestPageInput
-          value={groupPassword}
           placeHolder="グループのパスワード"
           type="password"
-          onChange={(e) => setGroupPassword(e.target.value)}
+          register={register("groupPassword", {
+            required: "入力が必須の項目です",
+            pattern: {
+              value: passwordRegEx,
+              message: "パスワードにはアルファベットと数字を含めてください",
+            },
+            minLength: { value: passwordMinLength, message: "パスワードは6文字以上にしてください" },
+          })}
         />
+        {errors.groupPassword && <p>{errors.groupPassword.message}</p>}
         <GuestPageInput
-          value={userName}
           placeHolder="ユーザー名"
-          onChange={(e) => setUserName(e.target.value)}
+          register={register("userName", { required: "入力が必須の項目です" })}
         />
+        {errors.userName && <p>{errors.userName.message}</p>}
         <GuestPageInput
-          value={userEmail}
           placeHolder="メールアドレス"
           type="email"
-          onChange={(e) => setUserEmail(e.target.value)}
+          register={register("userEmail", {
+            required: "入力が必須の項目です",
+            pattern: {
+              value: emailRegEx,
+              message: "メールアドレスが正しくありません",
+            },
+          })}
         />
+        {errors.userEmail && <p>{errors.userEmail.message}</p>}
         <GuestPageInput
-          value={userPassword}
           placeHolder="ユーザーのパスワード"
           type="password"
-          onChange={(e) => {
-            setUserPassword(e.target.value);
-          }}
+          register={register("userPassword", {
+            required: "入力が必須の項目です",
+            pattern: {
+              value: passwordRegEx,
+              message: "パスワードにはアルファベットと数字を含めてください",
+            },
+            minLength: { value: passwordMinLength, message: "パスワードは6文字以上にしてください" },
+          })}
         />
+        {errors.userPassword && <p>{errors.userPassword.message}</p>}
         <GuestPageInput
-          value={userPasswordConfirmation}
           placeHolder="パスワードの確認"
           type="password"
-          onChange={(e) => {
-            setuserPasswordConfirmation(e.target.value);
-          }}
+          register={register("userPasswordConfirmation", {
+            required: "入力が必須の項目です",
+            pattern: {
+              value: passwordRegEx,
+              message: "パスワードにはアルファベットと数字を含めてください",
+            },
+            minLength: { value: passwordMinLength, message: "パスワードは6文字以上にしてください" },
+            validate: (val) => {
+              if (watch("userPassword") != val) {
+                return "パスワードと確認が一致しません";
+              }
+            },
+          })}
         />
-        <GuestPageButton
-          type="button"
-          value="ユーザーを作成する"
-          onClick={() => {
-            handleSignUp();
-          }}
-        />
+        {errors.userPasswordConfirmation && <p>{errors.userPasswordConfirmation.message}</p>}
+        <GuestPageButton type="submit" value="ユーザーを作成する" />
       </form>
       {message.body && (
         <MessageModal

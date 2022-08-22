@@ -4,6 +4,7 @@ export default function InputS(props) {
       className="border-2 border-black w-20"
       onChange={props.onChange}
       value={props.value}
+      {...props.register}
     ></input>
   );
 }

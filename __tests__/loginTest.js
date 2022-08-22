@@ -8,67 +8,61 @@ beforeEach(() => {
   render(<Login />);
 });
 
-it("should not allow email with two dots in a row", () => {
+it("should not allow if email is left blank", async () => {
   const password = screen.getByPlaceholderText("パスワード");
   const email = screen.getByPlaceholderText("メールアドレス");
   const submitButton = screen.getByRole("button", { name: "ログイン" });
 
-  act(() => {
+  await act(async () => {
     fireEvent.change(password, { target: { value: "aaa111aaa" } });
-    fireEvent.change(email, { target: { value: "aaa..aaa@aaa.aaa" } });
+    fireEvent.change(email, { target: { value: "" } });
     submitButton.click();
   });
 
-  const message = screen.getByTestId("message");
-  expect(message).toHaveTextContent("メールアドレスが不正です");
+  const message = screen.getByText("入力が必須の項目です");
+  expect(message).toBeInTheDocument();
 });
-it("should not allow password without a number", () => {
+it("should not allow password without a number", async () => {
   const password = screen.getByPlaceholderText("パスワード");
   const email = screen.getByPlaceholderText("メールアドレス");
   const submitButton = screen.getByRole("button", { name: "ログイン" });
 
-  act(() => {
+  await act(async () => {
     fireEvent.change(password, { target: { value: "aaaaaa" } });
     fireEvent.change(email, { target: { value: "aaa@aaa.aaa" } });
     submitButton.click();
   });
 
-  const message = screen.getByTestId("message");
-  expect(message).toHaveTextContent(
-    "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-  );
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
+  expect(message).toBeInTheDocument();
 });
-it("should not allow password without a alphabet", () => {
+it("should not allow password without a alphabet", async () => {
   const password = screen.getByPlaceholderText("パスワード");
   const email = screen.getByPlaceholderText("メールアドレス");
   const submitButton = screen.getByRole("button", { name: "ログイン" });
 
-  act(() => {
+  await act(async () => {
     fireEvent.change(password, { target: { value: "111111" } });
     fireEvent.change(email, { target: { value: "aaa@aaa.aaa" } });
     submitButton.click();
   });
 
-  const message = screen.getByTestId("message");
-  expect(message).toHaveTextContent(
-    "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-  );
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
+  expect(message).toBeInTheDocument();
 });
-it("should not allow short password", () => {
+it("should not allow short password", async () => {
   const password = screen.getByPlaceholderText("パスワード");
   const email = screen.getByPlaceholderText("メールアドレス");
   const submitButton = screen.getByRole("button", { name: "ログイン" });
 
-  act(() => {
+  await act(async () => {
     fireEvent.change(password, { target: { value: "11aa" } });
     fireEvent.change(email, { target: { value: "aaa@aaa.aaa" } });
     submitButton.click();
   });
 
-  const message = screen.getByTestId("message");
-  expect(message).toHaveTextContent(
-    "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-  );
+  const message = screen.getByText("パスワードは6文字以上にしてください");
+  expect(message).toBeInTheDocument();
 });
 it("should handle error from backend ", async () => {
   const password = screen.getByPlaceholderText("パスワード");
@@ -78,11 +72,14 @@ it("should handle error from backend ", async () => {
   postMock.mockRejectedValue({
     response: { data: { message: "パスワードまたはメールアドレスが正しくありません" } },
   });
-  await act(() => {
+  await act(async () => {
     fireEvent.change(password, { target: { value: "aaa111" } });
     fireEvent.change(email, { target: { value: "aaa@aaa.aaa" } });
     submitButton.click();
   });
-  const message = screen.getByTestId("message");
-  expect(message).toHaveTextContent("パスワードまたはメールアドレスが正しくありません");
+
+  const message = await screen.findByRole("heading", {
+    name: "パスワードまたはメールアドレスが正しくありません",
+  });
+  expect(message).toBeInTheDocument();
 });

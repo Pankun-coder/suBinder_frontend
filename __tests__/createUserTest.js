@@ -6,9 +6,7 @@ import CreateUser from "../pages/signUp/createUser";
 import { createMockRouter } from "../lib/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 
-beforeEach(() => {});
-
-it("should not allow if groupId is left blank", () => {
+it("should not allow if groupId is left blank", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -21,7 +19,7 @@ it("should not allow if groupId is left blank", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
+  await act(async () => {
     fireEvent.change(groupId, { target: { value: "" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
@@ -30,10 +28,11 @@ it("should not allow if groupId is left blank", () => {
     fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "未入力の項目があります" });
+  const message = screen.getByText("入力が必須の項目です");
   expect(message).toBeInTheDocument();
 });
-it("should not allow if groupPassword is left blank", () => {
+
+it("should not allow if groupPassword is left blank", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -46,8 +45,8 @@ it("should not allow if groupPassword is left blank", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
     fireEvent.change(email, { target: { value: "mail@mail.com" } });
@@ -55,10 +54,11 @@ it("should not allow if groupPassword is left blank", () => {
     fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "未入力の項目があります" });
+  const message = screen.getByText("入力が必須の項目です");
   expect(message).toBeInTheDocument();
 });
-it("should not allow if userName is left blank", () => {
+
+it("should not allow groupPassword without a number", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -71,8 +71,86 @@ it("should not allow if userName is left blank", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "abcdef" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "abc123" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
+  expect(message).toBeInTheDocument();
+});
+
+it("should not allow groupPassword without a alphabet", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "123456" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "abc123" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
+  expect(message).toBeInTheDocument();
+});
+
+it("should not allow too short groupPassword", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "abc12" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "abc123" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードは6文字以上にしてください");
+  expect(message).toBeInTheDocument();
+});
+
+it("should not allow if userName is left blank", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "" } });
     fireEvent.change(email, { target: { value: "mail@mail.com" } });
@@ -80,10 +158,11 @@ it("should not allow if userName is left blank", () => {
     fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "未入力の項目があります" });
+  const message = screen.getByText("入力が必須の項目です");
   expect(message).toBeInTheDocument();
 });
-it("should not allow if email is left blank", () => {
+
+it("should not allow if userEmail is left blank", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -96,8 +175,8 @@ it("should not allow if email is left blank", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
     fireEvent.change(email, { target: { value: "" } });
@@ -105,10 +184,11 @@ it("should not allow if email is left blank", () => {
     fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "未入力の項目があります" });
+  const message = screen.getByText("入力が必須の項目です");
   expect(message).toBeInTheDocument();
 });
-it("should not allow if userPassword is left blank", () => {
+
+it("should not allow if userPassword is left blank", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -121,8 +201,8 @@ it("should not allow if userPassword is left blank", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
     fireEvent.change(email, { target: { value: "mail@mail.com" } });
@@ -130,10 +210,11 @@ it("should not allow if userPassword is left blank", () => {
     fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "未入力の項目があります" });
+  const message = screen.getByText("入力が必須の項目です");
   expect(message).toBeInTheDocument();
 });
-it("should not allow if userPasswordConfirmation is left blank", () => {
+
+it("should not allow userPassword without a number", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -146,8 +227,86 @@ it("should not allow if userPasswordConfirmation is left blank", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "abc123" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "abcdef" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
+  expect(message).toBeInTheDocument();
+});
+
+it("should not allow userPassword without a alphabet", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "abc123" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "123456" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
+  expect(message).toBeInTheDocument();
+});
+
+it("should not allow too short userPassword", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "abc123" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "abc12" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードは6文字以上にしてください");
+  expect(message).toBeInTheDocument();
+});
+
+it("should not allow if userPasswordConfirmation is left blank", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
     fireEvent.change(email, { target: { value: "mail@mail.com" } });
@@ -155,10 +314,11 @@ it("should not allow if userPasswordConfirmation is left blank", () => {
     fireEvent.change(userPasswordConfirmation, { target: { value: "" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "未入力の項目があります" });
+  const message = screen.getByText("入力が必須の項目です");
   expect(message).toBeInTheDocument();
 });
-it("should not allow email with two dots in a row", () => {
+
+it("should not allow userPasswordConfirmation without a number", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -171,46 +331,20 @@ it("should not allow email with two dots in a row", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
-    fireEvent.change(groupPassword, { target: { value: "abc123" } });
-    fireEvent.change(userName, { target: { value: "太郎" } });
-    fireEvent.change(email, { target: { value: "ma..il@mail.com" } });
-    fireEvent.change(userPassword, { target: { value: "abc123" } });
-    fireEvent.change(userPasswordConfirmation, { target: { value: "abc123" } });
-    button.click();
-  });
-  const message = screen.getByRole("heading", { name: "メールアドレスが不正です" });
-  expect(message).toBeInTheDocument();
-});
-it("should not allow password without a number", () => {
-  render(
-    <RouterContext.Provider value={createMockRouter({})}>
-      <CreateUser />;
-    </RouterContext.Provider>,
-  );
-  const groupId = screen.getByPlaceholderText("グループID");
-  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
-  const userName = screen.getByPlaceholderText("ユーザー名");
-  const email = screen.getByPlaceholderText("メールアドレス");
-  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
-  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
-  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
     fireEvent.change(email, { target: { value: "mail@mail.com" } });
-    fireEvent.change(userPassword, { target: { value: "abcdef" } });
+    fireEvent.change(userPassword, { target: { value: "abc123" } });
     fireEvent.change(userPasswordConfirmation, { target: { value: "abcdef" } });
     button.click();
   });
-  const message = screen.getByRole("heading", {
-    name: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-  });
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
   expect(message).toBeInTheDocument();
 });
-it("should not allow password without a alphabet", () => {
+
+it("should not allow userPasswordConfirmation without a alphabet", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
       <CreateUser />;
@@ -223,72 +357,45 @@ it("should not allow password without a alphabet", () => {
   const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
   const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
   const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
-    fireEvent.change(groupPassword, { target: { value: "abc123" } });
-    fireEvent.change(userName, { target: { value: "太郎" } });
-    fireEvent.change(email, { target: { value: "mail@mail.com" } });
-    fireEvent.change(userPassword, { target: { value: "123456" } });
-    fireEvent.change(userPasswordConfirmation, { target: { value: "123456" } });
-    button.click();
-  });
-  const message = screen.getByRole("heading", {
-    name: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-  });
-  expect(message).toBeInTheDocument();
-});
-it("should not allow too short password", () => {
-  render(
-    <RouterContext.Provider value={createMockRouter({})}>
-      <CreateUser />;
-    </RouterContext.Provider>,
-  );
-  const groupId = screen.getByPlaceholderText("グループID");
-  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
-  const userName = screen.getByPlaceholderText("ユーザー名");
-  const email = screen.getByPlaceholderText("メールアドレス");
-  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
-  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
-  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
-    fireEvent.change(groupPassword, { target: { value: "abc123" } });
-    fireEvent.change(userName, { target: { value: "太郎" } });
-    fireEvent.change(email, { target: { value: "mail@mail.com" } });
-    fireEvent.change(userPassword, { target: { value: "abc12" } });
-    fireEvent.change(userPasswordConfirmation, { target: { value: "abc12" } });
-    button.click();
-  });
-  const message = screen.getByRole("heading", {
-    name: "パスワードは数字とアルファベットを含んだ6文字以上でなければなりません",
-  });
-  expect(message).toBeInTheDocument();
-});
-it("should not allow if userPassword and confirmation are not identical", () => {
-  render(
-    <RouterContext.Provider value={createMockRouter({})}>
-      <CreateUser />;
-    </RouterContext.Provider>,
-  );
-  const groupId = screen.getByPlaceholderText("グループID");
-  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
-  const userName = screen.getByPlaceholderText("ユーザー名");
-  const email = screen.getByPlaceholderText("メールアドレス");
-  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
-  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
-  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
-  act(() => {
-    fireEvent.change(groupId, { target: { value: "0" } });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
     fireEvent.change(groupPassword, { target: { value: "abc123" } });
     fireEvent.change(userName, { target: { value: "太郎" } });
     fireEvent.change(email, { target: { value: "mail@mail.com" } });
     fireEvent.change(userPassword, { target: { value: "abc123" } });
-    fireEvent.change(userPasswordConfirmation, { target: { value: "abc124" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "123456" } });
     button.click();
   });
-  const message = screen.getByRole("heading", { name: "パスワードと確認が一致しません" });
+  const message = screen.getByText("パスワードにはアルファベットと数字を含めてください");
   expect(message).toBeInTheDocument();
 });
+
+it("should not allow too short userPasswordConfirmation", async () => {
+  render(
+    <RouterContext.Provider value={createMockRouter({})}>
+      <CreateUser />;
+    </RouterContext.Provider>,
+  );
+  const groupId = screen.getByPlaceholderText("グループID");
+  const groupPassword = screen.getByPlaceholderText("グループのパスワード");
+  const userName = screen.getByPlaceholderText("ユーザー名");
+  const email = screen.getByPlaceholderText("メールアドレス");
+  const userPassword = screen.getByPlaceholderText("ユーザーのパスワード");
+  const userPasswordConfirmation = screen.getByPlaceholderText("パスワードの確認");
+  const button = screen.getByRole("button", { name: "ユーザーを作成する" });
+  await act(async () => {
+    fireEvent.change(groupId, { target: { value: "1" } });
+    fireEvent.change(groupPassword, { target: { value: "abc123" } });
+    fireEvent.change(userName, { target: { value: "太郎" } });
+    fireEvent.change(email, { target: { value: "mail@mail.com" } });
+    fireEvent.change(userPassword, { target: { value: "abc123" } });
+    fireEvent.change(userPasswordConfirmation, { target: { value: "abc12" } });
+    button.click();
+  });
+  const message = screen.getByText("パスワードは6文字以上にしてください");
+  expect(message).toBeInTheDocument();
+});
+
 it("should handle error from server side", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({})}>
@@ -316,7 +423,8 @@ it("should handle error from server side", async () => {
   const message = await screen.findByRole("heading", { name: "error from server" });
   expect(message).toBeInTheDocument();
 });
-it("should fill groupID if given in query", () => {
+
+it("should fill groupID if given in query", async () => {
   render(
     <RouterContext.Provider value={createMockRouter({ query: { groupId: 1 } })}>
       <CreateUser />;
