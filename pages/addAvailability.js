@@ -1,14 +1,14 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import LoginRequiredModal from "../components/loginRequiredModal";
-import { isLoggedInContext } from "../lib/isLoggedInContext";
-import BorderM from "../components/borderM";
-import InputS from "../components/inputS";
-import MessageModal from "../components/messageModal";
-import { isDateValid, isTimeValid } from "../lib/addAvailabilityHelper";
-import InnerBorder from "../components/innerBorder";
-import ButtonM from "../components/buttonM";
-import PageTitle from "../components/pageTitle";
+import LoginRequiredModal from "components/common/loginRequiredModal";
+import { isLoggedInContext } from "lib/isLoggedInContext";
+import BorderM from "components/common/borderM";
+import InputS from "components/common/inputS";
+import MessageModal from "components/common/messageModal";
+import { isDateValid, isTimeValid } from "lib/addAvailabilityHelper";
+import InnerBorder from "components/common/innerBorder";
+import ButtonM from "components/common/buttonM";
+import PageTitle from "components/common/pageTitle";
 import { useForm } from "react-hook-form";
 export default function AddAvailability() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);

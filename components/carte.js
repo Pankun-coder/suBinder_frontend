@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import CalendarTab from "../components/calendarTab";
-import SearchStudent from "../components/searchStudent";
-import ProgressTab from "../components/progressTab";
+import CalendarTab from "components/calendarTab/calendarTab";
+import SearchStudent from "components/searchStudent";
+import ProgressTab from "components/progressTab/progressTab";
 import { useRouter } from "next/router";
 export default function Carte(props) {
   const [currentTab, setCurrentTab] = useState(0);

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
-import MessageModal from "../components/messageModal";
-import GuestPageTitle from "../components/guestPage/guestPageTitle";
-import GuestPageBorder from "../components/guestPage/guestPageBorder";
-import GuestPageInput from "../components/guestPage/guestPageInput";
-import GuestPageButton from "../components/guestPage/guestPageButton";
-import { isLoggedInContext } from "../lib/isLoggedInContext";
+import MessageModal from "components/common/messageModal";
+import GuestPageTitle from "components/guestPage/guestPageTitle";
+import GuestPageBorder from "components/guestPage/guestPageBorder";
+import GuestPageInput from "components/guestPage/guestPageInput";
+import GuestPageButton from "components/guestPage/guestPageButton";
+import { isLoggedInContext } from "lib/isLoggedInContext";
 import { useForm } from "react-hook-form";
 export default function Login() {
   const [message, setMessage] = useState({ body: "", isError: false });

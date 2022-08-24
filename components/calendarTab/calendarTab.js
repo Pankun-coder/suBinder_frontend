@@ -1,8 +1,8 @@
 import { useState } from "react";
 import useSWR from "swr";
-import { calendarDaysFor } from "../lib/calendarHelper";
-import fetcher from "../lib/fetcher";
-import DayInCalendar from "./dayInCalendar";
+import { calendarDaysFor } from "lib/calendarHelper";
+import fetcher from "lib/fetcher";
+import DayInCalendar from "components/calendarTab/dayInCalendar";
 
 export default function CalendarTab(props) {
   const [dateObj, setDateObj] = useState(new Date());

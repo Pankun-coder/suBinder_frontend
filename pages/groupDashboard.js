@@ -1,11 +1,10 @@
-import fetcher from "../lib/fetcher";
-import Layout from "../layouts";
+import fetcher from "lib/fetcher";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import Carte from "../components/carte";
+import Carte from "components/carte";
 import { useContext } from "react";
-import { isLoggedInContext } from "../lib/isLoggedInContext";
-import LoginRequiredModal from "../components/loginRequiredModal";
+import { isLoggedInContext } from "lib/isLoggedInContext";
+import LoginRequiredModal from "components/common/loginRequiredModal";
 
 export default function GroupDashboard() {
   const { data, error } = useSWR(

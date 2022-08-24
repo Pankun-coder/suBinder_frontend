@@ -1,8 +1,8 @@
-import ModalM from "./modalM";
-import { isTimeAvailable, isTimeReservedBy } from "../lib/calendarHelper";
-import Time from "./time";
-import { areObjectsIdentical } from "../lib/calendarHelper";
-import PageNavagation from "./pageNavagation";
+import ModalM from "components/common/modalM";
+import { isTimeAvailable, isTimeReservedBy } from "lib/calendarHelper";
+import Time from "components/calendarTab/time";
+import { areObjectsIdentical } from "lib/calendarHelper";
+import PageNavagation from "components/common/pageNavagation";
 import { useState } from "react";
 
 export default function AvailableTimeModal(props) {

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import IndexPageCard from "../components/indexPageCard";
-import IndexPageButton from "../components/indexPageButton";
+import IndexPageCard from "components/indexPage/indexPageCard";
+import IndexPageButton from "components/indexPage/indexPageButton";
 export default function Home() {
   return (
     <div className="">

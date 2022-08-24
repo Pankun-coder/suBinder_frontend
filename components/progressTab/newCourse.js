@@ -1,18 +1,20 @@
 import { useState } from "react";
-import CourseModal from "./courseModal";
-export default function Course(props) {
+import NewCourseModal from "components/progressTab/newCourseModal";
+
+export default function NewCourse(props) {
   const [isModalShown, setIsModalShown] = useState(false);
+
   return (
     <>
       <div
-        className="w-64 border-2 border-black bg-purple-400 my-2 text-black text-white px-2 inline-block mx-2 cursor-pointer"
+        className="w-64 bg-purple-500 text-white px-2 inline-block mx-2 cursor-pointer"
         onClick={() => setIsModalShown(true)}
       >
-        {props.courseName}
+        新しいコースを登録する
       </div>
       {isModalShown && (
-        <CourseModal
-          steps={props.steps}
+        <NewCourseModal
+          studentInfo={props.studentInfo}
           onClickClose={() => {
             setIsModalShown(false);
           }}

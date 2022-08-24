@@ -2,8 +2,8 @@ import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import axios from "axios";
-import CreateUser from "../pages/signUp/createUser";
-import { createMockRouter } from "../lib/createMockRouter";
+import CreateUser from "pages/signUp/createUser";
+import { createMockRouter } from "lib/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 
 it("should not allow if groupId is left blank", async () => {

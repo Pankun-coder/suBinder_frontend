@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import fetcher from "../lib/fetcher";
-import NewCourse from "./newCourse";
-import Course from "./course";
+import fetcher from "lib/fetcher";
+import NewCourse from "components/progressTab/newCourse";
+import Course from "components/progressTab/course";
 
 export default function ProgressTab(props) {
   const { data, error } = useSWR(

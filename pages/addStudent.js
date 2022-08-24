@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState, useContext } from "react";
-import { isLoggedInContext } from "../lib/isLoggedInContext";
-import LoginRequiredModal from "../components/loginRequiredModal";
-import BorderM from "../components/borderM";
-import MessageModal from "../components/messageModal";
-import InputM from "../components/inputM";
-import PageTitle from "../components/pageTitle";
-import ButtonM from "../components/buttonM";
+import { isLoggedInContext } from "lib/isLoggedInContext";
+import LoginRequiredModal from "components/common/loginRequiredModal";
+import BorderM from "components/common/borderM";
+import MessageModal from "components/common/messageModal";
+import InputM from "components/common/inputM";
+import PageTitle from "components/common/pageTitle";
+import ButtonM from "components/common/buttonM";
 import { useForm } from "react-hook-form";
 
 export default function AddUser() {

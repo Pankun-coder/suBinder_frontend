@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
-import fetcher from "../lib/fetcher";
+import fetcher from "lib/fetcher";
 import { useRouter } from "next/router";
 
 export default function SearchStudent(props) {

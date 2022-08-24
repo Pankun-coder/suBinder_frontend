@@ -1,4 +1,4 @@
-import ModalS from "./modalS";
+import ModalS from "components/common/modalS";
 export default function MessageModal(props) {
   let style = "";
   if (props.isError) {

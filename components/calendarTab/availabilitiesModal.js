@@ -2,12 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import React from "react";
-import { isReservedBy, isAvailable } from "../lib/calendarHelper";
-import Availability from "./availability";
-import ModalS from "./modalS";
-import MessageModal from "./messageModal";
-import PageNavagation from "./pageNavagation";
-import { areAllValidNumbers } from "../lib/addAvailabilityHelper";
+import { isReservedBy, isAvailable } from "lib/calendarHelper";
+import Availability from "components/calendarTab/availability";
+import ModalS from "components/common/modalS";
+import MessageModal from "components/common/messageModal";
+import PageNavagation from "components/common/pageNavagation";
 
 export default function AvailabilitiesModal(props) {
   const [message, setMessage] = useState({ body: "", isError: false });

@@ -1,10 +1,10 @@
-import Step from "./step";
-import ModalM from "../components/modalM";
+import Step from "components/progressTab/step";
+import ModalM from "components/common/modalM";
 import { useState } from "react";
 import axios from "axios";
-import { toSnakeCase } from "../lib/JSONHelpler";
-import MessageModal from "./messageModal";
-import PageNavagation from "./pageNavagation";
+import { toSnakeCase } from "lib/JSONHelpler";
+import MessageModal from "components/common/messageModal";
+import PageNavagation from "components/common/pageNavagation";
 export default function CourseModal(props) {
   const [stepInfo, setStepInfo] = useState(props.steps);
   const [message, setMessage] = useState({ body: "", isError: false });

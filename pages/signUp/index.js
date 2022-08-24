@@ -1,7 +1,6 @@
-import Layout from "../../layouts";
 import Link from "next/link";
-import GuestPageBorder from "../../components/guestPage/guestPageBorder";
-import GuestPageTitle from "../../components/guestPage/guestPageTitle";
+import GuestPageBorder from "components/guestPage/guestPageBorder";
+import GuestPageTitle from "components/guestPage/guestPageTitle";
 export default function SignUp() {
   return (
     <GuestPageBorder>

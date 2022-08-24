@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import AvailabilitiesModal from "./availabilitiesModal";
+import AvailabilitiesModal from "components/calendarTab/availabilitiesModal";
 export default function AvailabilitiesForTime(props) {
   const [isModalShown, setIsModalShown] = useState(false);
 

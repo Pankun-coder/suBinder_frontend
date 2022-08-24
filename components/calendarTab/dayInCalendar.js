@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { isDayReservedBy, isDayAvailable } from "../lib/calendarHelper";
-import AvailableTimeModal from "./availableTimeModal";
+import { isDayReservedBy, isDayAvailable } from "lib/calendarHelper";
+import AvailableTimeModal from "components/calendarTab/availableTimeModal";
 
 export default function DayInCalendar(props) {
   const [isModalShown, setIsModalShown] = useState(false);

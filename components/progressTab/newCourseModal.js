@@ -1,10 +1,10 @@
 import useSWR from "swr";
-import fetcher from "../lib/fetcher";
-import ModalM from "./modalM";
+import fetcher from "lib/fetcher";
+import ModalM from "components/common/modalM";
 import { useState } from "react";
 import axios from "axios";
-import MessageModal from "./messageModal";
-import PageNavagation from "./pageNavagation";
+import MessageModal from "components/common/messageModal";
+import PageNavagation from "components/common/pageNavagation";
 
 export default function NewCourseModal(props) {
   const [message, setMessage] = useState({ body: "", isError: false });

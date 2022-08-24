@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import MessageModal from "../../components/messageModal";
-import GuestPageInput from "../../components/guestPage/guestPageInput";
-import GuestPageBorder from "../../components/guestPage/guestPageBorder";
-import GuestPageButton from "../../components/guestPage/guestPageButton";
-import GuestPageTitle from "../../components/guestPage/guestPageTitle";
+import MessageModal from "components/common/messageModal";
+import GuestPageInput from "components/guestPage/guestPageInput";
+import GuestPageBorder from "components/guestPage/guestPageBorder";
+import GuestPageButton from "components/guestPage/guestPageButton";
+import GuestPageTitle from "components/guestPage/guestPageTitle";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
