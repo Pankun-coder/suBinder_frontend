@@ -6,7 +6,11 @@ module.exports = {
     "./layouts/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        shippori: ["Shippori Mincho B1", "serif"],
+      },
+    },
   },
   plugins: [],
 };
