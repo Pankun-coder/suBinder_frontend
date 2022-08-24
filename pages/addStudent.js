@@ -9,7 +9,7 @@ import PageTitle from "components/common/pageTitle";
 import ButtonM from "components/common/buttonM";
 import { useForm } from "react-hook-form";
 
-export default function AddUser() {
+export default function AddStudent() {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
   const [message, setMessage] = useState({ body: "", isError: false });
   const {
