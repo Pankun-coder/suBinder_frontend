@@ -5,6 +5,7 @@ export default function InputS(props) {
       onChange={props.onChange}
       value={props.value}
       {...props.register}
+      id={props.id}
     ></input>
   );
 }
