@@ -23,12 +23,12 @@ export default function AddAvailability() {
   const send = (data) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/`;
 
-    const fromYear = data.fromDate.getFullYear();
-    const fromMonth = data.fromDate.getMonth() + 1;
-    const fromDay = data.fromDate.getDate();
-    const toYear = data.toDate.getFullYear();
-    const toMonth = data.toDate.getMonth() + 1;
-    const toDay = data.toDate.getDate();
+    const fromYear = parseInt(data.fromDate.slice(0, 4));
+    const fromMonth = parseInt(data.fromDate.slice(5, 7));
+    const fromDay = parseInt(data.fromDate.slice(8, 10));
+    const toYear = parseInt(data.toDate.slice(0, 4));
+    const toMonth = parseInt(data.toDate.slice(5, 7));
+    const toDay = parseInt(data.toDate.slice(8, 10));
     const fromHour = parseInt(data.fromTime.slice(0, 2));
     const fromMin = parseInt(data.fromTime.slice(3, 5));
     const toHour = parseInt(data.toTime.slice(0, 2));
@@ -98,6 +98,7 @@ export default function AddAvailability() {
         <InnerBorder>
           <h2>予約時間</h2>
           <div className="mx-auto my-4 w-fit">
+            <label htmlFor="from-time">開始時刻:</label>
             <input
               type="time"
               className="border-2 border-black"
@@ -107,11 +108,11 @@ export default function AddAvailability() {
               })}
             />
 
-            <label htmlFor="from-time">から</label>
             {errors.toTime && <p>{errors.toTime.message}</p>}
           </div>
 
           <div className="mx-auto my-4 w-fit">
+            <label htmlFor="to-time">終了時刻:</label>
             <input
               type="time"
               className="border-2 border-black"
@@ -120,7 +121,7 @@ export default function AddAvailability() {
                 required: "入力が必須の項目です",
               })}
             />
-            <label htmlFor="to-time">まで</label>
+
             {errors.fromTime && <p>{errors.fromTime.message}</p>}
           </div>
         </InnerBorder>
@@ -134,7 +135,6 @@ export default function AddAvailability() {
               className="border-2 border-black"
               {...register("fromDate", {
                 required: "入力が必須の項目です",
-                valueAsDate: true,
               })}
             />
             <label htmlFor="from-date">から</label>
@@ -147,7 +147,6 @@ export default function AddAvailability() {
               className="border-2 border-black"
               {...register("toDate", {
                 required: "入力が必須の項目です",
-                valueAsDate: true,
               })}
             />
             <label htmlFor="to-date">まで</label>

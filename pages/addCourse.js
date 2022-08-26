@@ -6,16 +6,25 @@ import { useState } from "react";
 import InnerBorder from "components/common/innerBorder";
 import axios from "axios";
 import ButtonM from "components/common/buttonM";
+import { isLoggedInContext } from "lib/isLoggedInContext";
+import LoginRequiredModal from "components/common/loginRequiredModal";
+import { useContext } from "react";
 
 export default function AddCourse() {
   const [courseName, setCourseName] = useState("");
   const [steps, setSteps] = useState([]);
   const [stepName, setStepName] = useState("");
   const [message, setMessage] = useState({ body: "", isError: false });
+  const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
 
+  if (!isLoggedIn) return <LoginRequiredModal />;
   const addCourse = () => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/courses`;
     const data = { course: { name: courseName }, steps: steps };
+    if (!courseName) {
+      setMessage({ body: "教材名を入力してください", isError: true });
+      return;
+    }
     axios
       .post(url, data, { withCredentials: true })
       .then((response) => {
