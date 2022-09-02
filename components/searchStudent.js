@@ -9,7 +9,7 @@ export default function SearchStudent(props) {
   const [userInput, setUserInput] = useState("");
 
   const searchStudent = () => {
-    router.push(`/groupDashboard?studentId=${parseInt(userInput)}`);
+    router.push(`/cartePage?studentId=${parseInt(userInput)}`);
   };
 
   return (

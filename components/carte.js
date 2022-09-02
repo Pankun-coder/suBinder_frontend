@@ -30,7 +30,7 @@ export default function Carte(props) {
 
   const changeTabTo = (tab) => {
     if (tab === currentTab) return null;
-    router.push(`/groupDashboard?studentId=${studentInfo.id}&tab=${tab}`);
+    router.push(`/cartePage?studentId=${studentInfo.id}&tab=${tab}`);
   };
 
   const tab = () => {

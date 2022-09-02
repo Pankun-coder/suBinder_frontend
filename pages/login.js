@@ -12,7 +12,7 @@ export default function Login() {
   const [message, setMessage] = useState({ body: "", isError: false });
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
   const router = useRouter();
-  if (isLoggedIn) router.push("/groupDashboard");
+  if (isLoggedIn) router.push("/cartePage");
   const {
     register,
     handleSubmit,

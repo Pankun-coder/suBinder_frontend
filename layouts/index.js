@@ -44,8 +44,8 @@ export default function Layout({ children }) {
             <nav className="inline-block align-bottom">
               <ul className="hidden xl:block xl:absolute bottom-0 right-0">
                 <li className="inline-block mx-4">
-                  <Link href="/groupDashboard">
-                    <a>ダッシュボード</a>
+                  <Link href="/cartePage">
+                    <a>カルテ</a>
                   </Link>
                 </li>
                 <li
@@ -123,8 +123,8 @@ export default function Layout({ children }) {
                   setIsMenuOpened(false);
                 }}
               >
-                <Link href="/groupDashboard">
-                  <a>ダッシュボード</a>
+                <Link href="/cartePage">
+                  <a>カルテ</a>
                 </Link>
               </li>
               <li className="md:mt-8">

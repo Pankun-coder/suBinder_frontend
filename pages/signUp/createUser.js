@@ -38,7 +38,7 @@ export default function CreateUser() {
     axios
       .post(url, userData)
       .then((response) => {
-        if (response.data.message === "user saved") router.push("/groupDashboard");
+        if (response.data.message === "user saved") router.push("/cartePage");
       })
       .catch((error) => {
         setMessage({ body: error.response.data.message, isError: true });

@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { isLoggedInContext } from "lib/isLoggedInContext";
 import LoginRequiredModal from "components/common/loginRequiredModal";
 
-export default function GroupDashboard() {
+export default function CartePage() {
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/groups/`,
     fetcher,
