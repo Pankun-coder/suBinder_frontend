@@ -32,36 +32,34 @@ export default function CourseModal(props) {
   };
   return (
     <ModalM onClickClose={props.onClickClose}>
-      <div className="pt-4">
-        <ol>
-          {stepInfo
-            .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
-            .map((step, index) => {
-              return (
-                <li key={step.id}>
-                  <Step
-                    key={index}
-                    name={step.name}
-                    isCompleted={step.isCompleted}
-                    id={step.id}
-                    checked={stepInfo[index].isCompleted}
-                    onChange={() => {
-                      setIsComleted(index);
-                    }}
-                  />
-                </li>
-              );
-            })}
-        </ol>
-        <PageNavagation
-          pages={pages}
-          setPage={(page) => {
-            setCurrentPage(page);
-          }}
-          currentPage={currentPage}
-        />
+      <div className="h-full w-full md:h-full flex flex-col items-center">
+        <span className="bg-purple-400 mt-0 text-gray-100 font-bold text-xl inline-block w-full md:text-4xl">
+          進捗状況
+        </span>
+        <div className="grow">
+          <div className="mt-2 w-48 overflow-scroll h-32 md:h-56 md:w-72 lg:w-96 bg-purple-200">
+            <ol>
+              {stepInfo.map((step, index) => {
+                return (
+                  <li key={step.id}>
+                    <Step
+                      key={index}
+                      name={step.name}
+                      isCompleted={step.isCompleted}
+                      id={step.id}
+                      checked={stepInfo[index].isCompleted}
+                      onChange={() => {
+                        setIsComleted(index);
+                      }}
+                    />
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </div>
         <button
-          className="absolute bottom-8 w-fit inset-x-0 m-auto border-2 border-black bg-purple-400 "
+          className="w-fit m-auto border-2 mb-4 border-black bg-purple-400"
           type="button"
           onClick={() => {
             update();

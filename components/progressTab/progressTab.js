@@ -12,16 +12,16 @@ export default function ProgressTab(props) {
   if (error) return <h1>エラーが発生しました</h1>;
 
   return (
-    <div className="h-32">
+    <div className="min-h-fit h-72 flex flex-col items-center justify-center w-full">
       <ul>
         {Object.keys(data.progresses).map((key) => {
           return (
-            <li className="inline-block" key={key}>
+            <li className="md:inline-block" key={key}>
               <Course courseName={data.progresses[key].name} steps={data.progresses[key].steps} />
             </li>
           );
         })}
-        <li className="inline-block">
+        <li className="md:inline-block">
           <NewCourse studentInfo={props.studentInfo} />
         </li>
       </ul>

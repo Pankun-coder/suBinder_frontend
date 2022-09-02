@@ -1,17 +1,20 @@
 import ModalS from "components/common/modalS";
 export default function MessageModal(props) {
-  let style = "";
-  if (props.isError) {
-    style += "text-red-500 text-4xl";
-  } else {
-    style += "text-black text-4xl";
-  }
   return (
     <ModalS onClickClose={props.onClickClose}>
-      <div className="h-full w-full flex justify-center items-center">
-        <h1 data-testid="message" className={style}>
-          {props.message}
-        </h1>
+      <div className="h-full w-full md:h-full flex flex-col">
+        {props.isError ? (
+          <span className="bg-red-600 mt-0 text-gray-100 font-bold text-xl inline-block w-full md:text-4xl md:py-2">
+            ERROR
+          </span>
+        ) : (
+          <div className="bg-purple-400 mt-0 text-gray-100 font-bold text-xl inline-block w-full md:text-4xl md:py-2">
+            MESSAGE
+          </div>
+        )}
+        <div className="flex items-center justify-center grow">
+          <h1 className="text-black text-xl md:text-4xl md:font-thin">{props.message}</h1>
+        </div>
       </div>
     </ModalS>
   );

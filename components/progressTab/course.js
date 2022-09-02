@@ -5,7 +5,7 @@ export default function Course(props) {
   return (
     <>
       <div
-        className="w-64 border-2 border-black bg-purple-400 my-2 text-black text-white px-2 inline-block mx-2 cursor-pointer"
+        className="w-fit mx-auto cursor-pointer mb-1 md:inline-block md:rounded md:mx-2 md:py-2 md:w-60 md:text-xl border-2 border-black w-52 md:my-1 xl:w-80 xl:text-3xl"
         onClick={() => setIsModalShown(true)}
       >
         {props.courseName}

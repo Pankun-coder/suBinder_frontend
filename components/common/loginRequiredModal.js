@@ -1,13 +1,31 @@
 import Link from "next/link";
+import ModalS from "components/common/modalS";
+import { useRouter } from "next/router";
 export default function LoginRequiredModal() {
+  const router = useRouter();
   return (
-    <section className="fixed top-0 left-0 w-full h-full bg-black/30">
-      <div className="left-0 right-0 top-0 bottom-0 w-1/2 h-1/2 absolute m-auto align-middle bg-gray-100 opacity-100 border-2 border-black shadow-2xl">
-        <h1>ログインが必要なページです</h1>
-        <Link href="/login">
-          <a>ログインページへ</a>
-        </Link>
+    <ModalS
+      onClickClose={() => {
+        router.push("/");
+      }}
+    >
+      <div className="h-full w-full md:h-full flex flex-col items-center">
+        <span className="bg-red-600 mt-0 text-gray-100 font-bold text-xl inline-block w-full md:text-4xl md:py-2">
+          ERROR
+        </span>
+        <div className="flex flex-col items-center justify-center grow">
+          <div>
+            <h1 className="text-black text-xl md:text-4xl md:font-thin py-2">
+              ログインが必要なページです
+            </h1>
+            <Link href="/login">
+              <a className="border-b-2 border-blue-400 w-fit mb-4 text-blue-700 my-auto md:text-xl">
+                ログインページへ
+              </a>
+            </Link>
+          </div>
+        </div>
       </div>
-    </section>
+    </ModalS>
   );
 }

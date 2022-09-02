@@ -1,10 +1,4 @@
-export default function ModalM({ children, onClickClose, isError }) {
-  let textStyle = "";
-  if (isError) {
-    textStyle = "text-4xl text-red-500 table-cell align-middle ";
-  } else {
-    textStyle = "textl4xl text-black";
-  }
+export default function ModalM({ children, onClickClose }) {
   return (
     <section onClick={onClickClose} className="fixed top-0 left-0 w-full h-full bg-black/30">
       <div
@@ -12,7 +6,7 @@ export default function ModalM({ children, onClickClose, isError }) {
           e.stopPropagation();
         }}
         className={
-          "left-0 right-0 top-0 bottom-0 w-1/2 h-1/2 absolute m-auto bg-gray-100 border-2 border-black shadow-2xl text-center"
+          "left-0 right-0 top-0 bottom-0 w-2/3 h-60 md:h-80 absolute m-auto bg-gray-200 shadow-2xl text-center"
         }
       >
         {children}
