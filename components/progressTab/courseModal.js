@@ -4,13 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import { toSnakeCase } from "lib/JSONHelpler";
 import MessageModal from "components/common/messageModal";
-import PageNavagation from "components/common/pageNavagation";
+
 export default function CourseModal(props) {
   const [stepInfo, setStepInfo] = useState(props.steps);
   const [message, setMessage] = useState({ body: "", isError: false });
-  const [currentPage, setCurrentPage] = useState(1);
-  const limitForAPage = 8;
-  const pages = Math.ceil(stepInfo.length / limitForAPage);
 
   const setIsComleted = (index) => {
     let Obj = JSON.parse(JSON.stringify(stepInfo));
