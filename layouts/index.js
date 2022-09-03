@@ -39,7 +39,7 @@ export default function Layout({ children }) {
         <header className="sticky top-0 w-full h-12 md:h-24 xl:h-fit xl:relative bg-gradient-to-r from-purple-400 to-purple-500">
           <div className="text-white justify-between relative">
             <h1 className="inline-block text-3xl text-4xl md:text-8xl xl:text-3xl align-bottom ml-0">
-              e-C4rte
+              suBinder
             </h1>
             <nav className="inline-block align-bottom">
               <ul className="hidden xl:block xl:absolute bottom-0 right-0">
@@ -221,7 +221,7 @@ export default function Layout({ children }) {
       <>
         <header>
           <div className="bg-gradient-to-r from-purple-400 to-purple-500 text-white justify-between relative">
-            <h1 className="inline-block text-3xl align-bottom ml-0">e-C4rte</h1>
+            <h1 className="inline-block text-3xl align-bottom ml-0">suBinder</h1>
             <nav className="inline-block align-bottom">
               <ul className="absolute bottom-0 right-0">
                 <li className="inline-block mx-4">
