@@ -21,7 +21,7 @@ export default function AddAvailability() {
   } = useForm();
 
   const send = (data) => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/class_availabilities/`;
 
     const fromYear = parseInt(data.fromDate.slice(0, 4));
     const fromMonth = parseInt(data.fromDate.slice(5, 7));

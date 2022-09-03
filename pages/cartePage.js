@@ -8,7 +8,7 @@ import LoginRequiredModal from "components/common/loginRequiredModal";
 
 export default function CartePage() {
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/groups/`,
+    `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/groups/`,
     fetcher,
   );
   const router = useRouter();

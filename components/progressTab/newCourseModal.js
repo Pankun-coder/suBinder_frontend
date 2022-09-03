@@ -10,7 +10,7 @@ export default function NewCourseModal(props) {
   const [message, setMessage] = useState({ body: "", isError: false });
   const [currentPage, setCurrentPage] = useState(1);
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/courses`,
+    `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/courses`,
     fetcher,
   );
   if (!data) return <ModalM onClickClose={props.onClickClose}>loading</ModalM>;
@@ -20,7 +20,7 @@ export default function NewCourseModal(props) {
   const pages = Math.ceil(data.courses.length / limitForAPage);
 
   const addCourse = (courseId) => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/progresses/bulk_create/`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/progresses/bulk_create/`;
     const data = { student_id: props.studentInfo.id, course_id: courseId };
     axios
       .post(url, data, { withCredentials: true })

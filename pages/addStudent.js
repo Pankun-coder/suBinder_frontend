@@ -19,7 +19,7 @@ export default function AddStudent() {
   } = useForm();
 
   const createStudent = (data) => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/students`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/students`;
     const studentData = { name: data.studentName };
     axios
       .post(url, studentData, { withCredentials: true })

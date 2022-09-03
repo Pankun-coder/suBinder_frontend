@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 export default function Layout({ children }) {
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
-  const { data } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/sessions/`, fetcher);
+  const { data } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/sessions/`, fetcher);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Layout({ children }) {
   }, [data]);
 
   const handleLogout = () => {
-    const url = `http://${process.env.NEXT_PUBLIC_BACKEND_HOST}:3001/api/v0/sessions/logout`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/sessions/logout`;
     axios
       .delete(url, { withCredentials: true })
       .then((response) => {

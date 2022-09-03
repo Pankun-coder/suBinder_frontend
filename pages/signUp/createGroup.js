@@ -23,7 +23,7 @@ export default function CreateGroup() {
     formState: { errors },
   } = useForm();
   const handleCreateGroup = (data) => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/groups`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/groups`;
     const groupData = {
       group: {
         name: data.groupName,

@@ -19,7 +19,7 @@ export default function AddCourse() {
 
   if (!isLoggedIn) return <LoginRequiredModal />;
   const addCourse = () => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/courses`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/courses`;
     const data = { course: { name: courseName }, steps: steps };
     if (!courseName) {
       setMessage({ body: "教材名を入力してください", isError: true });

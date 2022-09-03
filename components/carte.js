@@ -10,7 +10,7 @@ export default function Carte(props) {
   const router = useRouter();
   useEffect(() => {
     if (props.query.studentId) {
-      const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/students/${props.query.studentId}`;
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/students/${props.query.studentId}`;
       axios
         .get(url, {
           withCredentials: true,

@@ -23,7 +23,7 @@ export default function Login() {
   const passwordMinLength = 6;
 
   const handleLogin = (data) => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/sessions/`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/sessions/`;
     const userData = {
       user: {
         email: data.userEmail,

@@ -17,7 +17,7 @@ export default function AvailabilitiesModal(props) {
 
   const updateReservation = ({ reservationId = null, isCancelling = false }) => {
     const data = { student_id: props.studentInfo.id };
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/${reservationId}?cancel=${isCancelling}`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/class_availabilities/${reservationId}?cancel=${isCancelling}`;
     axios
       .patch(url, data, { withCredentials: true })
       .then(() => {

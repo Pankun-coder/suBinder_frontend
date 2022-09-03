@@ -8,7 +8,7 @@ export default function CalendarTab(props) {
   const [dateObj, setDateObj] = useState(new Date());
 
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/class_availabilities/search?month=${
+    `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/class_availabilities/search?month=${
       dateObj.getMonth() + 1
     }&year=${dateObj.getFullYear()}`,
     fetcher,

@@ -19,7 +19,7 @@ export default function CourseModal(props) {
   };
 
   const update = () => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/progresses/bulk_update/`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/progresses/bulk_update/`;
     const data = { progresses: toSnakeCase(stepInfo) };
     axios
       .patch(url, data, { withCredentials: true })

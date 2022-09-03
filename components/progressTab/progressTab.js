@@ -5,7 +5,7 @@ import Course from "components/progressTab/course";
 
 export default function ProgressTab(props) {
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/progresses/search?student_id=${props.studentInfo.id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/progresses/search?student_id=${props.studentInfo.id}`,
     fetcher,
   );
   if (!data) return <h1>loading...</h1>;

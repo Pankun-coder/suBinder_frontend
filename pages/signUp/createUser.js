@@ -22,7 +22,7 @@ export default function CreateUser() {
   } = useForm({ defaultValues: { groupId: router.query.groupId } });
 
   const handleSignUp = (data) => {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/users`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/users`;
     const userData = {
       group: {
         id: data.groupId,

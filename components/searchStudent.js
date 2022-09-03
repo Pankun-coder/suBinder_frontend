@@ -4,7 +4,7 @@ import fetcher from "lib/fetcher";
 import { useRouter } from "next/router";
 
 export default function SearchStudent(props) {
-  const { data } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api/v0/students/`, fetcher);
+  const { data } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/students/`, fetcher);
   const router = useRouter();
   const [userInput, setUserInput] = useState("");
 
