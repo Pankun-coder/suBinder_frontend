@@ -1,6 +1,6 @@
 # suBinder
 このリポジトリはsuBinderのフロントエンドです。  
-[バックエンドのリポジトリはこちら](https://github.com/Pankun-coder/e-carte_backend "バックエンドのリポジトリ")
+[バックエンドのリポジトリはこちら](https://github.com/Pankun-coder/suBinder_backend "バックエンドのリポジトリ")
 ## 概要
 
 [https://www.sub-binder.com](https://www.sub-binder.com "サイトURL")  
