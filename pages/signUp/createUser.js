@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import MessageModal from "components/common/messageModal";
 import GuestPageInput from "components/guestPage/guestPageInput";
@@ -7,6 +7,7 @@ import GuestPageButton from "components/guestPage/guestPageButton";
 import GuestPageTitle from "components/guestPage/guestPageTitle";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { isLoggedInContext } from "lib/isLoggedInContext";
 
 export default function CreateUser() {
   const [message, setMessage] = useState({ body: "", isError: false });
@@ -21,24 +22,37 @@ export default function CreateUser() {
     formState: { errors },
   } = useForm({ defaultValues: { groupId: router.query.groupId } });
 
+  const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+
   const handleSignUp = (data) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/users`;
+    const groupData = {
+      id: data.groupId,
+      password: data.groupPassword,
+    };
     const userData = {
-      group: {
-        id: data.groupId,
-        password: data.groupPassword,
-      },
-      user: {
-        name: data.userName,
-        email: data.userEmail,
-        password: data.userPassword,
-        password_confirmation: data.userPasswordConfirmation,
-      },
+      name: data.userName,
+      email: data.userEmail,
+      password: data.userPassword,
+      password_confirmation: data.userPasswordConfirmation,
     };
     axios
-      .post(url, userData)
+      .post(url, { user: userData, group: groupData })
       .then((response) => {
-        if (response.data.message === "user saved") router.push("/cartePage");
+        if (response.status === 200) {
+          axios
+            .post(
+              `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/sessions/`,
+              { user: userData },
+              {
+                withCredentials: true,
+              },
+            )
+            .then((response) => {
+              setIsLoggedIn(true);
+              router.push("/cartePage");
+            });
+        }
       })
       .catch((error) => {
         setMessage({ body: error.response.data.message, isError: true });
