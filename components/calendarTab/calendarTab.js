@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
-import { calendarDaysFor } from "lib/calendarHelper";
+import { getFirstDayOfMonth, getLastDayOfMonth } from "lib/calendarHelper";
 import fetcher from "lib/fetcher";
 import DayInCalendar from "components/calendarTab/dayInCalendar";
 
@@ -15,6 +15,24 @@ export default function CalendarTab(props) {
   );
   if (!data) return <h1>loading...</h1>;
   if (error) return <h1>エラーが発生しました</h1>;
+
+  const getArrayOfDaysInMonth = (dateObj) => {
+    const firstOfMonth = getFirstDayOfMonth(dateObj);
+    const lastOfMonth = getLastDayOfMonth(dateObj);
+
+    const preBlanks = Array(firstOfMonth.getDay()).fill(0); //0 = sun, 1 = mon...　represents how many blanks are needed
+
+    const validDays = Array(lastOfMonth.getDate())
+      .fill(0)
+      .map((_, index) => index + 1);
+
+    if ((preBlanks.length + validDays.length) % 7 === 0) {
+      return preBlanks.concat(validDays);
+    } else {
+      const postBlanks = Array(7 - ((preBlanks.length + validDays.length) % 7)).fill(0);
+      return preBlanks.concat(validDays, postBlanks);
+    }
+  };
 
   const changeMonthBy = (difference) => {
     let copy = new Date(dateObj.getFullYear(), dateObj.getMonth() + difference, 1);
@@ -48,7 +66,7 @@ export default function CalendarTab(props) {
       <table className="m-auto">
         <tbody>
           {(() => {
-            const days = calendarDaysFor(dateObj);
+            const days = getArrayOfDaysInMonth(dateObj);
             const tableData = [];
             const tableRows = [
               <tr key={0}>
