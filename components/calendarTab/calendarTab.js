@@ -8,7 +8,7 @@ export default function CalendarTab(props) {
   const [dateObj, setDateObj] = useState(new Date());
 
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v0/class_availabilities/search?month=${
+    `${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/v1/class_availabilities/search?month=${
       dateObj.getMonth() + 1
     }&year=${dateObj.getFullYear()}`,
     fetcher,
@@ -16,28 +16,63 @@ export default function CalendarTab(props) {
   if (!data) return <h1>loading...</h1>;
   if (error) return <h1>エラーが発生しました</h1>;
 
-  const getArrayOfDaysInMonth = (dateObj) => {
-    const firstOfMonth = getFirstDayOfMonth(dateObj);
-    const lastOfMonth = getLastDayOfMonth(dateObj);
-
-    const preBlanks = Array(firstOfMonth.getDay()).fill(0); //0 = sun, 1 = mon...　represents how many blanks are needed
-
-    const validDays = Array(lastOfMonth.getDate())
-      .fill(0)
-      .map((_, index) => index + 1);
-
-    if ((preBlanks.length + validDays.length) % 7 === 0) {
-      return preBlanks.concat(validDays);
-    } else {
-      const postBlanks = Array(7 - ((preBlanks.length + validDays.length) % 7)).fill(0);
-      return preBlanks.concat(validDays, postBlanks);
-    }
-  };
-
   const changeMonthBy = (difference) => {
     let copy = new Date(dateObj.getFullYear(), dateObj.getMonth() + difference, 1);
     setDateObj(copy);
   };
+
+  const getArrayOfSquaresForCalendar = (dateObj) => {
+    const firstOfMonth = getFirstDayOfMonth(dateObj);
+    const lastOfMonth = getLastDayOfMonth(dateObj);
+    const daysForCells = [];
+
+    const preBlanks = Array(firstOfMonth.getDay()).fill(0); //0 = sun, 1 = mon...　represents how many blanks are needed
+    daysForCells.push(...preBlanks);
+
+    const validDays = Array(lastOfMonth.getDate())
+      .fill(0)
+      .map((_, index) => index + 1);
+    daysForCells.push(...validDays);
+
+    if (daysForCells.length % 7 !== 0) {
+      const postBlanks = Array(7 - (daysForCells.length % 7)).fill(0);
+      daysForCells.push(...postBlanks);
+    }
+
+    let tableCells = [];
+    for (let i = 0; i < daysForCells.length; i++) {
+      if (daysForCells[i] === 0) {
+        tableCells.push(
+          <td key={i}>
+            <DayInCalendar availabilitiesForDay={null} studentInfo={props.studentInfo} />
+          </td>,
+        );
+      } else {
+        const date = new Date(dateObj.getFullYear(), dateObj.getMonth(), daysForCells[i]);
+        tableCells.push(
+          <td key={i}>
+            <DayInCalendar
+              date={date}
+              availabilitiesForDay={data.filter(
+                (availability) =>
+                  Math.trunc(Number(availability.from.slice(8, 10))) == daysForCells[i],
+              )}
+              studentInfo={props.studentInfo}
+            />
+          </td>,
+        );
+      }
+    }
+    return tableCells;
+  };
+
+  const calendarCells = getArrayOfSquaresForCalendar(dateObj);
+  const calendarRows = [];
+  for (const i = 0; i < calendarCells.length; i++) {
+    if (i % 7 === 6) {
+      calendarRows.push(<tr key={calendarRows.length}>{calendarCells.slice(i - 6, i + 1)}</tr>);
+    }
+  }
 
   return (
     <>
@@ -65,48 +100,16 @@ export default function CalendarTab(props) {
 
       <table className="m-auto">
         <tbody>
-          {(() => {
-            const days = getArrayOfDaysInMonth(dateObj);
-            const tableData = [];
-            const tableRows = [
-              <tr key={0}>
-                <th>日</th>
-                <th>月</th>
-                <th>火</th>
-                <th>水</th>
-                <th>木</th>
-                <th>金</th>
-                <th>土</th>
-              </tr>,
-            ];
-            for (let i = 0; i < days.length; i++) {
-              if (days[i] === 0) {
-                tableData.push(
-                  <td key={i}>
-                    <DayInCalendar
-                      availabilitiesForDay={data[days[i]]}
-                      studentInfo={props.studentInfo}
-                    />
-                  </td>,
-                );
-              } else {
-                const date = new Date(dateObj.getFullYear(), dateObj.getMonth(), days[i]);
-                tableData.push(
-                  <td key={i}>
-                    <DayInCalendar
-                      date={date}
-                      availabilitiesForDay={data[days[i]]}
-                      studentInfo={props.studentInfo}
-                    />
-                  </td>,
-                );
-              }
-              if (i % 7 === 6) {
-                tableRows.push(<tr key={tableRows.length}>{tableData.slice(i - 6, i + 1)}</tr>);
-              }
-            }
-            return tableRows;
-          })()}
+          <tr>
+            <th>日</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+          </tr>
+          {calendarRows}
         </tbody>
       </table>
     </>

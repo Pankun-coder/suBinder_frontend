@@ -1,16 +1,17 @@
 import { useState } from "react";
 import React from "react";
 import AvailabilitiesModal from "components/calendarTab/availabilitiesModal";
+import { areAllReserved, hasReservationBy } from "lib/calendarHelper";
 export default function AvailabilitiesForTime(props) {
   const [isModalShown, setIsModalShown] = useState(false);
 
   let style =
     "block w-fit mx-auto cursor-pointer mb-1 md:inline-block md:rounded md:mx-2 md:py-2 md:w-60 md:text-xl border-2 border-black w-52 md:my-1 xl:w-80 xl:text-3xl";
-  if (props.status === "reservedByTheUser") {
+  if (hasReservationBy(props.studentInfo.id, props.availabilities)) {
     style += " bg-red-300";
-  } else if (props.status === "available") {
+  } else if (!areAllReserved(props.availabilities)) {
     style += " bg-blue-300";
-  } else if (props.status === "full") {
+  } else {
     style += " bg-gray-400";
   }
 
@@ -22,7 +23,9 @@ export default function AvailabilitiesForTime(props) {
         }}
         className={style}
       >
-        {props.time.from.hour}:{props.time.from.min}~{props.time.to.hour}:{props.time.to.min}
+        {/* time in style of HH:MM~HH:MM*/}
+        {props.time.from.slice(11, 13)}:{props.time.from.slice(14, 16)}~
+        {props.time.to.slice(11, 13)}:{props.time.to.slice(14, 16)}{" "}
       </span>
       {isModalShown && (
         <AvailabilitiesModal
