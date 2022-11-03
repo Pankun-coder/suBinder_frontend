@@ -9,11 +9,11 @@ export default function LoginRequiredModal() {
         router.push("/");
       }}
     >
-      <div className="h-full w-full md:h-full flex flex-col items-center">
+      <div className="w-full md:h-full pb-2 flex flex-col items-center">
         <span className="bg-red-600 mt-0 text-gray-100 font-bold text-xl inline-block w-full md:text-4xl md:py-2">
           ERROR
         </span>
-        <div className="flex flex-col items-center justify-center grow">
+        <div className="flex flex-col items-center justify-center grow ">
           <div>
             <h1 className="text-black text-xl md:text-4xl md:font-thin py-2">
               ログインが必要なページです
