@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-RUN apk update && apk add bash &&apk add --upgrade setpriv
+RUN apk update && apk add bash &&apk add --upgrade setpriv && apk add --no-cache python3
 SHELL ["/bin/bash", "-c"]
 RUN deluser --remove-home node
 RUN adduser -D builder

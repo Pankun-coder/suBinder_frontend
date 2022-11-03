@@ -1,13 +1,10 @@
 import ModalM from "components/common/modalM";
-import { isTimeAvailable, isTimeReservedBy } from "lib/calendarHelper";
 import Time from "components/calendarTab/time";
-import { areObjectsIdentical } from "lib/calendarHelper";
 import PageNavagation from "components/common/pageNavagation";
 import { useState } from "react";
 
 export default function AvailableTimeModal(props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const limitForAPage = 6;
 
   const getTimeList = () => {
     const availableTimes = new Set();
@@ -19,18 +16,11 @@ export default function AvailableTimeModal(props) {
         }),
       );
     }
-    const availableTimeObjects = Array.from(availableTimes).map((value) => JSON.parse(value));
-    return availableTimeObjects;
+    return Array.from(availableTimes).map((value) => JSON.parse(value));
   };
 
+  const limitForAPage = 6;
   const pages = Math.ceil(getTimeList().length / limitForAPage);
-
-  const isAvailavilityForATime = (arg1, time) => {
-    if (areObjectsIdentical(arg1.from, time.from) && areObjectsIdentical(arg1.to, time.to)) {
-      return true;
-    }
-    return false;
-  };
 
   return (
     <ModalM onClickClose={props.onClickClose}>
@@ -43,41 +33,13 @@ export default function AvailableTimeModal(props) {
             {getTimeList()
               .slice(limitForAPage * (currentPage - 1), limitForAPage * currentPage)
               .map((time, index) => {
-                if (isTimeReservedBy(props.studentInfo.id, time, props.availabilitiesForDay)) {
-                  return (
-                    <li className="inline" key={index}>
-                      <Time
-                        status="reservedByTheUser"
-                        time={time}
-                        studentInfo={props.studentInfo}
-                        availabilities={props.availabilitiesForDay.filter((av) =>
-                          isAvailavilityForATime(av, time),
-                        )}
-                      />
-                    </li>
-                  );
-                } else if (isTimeAvailable(time, props.availabilitiesForDay)) {
-                  return (
-                    <li className="inline" key={index}>
-                      <Time
-                        status="available"
-                        time={time}
-                        studentInfo={props.studentInfo}
-                        availabilities={props.availabilitiesForDay.filter((av) =>
-                          isAvailavilityForATime(av, time),
-                        )}
-                      />
-                    </li>
-                  );
-                }
                 return (
                   <li className="inline" key={index}>
                     <Time
-                      status="full"
                       time={time}
                       studentInfo={props.studentInfo}
-                      availabilities={props.availabilitiesForDay.filter((av) =>
-                        isAvailavilityForATime(av, time),
+                      availabilities={props.availabilitiesForDay.filter(
+                        (av) => av.from === time.from && av.to === time.to,
                       )}
                     />
                   </li>

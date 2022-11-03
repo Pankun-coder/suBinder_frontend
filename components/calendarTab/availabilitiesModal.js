@@ -41,19 +41,15 @@ export default function AvailabilitiesModal(props) {
                 .map((value) => {
                   let status = "";
                   let isCancelling = false;
-                  let reservedBy = "";
                   if (isReservedBy(props.studentInfo.id, value)) {
                     status = "reservedByTheUser";
                     isCancelling = true;
-                    reservedBy = value.reservedBy.name;
                   } else if (isAvailable(value)) {
                     status = "available";
                     isCancelling = false;
-                    reservedBy = null;
                   } else {
                     status = "full";
                     isCancelling = false;
-                    reservedBy = value.reservedBy.name;
                   }
                   return (
                     <li className="inline" key={value.id}>
@@ -65,7 +61,7 @@ export default function AvailabilitiesModal(props) {
                             isCancelling: isCancelling,
                           });
                         }}
-                        reservedBy={reservedBy}
+                        reservedBy={value.reservedBy.name}
                       />
                     </li>
                   );
