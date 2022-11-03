@@ -27,9 +27,13 @@
 name: Deploy to Amazon ECS
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - Test
     branches:
-      - "main"
+      - main
+    types:
+      - completed
 
 env:
   AWS_REGION: ap-northeast-1 # set this to your preferred AWS region, e.g. us-west-1
@@ -51,6 +55,13 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+
+    steps:
+      - name: check if it passed the test
+        if: ${{ github.event.workflow_run.conclusion != 'success' }}
+        run: |
+          echo "::error::test failed"
+          exit 1
 
     steps:
       - name: Checkout
