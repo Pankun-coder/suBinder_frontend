@@ -1,4 +1,10 @@
-export default function PageNavagation(props) {
+interface Props {
+  pages: number;
+  currentPage: number;
+  setPage: (page: number) => void;
+}
+
+export default function PageNavagation(props: Props) {
   const centerOfPageList = 5;
   const maxShownPages = 9;
   let array = new Array(props.pages).fill(0).map((value, index) => (value = index + 1));

@@ -1,4 +1,10 @@
-export default function ButtonM(props) {
+interface Props {
+  type: string;
+  value: string;
+  onClick: () => void;
+}
+
+export default function ButtonM(props: Props) {
   return (
     <div className="text-center m-2">
       <input
