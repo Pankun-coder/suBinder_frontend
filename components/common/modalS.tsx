@@ -1,16 +1,24 @@
-export default function ModalM({ children, onClickClose }) {
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+  onClickClose: () => void;
+}
+
+export default function ModalS(props: Props) {
   return (
-    <section onClick={onClickClose} className="fixed top-0 left-0 w-full h-full bg-black/30">
+    <section
+      onClick={props.onClickClose}
+      className="fixed top-0 left-0 w-full h-full bg-black/30 z-10"
+    >
       <div
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className={
-          "left-0 right-0 top-0 bottom-0 w-2/3 h-60 md:h-80 absolute m-auto bg-gray-200 shadow-2xl text-center"
-        }
+        className="left-0 right-0 top-0 bottom-0 w-3/4 h-fit absolute m-auto bg-gray-100 shadow-2xl text-center"
       >
-        {children}
-        <button onClick={onClickClose} className="top-0 right-0 absolute">
+        {props.children}
+        <button onClick={props.onClickClose} className="top-0 right-0 absolute">
           <svg
             className="w-6 h-6"
             fill="none"

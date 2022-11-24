@@ -1,5 +1,12 @@
 import ModalS from "components/common/modalS";
-export default function MessageModal(props) {
+
+interface Props {
+  isError: boolean;
+  message: string;
+  onClickClose: () => void;
+}
+
+export default function MessageModal(props: Props) {
   return (
     <ModalS onClickClose={props.onClickClose}>
       <div className="w-full md:h-full flex flex-col">
